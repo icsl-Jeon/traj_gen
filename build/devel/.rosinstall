@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/jbs/catkin_ws/src/traj_gen/build/devel/setup.sh

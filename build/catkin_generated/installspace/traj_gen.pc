@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: traj_gen
+Description: Description of traj_gen
+Version: 0.0.0
+Cflags: -I/usr/local/include
+Libs: -L/usr/local/lib -ltraj_gen
+Requires: message_generation nav_msgs roscpp

@@ -1,3 +1,4 @@
+geometry_msgs/Twist v0
 nav_msgs/Path knot
 float64[] knot_t
 ---
