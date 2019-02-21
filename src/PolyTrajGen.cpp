@@ -2,7 +2,7 @@
 // Created by jbs on 18. 7. 23.
 //
 #include "traj_gen/PolyTrajGen.h"
-
+#include "qpOASES.hpp"
 
 
 // extern Params params;
@@ -10,13 +10,88 @@
 using namespace Eigen;
 using namespace std;
 
+namespace QPOASES_OPTI{
+    USING_NAMESPACE_QPOASES;
+        VectorXf solveqp(MatrixXd& Q,MatrixXd& H,MatrixXd& Aeq,MatrixXd& beq){
+        int N_var = Q.rows();
+        int N_const = Aeq.rows();
+
+        real_t H_qp[N_var*N_var];
+        real_t g[N_var];
+        real_t A[N_var*N_const];
+        real_t lbA[N_const];
+        real_t ubA[N_const];
+
+        // cost
+        for (int i = 0;i<N_var;i++){
+            g[i] = H(0,i);            
+            for(int j = 0;j<N_var;j++)
+                H_qp[j*N_var+i] = 2*Q(i,j);
+        }
+        
+        // constraints
+        for (int r = 0; r<N_const;r++){
+            lbA[r] = beq(r);
+            ubA[r] = beq(r);
+            for(int c= 0; c<N_var;c++)
+                A[r*N_var + c] = Aeq(r,c);
+        }
+        int_t nWSR = 100;
+        QProblem qp_obj(N_var,N_const);
+        qp_obj.init(H_qp,g,A,NULL,NULL,lbA,ubA,nWSR,0);
+        real_t xOpt[N_var];
+        qp_obj.getPrimalSolution(xOpt);
+
+        VectorXf sol(N_var);
+
+        for(int n = 0; n<N_var;n++)
+            sol(n) = xOpt[n];
+
+        return sol;        
+    }
+
+    PolySpline get_solution(VectorXf sol,int poly_order,int n_seg){
+                
+        // this initialization of spline object 
+        PolySpline polySpline;
+        
+        polySpline.n_seg=n_seg;
+        // polySpline.knot_time.reserve(n_seg+1);  // let's insert the time later outside of this fucntion 
+        polySpline.poly_coeff.reserve(n_seg);  // let's insert the time later outside of this fucntion 
+        
+
+        polySpline.is_valid = true;
+        
+        for(uint i = 0; i<polySpline.n_seg;i++)
+            polySpline.poly_coeff[i].poly_order=poly_order;
+        int n_var=n_seg*(poly_order+1);
+
+        // std::cout<<"[DEBUG] solution:"<<std::endl;
+        // std::cout<<var<<std::endl;
+        // from lowest order 0
+        for(int n=0;n<n_seg;n++){
+            PolyCoeff coeff;
+            coeff.coeff.resize(poly_order+1);
+            for(int i=0;i<poly_order+1;i++){
+                coeff.coeff[i]=sol(n*(poly_order+1)+i); 
+                coeff.poly_order = poly_order;         
+            }
+            polySpline.poly_coeff.push_back(coeff);
+        }
+
+        return polySpline;
+    }
+
+
+}
+
 // memory leak may occur. should be revised 
 namespace CGAL_OPTI{
     CGAL_Solution solveqp(MatrixXd& Q,MatrixXd& H,MatrixXd& Aeq,MatrixXd& beq){
         // because equlity 
         
         Eigen::LLT<Eigen::MatrixXd> lltOfA(Q); // compute the Cholesky decomposition of A
-        std::cout<<"Q mat: "<<Q<<std::endl;
+        // std::cout<<"Q mat: "<<Q<<std::endl;
         if(lltOfA.info() == Eigen::NumericalIssue)
         {
             ROS_WARN("Possibly non semi-positive definitie matrix!");
@@ -100,8 +175,8 @@ namespace CGAL_OPTI{
         for(auto it = s.variable_values_begin();it!=s.variable_values_end();it++,idx++){
             var(idx) = CGAL::to_double(it->numerator())/CGAL::to_double(it->denominator());
         }
-        std::cout<<"[DEBUG] solution:"<<std::endl;
-        std::cout<<var<<std::endl;
+        // std::cout<<"[DEBUG] solution:"<<std::endl;
+        // std::cout<<var<<std::endl;
         // from lowest order 0
         for(int n=0;n<n_seg;n++){
             PolyCoeff coeff;
@@ -130,9 +205,9 @@ traj_gen_server::traj_gen_server(){
 
 bool traj_gen_server::traj_gen_callback( traj_gen::SplineGenRequest& req,traj_gen::SplineGenResponse& resp){
     
-    Weight w_j = 0.0; // jerk weight  
+    Weight w_j = 0.05; // jerk weight  
     VectorXd ts = Map<VectorXd>(req.knot_t.data(),req.knot_t.size());
-    resp.spline_xyz = min_jerk_soft(ts,req.knot,req.v0,w_j,CGAL_OPTI_MODE);         
+    resp.spline_xyz = min_jerk_soft(ts,req.knot,req.v0,w_j,QPOASES_OPTI_MODE);         
     
     return true;
 
@@ -210,6 +285,10 @@ PolySplineXYZ min_jerk_soft(const TimeSeries & ts, const nav_msgs::Path & pathPt
     beqx.coeffRef(1,0)=pointPtr.linear.x;
     beqy.coeffRef(1,0)=pointPtr.linear.y;
     beqz.coeffRef(1,0)=pointPtr.linear.z;
+
+
+
+
 
     // 0th order continuity
     int row_insert_idx=2; int col_insert_idx1=0; int col_insert_idx2=col_insert_idx1+blck_size;
@@ -330,11 +409,6 @@ PolySplineXYZ min_jerk_soft(const TimeSeries & ts, const nav_msgs::Path & pathPt
 	**/
 
     }else if (mode == CGAL_OPTI_MODE){
-        float w = 0.01;
-        Q = w*Q;
-        H_wpnt_x = H_wpnt_x * w;
-        H_wpnt_y = H_wpnt_y * w;
-        H_wpnt_z = H_wpnt_z * w;
         
         spline_x = CGAL_OPTI::get_solution (CGAL_OPTI::solveqp(Q,H_wpnt_x,Aeq,beqx),poly_order,n_seg);
         spline_y = CGAL_OPTI::get_solution (CGAL_OPTI::solveqp(Q,H_wpnt_y,Aeq,beqy),poly_order,n_seg);
@@ -346,9 +420,21 @@ PolySplineXYZ min_jerk_soft(const TimeSeries & ts, const nav_msgs::Path & pathPt
         spline_z.knot_time = vector<Time>(ts.data(),ts.data()+ts.size());
         
 
+    }else if(mode == QPOASES_OPTI_MODE){
+    
+        spline_x = QPOASES_OPTI::get_solution (QPOASES_OPTI::solveqp(Q,H_wpnt_x,Aeq,beqx),poly_order,n_seg);
+        spline_y = QPOASES_OPTI::get_solution (QPOASES_OPTI::solveqp(Q,H_wpnt_y,Aeq,beqy),poly_order,n_seg);
+        spline_z = QPOASES_OPTI::get_solution (QPOASES_OPTI::solveqp(Q,H_wpnt_z,Aeq,beqz),poly_order,n_seg);
+
+    
+        spline_x.knot_time = vector<Time>(ts.data(),ts.data()+ts.size());
+        spline_y.knot_time = vector<Time>(ts.data(),ts.data()+ts.size());
+        spline_z.knot_time = vector<Time>(ts.data(),ts.data()+ts.size());        
 
 
-    }else{
+    }
+
+    else{ 
         cerr<<"invalid mode give. either CGAL  or CVX "<<endl;
         exit(-1);
     }

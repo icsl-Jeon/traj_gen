@@ -30,6 +30,7 @@ using namespace Eigen;
 using namespace std;
 #define CGAL_OPTI_MODE 0
 #define CVXGEN_OPTI_MODE 1
+#define QPOASES_OPTI_MODE 2
 typedef int MODE;
 typedef double Time;
 typedef int PolyOrder;
