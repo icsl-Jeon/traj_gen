@@ -91,7 +91,7 @@ CGAL_CTEST_DISPLAY_MEM_AND_TIME:BOOL=OFF
 CGAL_DEV_MODE:BOOL=OFF
 
 //The directory containing a CMake configuration file for CGAL.
-CGAL_DIR:PATH=/home/jbs/lib/cgal
+CGAL_DIR:PATH=/usr/local/lib/cmake/CGAL
 
 //Use CGAL with GMPXX: use C++ classes of GNU MP instead of CGAL
 // wrappers
@@ -551,6 +551,8 @@ CATKIN_ENV:INTERNAL=/home/jbs/catkin_ws/src/traj_gen/build/catkin_generated/env_
 CATKIN_TEST_RESULTS_DIR:INTERNAL=/home/jbs/catkin_ws/src/traj_gen/build/test_results
 //ADVANCED property for variable: CGAL_Boost_USE_STATIC_LIBS
 CGAL_Boost_USE_STATIC_LIBS-ADVANCED:INTERNAL=1
+//Directory containing the GraphicsView package
+CGAL_GRAPHICSVIEW_PACKAGE_DIR:INTERNAL=/usr/local//include/CGAL/
 //CGAL library is configured to use GMP
 CGAL_USE_GMP:INTERNAL=TRUE
 //CGAL library is configured to use MPFR

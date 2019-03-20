@@ -48,7 +48,7 @@ MatrixXd integral_snap_squared(int poly_order);
 int find_spline_interval(const vector<double>& knots,double eval_t);
 
 // append mat_sub to mat in the row 
-void row_append(MatrixXd mat,MatrixXd mat_sub);
+void row_append(MatrixXd& mat,MatrixXd mat_sub);
 
 
 /**
@@ -77,6 +77,21 @@ struct Constraint{
     MatrixXd b;
 };
 
+struct QP_form{
+    MatrixXd Q;
+    MatrixXd H;
+    MatrixXd A;
+    MatrixXd b;
+    MatrixXd Aeq;
+    MatrixXd beq;    
+};
+
+struct QP_form_xyz{
+
+    QP_form x;
+    QP_form y;
+    QP_form z;
+};
 
 class PathPlanner{
     private:
@@ -90,6 +105,7 @@ class PathPlanner{
 
         // update spline and current path 
         void path_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt );
+        QP_form_xyz qp_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt );
 
         // evaluate at a point
         Point point_eval_spline(double t_eval);
