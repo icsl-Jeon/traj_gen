@@ -3,7 +3,6 @@ file(REMOVE_RECURSE
   "devel/lib/python2.7/dist-packages/traj_gen/msg/_PolySpline.py"
   "devel/lib/python2.7/dist-packages/traj_gen/msg/_PolySplineXYZ.py"
   "devel/lib/python2.7/dist-packages/traj_gen/msg/_PolyCoeff.py"
-  "devel/lib/python2.7/dist-packages/traj_gen/srv/_SplineGen.py"
   "devel/lib/python2.7/dist-packages/traj_gen/msg/__init__.py"
   "devel/lib/python2.7/dist-packages/traj_gen/srv/__init__.py"
 )

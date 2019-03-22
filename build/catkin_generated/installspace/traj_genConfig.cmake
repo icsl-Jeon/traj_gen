@@ -91,9 +91,9 @@ endif()
 # flag project as catkin-based to distinguish if a find_package()-ed project is a catkin project
 set(traj_gen_FOUND_CATKIN_PROJECT TRUE)
 
-if(NOT "include;/usr/local//include " STREQUAL " ")
+if(NOT "include " STREQUAL " ")
   set(traj_gen_INCLUDE_DIRS "")
-  set(_include_dirs "include;/usr/local//include")
+  set(_include_dirs "include")
   if(NOT " " STREQUAL " ")
     set(_report "Check the issue tracker '' and consider creating a ticket if the problem has not been reported yet.")
   elseif(NOT " " STREQUAL " ")

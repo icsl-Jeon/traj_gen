@@ -270,19 +270,6 @@ _traj_gen_generate_messages_check_deps_PolySplineXYZ/fast:
 .PHONY : _traj_gen_generate_messages_check_deps_PolySplineXYZ/fast
 
 #=============================================================================
-# Target rules for targets named _traj_gen_generate_messages_check_deps_SplineGen
-
-# Build rule for target.
-_traj_gen_generate_messages_check_deps_SplineGen: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 _traj_gen_generate_messages_check_deps_SplineGen
-.PHONY : _traj_gen_generate_messages_check_deps_SplineGen
-
-# fast build rule for target.
-_traj_gen_generate_messages_check_deps_SplineGen/fast:
-	$(MAKE) -f CMakeFiles/_traj_gen_generate_messages_check_deps_SplineGen.dir/build.make CMakeFiles/_traj_gen_generate_messages_check_deps_SplineGen.dir/build
-.PHONY : _traj_gen_generate_messages_check_deps_SplineGen/fast
-
-#=============================================================================
 # Target rules for targets named traj_gen_server
 
 # Build rule for target.
@@ -1832,7 +1819,6 @@ help:
 	@echo "... traj_gen_generate_messages_py"
 	@echo "... traj_gen_generate_messages_cpp"
 	@echo "... _traj_gen_generate_messages_check_deps_PolySplineXYZ"
-	@echo "... _traj_gen_generate_messages_check_deps_SplineGen"
 	@echo "... traj_gen_server"
 	@echo "... traj_gen"
 	@echo "... ContinuousCoverage"

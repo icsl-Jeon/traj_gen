@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.cmake.em
 
-message(STATUS "traj_gen: 3 messages, 1 services")
+message(STATUS "traj_gen: 3 messages, 0 services")
 
 set(MSG_I_FLAGS "-Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg;-Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg;-Inav_msgs:/opt/ros/kinetic/share/nav_msgs/cmake/../msg;-Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg;-Iactionlib_msgs:/opt/ros/kinetic/share/actionlib_msgs/cmake/../msg")
 
@@ -20,11 +20,6 @@ add_custom_target(traj_gen_generate_messages ALL)
 get_filename_component(_filename "/home/jbs/catkin_ws/src/traj_gen/msg/PolySpline.msg" NAME_WE)
 add_custom_target(_traj_gen_generate_messages_check_deps_${_filename}
   COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "traj_gen" "/home/jbs/catkin_ws/src/traj_gen/msg/PolySpline.msg" "traj_gen/PolyCoeff"
-)
-
-get_filename_component(_filename "/home/jbs/catkin_ws/src/traj_gen/srv/SplineGen.srv" NAME_WE)
-add_custom_target(_traj_gen_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "traj_gen" "/home/jbs/catkin_ws/src/traj_gen/srv/SplineGen.srv" "geometry_msgs/Twist:std_msgs/Header:traj_gen/PolySpline:geometry_msgs/Quaternion:traj_gen/PolyCoeff:traj_gen/PolySplineXYZ:geometry_msgs/Vector3:geometry_msgs/Point:geometry_msgs/PoseStamped:geometry_msgs/Pose:nav_msgs/Path"
 )
 
 get_filename_component(_filename "/home/jbs/catkin_ws/src/traj_gen/msg/PolySplineXYZ.msg" NAME_WE)
@@ -63,12 +58,6 @@ _generate_msg_cpp(traj_gen
 )
 
 ### Generating Services
-_generate_srv_cpp(traj_gen
-  "/home/jbs/catkin_ws/src/traj_gen/srv/SplineGen.srv"
-  "${MSG_I_FLAGS}"
-  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Twist.msg;/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg;/home/jbs/catkin_ws/src/traj_gen/msg/PolySpline.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/home/jbs/catkin_ws/src/traj_gen/msg/PolyCoeff.msg;/home/jbs/catkin_ws/src/traj_gen/msg/PolySplineXYZ.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Vector3.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/PoseStamped.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/kinetic/share/nav_msgs/cmake/../msg/Path.msg"
-  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/traj_gen
-)
 
 ### Generating Module File
 _generate_module_cpp(traj_gen
@@ -83,8 +72,6 @@ add_dependencies(traj_gen_generate_messages traj_gen_generate_messages_cpp)
 
 # add dependencies to all check dependencies targets
 get_filename_component(_filename "/home/jbs/catkin_ws/src/traj_gen/msg/PolySpline.msg" NAME_WE)
-add_dependencies(traj_gen_generate_messages_cpp _traj_gen_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/jbs/catkin_ws/src/traj_gen/srv/SplineGen.srv" NAME_WE)
 add_dependencies(traj_gen_generate_messages_cpp _traj_gen_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/jbs/catkin_ws/src/traj_gen/msg/PolySplineXYZ.msg" NAME_WE)
 add_dependencies(traj_gen_generate_messages_cpp _traj_gen_generate_messages_check_deps_${_filename})
@@ -120,12 +107,6 @@ _generate_msg_eus(traj_gen
 )
 
 ### Generating Services
-_generate_srv_eus(traj_gen
-  "/home/jbs/catkin_ws/src/traj_gen/srv/SplineGen.srv"
-  "${MSG_I_FLAGS}"
-  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Twist.msg;/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg;/home/jbs/catkin_ws/src/traj_gen/msg/PolySpline.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/home/jbs/catkin_ws/src/traj_gen/msg/PolyCoeff.msg;/home/jbs/catkin_ws/src/traj_gen/msg/PolySplineXYZ.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Vector3.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/PoseStamped.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/kinetic/share/nav_msgs/cmake/../msg/Path.msg"
-  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/traj_gen
-)
 
 ### Generating Module File
 _generate_module_eus(traj_gen
@@ -140,8 +121,6 @@ add_dependencies(traj_gen_generate_messages traj_gen_generate_messages_eus)
 
 # add dependencies to all check dependencies targets
 get_filename_component(_filename "/home/jbs/catkin_ws/src/traj_gen/msg/PolySpline.msg" NAME_WE)
-add_dependencies(traj_gen_generate_messages_eus _traj_gen_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/jbs/catkin_ws/src/traj_gen/srv/SplineGen.srv" NAME_WE)
 add_dependencies(traj_gen_generate_messages_eus _traj_gen_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/jbs/catkin_ws/src/traj_gen/msg/PolySplineXYZ.msg" NAME_WE)
 add_dependencies(traj_gen_generate_messages_eus _traj_gen_generate_messages_check_deps_${_filename})
@@ -177,12 +156,6 @@ _generate_msg_lisp(traj_gen
 )
 
 ### Generating Services
-_generate_srv_lisp(traj_gen
-  "/home/jbs/catkin_ws/src/traj_gen/srv/SplineGen.srv"
-  "${MSG_I_FLAGS}"
-  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Twist.msg;/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg;/home/jbs/catkin_ws/src/traj_gen/msg/PolySpline.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/home/jbs/catkin_ws/src/traj_gen/msg/PolyCoeff.msg;/home/jbs/catkin_ws/src/traj_gen/msg/PolySplineXYZ.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Vector3.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/PoseStamped.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/kinetic/share/nav_msgs/cmake/../msg/Path.msg"
-  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/traj_gen
-)
 
 ### Generating Module File
 _generate_module_lisp(traj_gen
@@ -197,8 +170,6 @@ add_dependencies(traj_gen_generate_messages traj_gen_generate_messages_lisp)
 
 # add dependencies to all check dependencies targets
 get_filename_component(_filename "/home/jbs/catkin_ws/src/traj_gen/msg/PolySpline.msg" NAME_WE)
-add_dependencies(traj_gen_generate_messages_lisp _traj_gen_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/jbs/catkin_ws/src/traj_gen/srv/SplineGen.srv" NAME_WE)
 add_dependencies(traj_gen_generate_messages_lisp _traj_gen_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/jbs/catkin_ws/src/traj_gen/msg/PolySplineXYZ.msg" NAME_WE)
 add_dependencies(traj_gen_generate_messages_lisp _traj_gen_generate_messages_check_deps_${_filename})
@@ -234,12 +205,6 @@ _generate_msg_nodejs(traj_gen
 )
 
 ### Generating Services
-_generate_srv_nodejs(traj_gen
-  "/home/jbs/catkin_ws/src/traj_gen/srv/SplineGen.srv"
-  "${MSG_I_FLAGS}"
-  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Twist.msg;/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg;/home/jbs/catkin_ws/src/traj_gen/msg/PolySpline.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/home/jbs/catkin_ws/src/traj_gen/msg/PolyCoeff.msg;/home/jbs/catkin_ws/src/traj_gen/msg/PolySplineXYZ.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Vector3.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/PoseStamped.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/kinetic/share/nav_msgs/cmake/../msg/Path.msg"
-  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/traj_gen
-)
 
 ### Generating Module File
 _generate_module_nodejs(traj_gen
@@ -254,8 +219,6 @@ add_dependencies(traj_gen_generate_messages traj_gen_generate_messages_nodejs)
 
 # add dependencies to all check dependencies targets
 get_filename_component(_filename "/home/jbs/catkin_ws/src/traj_gen/msg/PolySpline.msg" NAME_WE)
-add_dependencies(traj_gen_generate_messages_nodejs _traj_gen_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/jbs/catkin_ws/src/traj_gen/srv/SplineGen.srv" NAME_WE)
 add_dependencies(traj_gen_generate_messages_nodejs _traj_gen_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/jbs/catkin_ws/src/traj_gen/msg/PolySplineXYZ.msg" NAME_WE)
 add_dependencies(traj_gen_generate_messages_nodejs _traj_gen_generate_messages_check_deps_${_filename})
@@ -291,12 +254,6 @@ _generate_msg_py(traj_gen
 )
 
 ### Generating Services
-_generate_srv_py(traj_gen
-  "/home/jbs/catkin_ws/src/traj_gen/srv/SplineGen.srv"
-  "${MSG_I_FLAGS}"
-  "/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Twist.msg;/opt/ros/kinetic/share/std_msgs/cmake/../msg/Header.msg;/home/jbs/catkin_ws/src/traj_gen/msg/PolySpline.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Quaternion.msg;/home/jbs/catkin_ws/src/traj_gen/msg/PolyCoeff.msg;/home/jbs/catkin_ws/src/traj_gen/msg/PolySplineXYZ.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Vector3.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/PoseStamped.msg;/opt/ros/kinetic/share/geometry_msgs/cmake/../msg/Pose.msg;/opt/ros/kinetic/share/nav_msgs/cmake/../msg/Path.msg"
-  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/traj_gen
-)
 
 ### Generating Module File
 _generate_module_py(traj_gen
@@ -311,8 +268,6 @@ add_dependencies(traj_gen_generate_messages traj_gen_generate_messages_py)
 
 # add dependencies to all check dependencies targets
 get_filename_component(_filename "/home/jbs/catkin_ws/src/traj_gen/msg/PolySpline.msg" NAME_WE)
-add_dependencies(traj_gen_generate_messages_py _traj_gen_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/jbs/catkin_ws/src/traj_gen/srv/SplineGen.srv" NAME_WE)
 add_dependencies(traj_gen_generate_messages_py _traj_gen_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/jbs/catkin_ws/src/traj_gen/msg/PolySplineXYZ.msg" NAME_WE)
 add_dependencies(traj_gen_generate_messages_py _traj_gen_generate_messages_check_deps_${_filename})

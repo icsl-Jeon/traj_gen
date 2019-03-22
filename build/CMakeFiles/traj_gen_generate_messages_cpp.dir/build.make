@@ -56,7 +56,6 @@ include CMakeFiles/traj_gen_generate_messages_cpp.dir/progress.make
 CMakeFiles/traj_gen_generate_messages_cpp: devel/include/traj_gen/PolySpline.h
 CMakeFiles/traj_gen_generate_messages_cpp: devel/include/traj_gen/PolySplineXYZ.h
 CMakeFiles/traj_gen_generate_messages_cpp: devel/include/traj_gen/PolyCoeff.h
-CMakeFiles/traj_gen_generate_messages_cpp: devel/include/traj_gen/SplineGen.h
 
 
 devel/include/traj_gen/PolySpline.h: /opt/ros/kinetic/lib/gencpp/gen_cpp.py
@@ -80,29 +79,10 @@ devel/include/traj_gen/PolyCoeff.h: /opt/ros/kinetic/share/gencpp/msg.h.template
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating C++ code from traj_gen/PolyCoeff.msg"
 	cd /home/jbs/catkin_ws/src/traj_gen && /home/jbs/catkin_ws/src/traj_gen/build/catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/jbs/catkin_ws/src/traj_gen/msg/PolyCoeff.msg -Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg -Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg -Inav_msgs:/opt/ros/kinetic/share/nav_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/kinetic/share/actionlib_msgs/cmake/../msg -p traj_gen -o /home/jbs/catkin_ws/src/traj_gen/build/devel/include/traj_gen -e /opt/ros/kinetic/share/gencpp/cmake/..
 
-devel/include/traj_gen/SplineGen.h: /opt/ros/kinetic/lib/gencpp/gen_cpp.py
-devel/include/traj_gen/SplineGen.h: ../srv/SplineGen.srv
-devel/include/traj_gen/SplineGen.h: /opt/ros/kinetic/share/geometry_msgs/msg/Twist.msg
-devel/include/traj_gen/SplineGen.h: /opt/ros/kinetic/share/std_msgs/msg/Header.msg
-devel/include/traj_gen/SplineGen.h: ../msg/PolySpline.msg
-devel/include/traj_gen/SplineGen.h: /opt/ros/kinetic/share/geometry_msgs/msg/Quaternion.msg
-devel/include/traj_gen/SplineGen.h: ../msg/PolyCoeff.msg
-devel/include/traj_gen/SplineGen.h: ../msg/PolySplineXYZ.msg
-devel/include/traj_gen/SplineGen.h: /opt/ros/kinetic/share/geometry_msgs/msg/Vector3.msg
-devel/include/traj_gen/SplineGen.h: /opt/ros/kinetic/share/geometry_msgs/msg/Point.msg
-devel/include/traj_gen/SplineGen.h: /opt/ros/kinetic/share/geometry_msgs/msg/PoseStamped.msg
-devel/include/traj_gen/SplineGen.h: /opt/ros/kinetic/share/geometry_msgs/msg/Pose.msg
-devel/include/traj_gen/SplineGen.h: /opt/ros/kinetic/share/nav_msgs/msg/Path.msg
-devel/include/traj_gen/SplineGen.h: /opt/ros/kinetic/share/gencpp/msg.h.template
-devel/include/traj_gen/SplineGen.h: /opt/ros/kinetic/share/gencpp/srv.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating C++ code from traj_gen/SplineGen.srv"
-	cd /home/jbs/catkin_ws/src/traj_gen && /home/jbs/catkin_ws/src/traj_gen/build/catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/jbs/catkin_ws/src/traj_gen/srv/SplineGen.srv -Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg -Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg -Inav_msgs:/opt/ros/kinetic/share/nav_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/kinetic/share/actionlib_msgs/cmake/../msg -p traj_gen -o /home/jbs/catkin_ws/src/traj_gen/build/devel/include/traj_gen -e /opt/ros/kinetic/share/gencpp/cmake/..
-
 traj_gen_generate_messages_cpp: CMakeFiles/traj_gen_generate_messages_cpp
 traj_gen_generate_messages_cpp: devel/include/traj_gen/PolySpline.h
 traj_gen_generate_messages_cpp: devel/include/traj_gen/PolySplineXYZ.h
 traj_gen_generate_messages_cpp: devel/include/traj_gen/PolyCoeff.h
-traj_gen_generate_messages_cpp: devel/include/traj_gen/SplineGen.h
 traj_gen_generate_messages_cpp: CMakeFiles/traj_gen_generate_messages_cpp.dir/build.make
 
 .PHONY : traj_gen_generate_messages_cpp

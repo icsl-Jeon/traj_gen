@@ -18,13 +18,15 @@
 #include <memory>
 
 #include "traj_gen/PolySplineXYZ.h" // msg tyype 
-#include "traj_gen/SplineGen.h"
+
+#include "qpOASES.hpp"
+
 
 using namespace Eigen;
 using namespace std;
 using namespace geometry_msgs;
+using namespace traj_gen;
 typedef VectorXd TimeSeries;
-
 
 /**
  *  Lower level routine 
@@ -48,7 +50,7 @@ MatrixXd integral_snap_squared(int poly_order);
 int find_spline_interval(const vector<double>& knots,double eval_t);
 
 // append mat_sub to mat in the row 
-void row_append(MatrixXd& mat,MatrixXd mat_sub);
+void row_append(MatrixXd & mat,MatrixXd mat_sub);
 
 
 /**
@@ -77,6 +79,7 @@ struct Constraint{
     MatrixXd b;
 };
 
+
 struct QP_form{
     MatrixXd Q;
     MatrixXd H;
@@ -93,11 +96,12 @@ struct QP_form_xyz{
     QP_form z;
 };
 
+
 class PathPlanner{
     private:
         bool is_path_computed;
         nav_msgs::Path current_path; // latest path from optimization for entire horizon 
-        traj_gen::PolySplineXYZ spline; // the coefficient of this polynomials 
+        traj_gen::PolySplineXYZ spline_xyz; // the coefficient of this polynomials 
 
     public: 
         // constructor
@@ -106,8 +110,12 @@ class PathPlanner{
         // update spline and current path 
         void path_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt );
         QP_form_xyz qp_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt );
-
-        // evaluate at a point
+        
+        // evaluate at a time horizon 
+        nav_msgs::Path horizon_eval_spline(int N_eval_interval);
+        nav_msgs::Path sub_horizon_eval_spline(int N_eval_interval,double t_start,double t_final);        
+        
+        // evaluate at a time
         Point point_eval_spline(double t_eval);
         Twist vel_eval_spline(double t_eval);
         Twist accel_eval_spline(double t_eval);
@@ -116,9 +124,12 @@ class PathPlanner{
 
 
         // sub routine 
-        VectorXd solveqp(MatrixXd&  ,MatrixXd& ,MatrixXd&,MatrixXd&,MatrixXd& ,MatrixXd& );
+        PolySpline get_solution(VectorXf sol,int poly_order,int n_seg );        
+        VectorXd solveqp(QP_form qp_prob,bool& is_ok);
         Constraint get_init_constraint_mat(double x0, double v0, double a0,TrajGenOpts option); // up to 2nd order conditions 
         Constraint get_continuity_constraint_mat(double dt1,double dt2,TrajGenOpts option); // up to 2nd order continuity 
+        Eigen::Index find_spline_interval(const vector<double>& ts,double t_eval); 
+
 }
 
 

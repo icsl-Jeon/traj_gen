@@ -39,8 +39,6 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../include"
   "/opt/ros/kinetic/include"
   "/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
-  "/usr/include/x86_64-linux-gnu"
-  "/usr/local/include"
   )
 
 # Targets to which this target links.

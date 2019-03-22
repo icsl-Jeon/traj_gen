@@ -8,7 +8,6 @@
 /home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/traj_gen_generate_messages_py.dir
 /home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/traj_gen_generate_messages_cpp.dir
 /home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/_traj_gen_generate_messages_check_deps_PolySplineXYZ.dir
-/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/_traj_gen_generate_messages_check_deps_SplineGen.dir
 /home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/traj_gen_server.dir
 /home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/traj_gen.dir
 /home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/ContinuousCoverage.dir

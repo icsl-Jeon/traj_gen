@@ -3,7 +3,6 @@ file(REMOVE_RECURSE
   "devel/share/common-lisp/ros/traj_gen/msg/PolySpline.lisp"
   "devel/share/common-lisp/ros/traj_gen/msg/PolySplineXYZ.lisp"
   "devel/share/common-lisp/ros/traj_gen/msg/PolyCoeff.lisp"
-  "devel/share/common-lisp/ros/traj_gen/srv/SplineGen.lisp"
 )
 
 # Per-language clean rules from dependency scanning.

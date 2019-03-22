@@ -56,7 +56,6 @@ include CMakeFiles/traj_gen_generate_messages_lisp.dir/progress.make
 CMakeFiles/traj_gen_generate_messages_lisp: devel/share/common-lisp/ros/traj_gen/msg/PolySpline.lisp
 CMakeFiles/traj_gen_generate_messages_lisp: devel/share/common-lisp/ros/traj_gen/msg/PolySplineXYZ.lisp
 CMakeFiles/traj_gen_generate_messages_lisp: devel/share/common-lisp/ros/traj_gen/msg/PolyCoeff.lisp
-CMakeFiles/traj_gen_generate_messages_lisp: devel/share/common-lisp/ros/traj_gen/srv/SplineGen.lisp
 
 
 devel/share/common-lisp/ros/traj_gen/msg/PolySpline.lisp: /opt/ros/kinetic/lib/genlisp/gen_lisp.py
@@ -77,27 +76,10 @@ devel/share/common-lisp/ros/traj_gen/msg/PolyCoeff.lisp: ../msg/PolyCoeff.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Lisp code from traj_gen/PolyCoeff.msg"
 	catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/jbs/catkin_ws/src/traj_gen/msg/PolyCoeff.msg -Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg -Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg -Inav_msgs:/opt/ros/kinetic/share/nav_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/kinetic/share/actionlib_msgs/cmake/../msg -p traj_gen -o /home/jbs/catkin_ws/src/traj_gen/build/devel/share/common-lisp/ros/traj_gen/msg
 
-devel/share/common-lisp/ros/traj_gen/srv/SplineGen.lisp: /opt/ros/kinetic/lib/genlisp/gen_lisp.py
-devel/share/common-lisp/ros/traj_gen/srv/SplineGen.lisp: ../srv/SplineGen.srv
-devel/share/common-lisp/ros/traj_gen/srv/SplineGen.lisp: /opt/ros/kinetic/share/geometry_msgs/msg/Twist.msg
-devel/share/common-lisp/ros/traj_gen/srv/SplineGen.lisp: /opt/ros/kinetic/share/std_msgs/msg/Header.msg
-devel/share/common-lisp/ros/traj_gen/srv/SplineGen.lisp: ../msg/PolySpline.msg
-devel/share/common-lisp/ros/traj_gen/srv/SplineGen.lisp: /opt/ros/kinetic/share/geometry_msgs/msg/Quaternion.msg
-devel/share/common-lisp/ros/traj_gen/srv/SplineGen.lisp: ../msg/PolyCoeff.msg
-devel/share/common-lisp/ros/traj_gen/srv/SplineGen.lisp: ../msg/PolySplineXYZ.msg
-devel/share/common-lisp/ros/traj_gen/srv/SplineGen.lisp: /opt/ros/kinetic/share/geometry_msgs/msg/Vector3.msg
-devel/share/common-lisp/ros/traj_gen/srv/SplineGen.lisp: /opt/ros/kinetic/share/geometry_msgs/msg/Point.msg
-devel/share/common-lisp/ros/traj_gen/srv/SplineGen.lisp: /opt/ros/kinetic/share/geometry_msgs/msg/PoseStamped.msg
-devel/share/common-lisp/ros/traj_gen/srv/SplineGen.lisp: /opt/ros/kinetic/share/geometry_msgs/msg/Pose.msg
-devel/share/common-lisp/ros/traj_gen/srv/SplineGen.lisp: /opt/ros/kinetic/share/nav_msgs/msg/Path.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Lisp code from traj_gen/SplineGen.srv"
-	catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/jbs/catkin_ws/src/traj_gen/srv/SplineGen.srv -Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg -Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg -Inav_msgs:/opt/ros/kinetic/share/nav_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/kinetic/share/actionlib_msgs/cmake/../msg -p traj_gen -o /home/jbs/catkin_ws/src/traj_gen/build/devel/share/common-lisp/ros/traj_gen/srv
-
 traj_gen_generate_messages_lisp: CMakeFiles/traj_gen_generate_messages_lisp
 traj_gen_generate_messages_lisp: devel/share/common-lisp/ros/traj_gen/msg/PolySpline.lisp
 traj_gen_generate_messages_lisp: devel/share/common-lisp/ros/traj_gen/msg/PolySplineXYZ.lisp
 traj_gen_generate_messages_lisp: devel/share/common-lisp/ros/traj_gen/msg/PolyCoeff.lisp
-traj_gen_generate_messages_lisp: devel/share/common-lisp/ros/traj_gen/srv/SplineGen.lisp
 traj_gen_generate_messages_lisp: CMakeFiles/traj_gen_generate_messages_lisp.dir/build.make
 
 .PHONY : traj_gen_generate_messages_lisp

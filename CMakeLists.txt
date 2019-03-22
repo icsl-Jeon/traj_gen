@@ -32,11 +32,7 @@ file(GLOB_RECURSE qpOASES_LIBS ${qpOASES_SRC}/src/*.cpp)
    PolySplineXYZ.msg
  )
 
-## Generate services in the 'srv' folder
- add_service_files(
-   FILES
-   SplineGen.srv
- )
+
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
@@ -51,7 +47,6 @@ catkin_package(
   INCLUDE_DIRS include
   LIBRARIES traj_gen
   CATKIN_DEPENDS message_generation nav_msgs roscpp
-  DEPENDS CGAL 
     
 )
 
@@ -74,7 +69,6 @@ add_library(${PROJECT_NAME}
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS} CGAL)
 
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
@@ -82,7 +76,6 @@ add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS} CGAL)
 add_executable(${PROJECT_NAME}_server src/main.cpp src/PolyTrajGen.cpp ${qpOASES_LIBS})
 
  target_link_libraries(${PROJECT_NAME}_server
-    CGAL::CGAL  gmp
  ${catkin_LIBRARIES})
 
 

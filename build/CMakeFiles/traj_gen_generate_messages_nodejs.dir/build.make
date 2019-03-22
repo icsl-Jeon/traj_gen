@@ -56,7 +56,6 @@ include CMakeFiles/traj_gen_generate_messages_nodejs.dir/progress.make
 CMakeFiles/traj_gen_generate_messages_nodejs: devel/share/gennodejs/ros/traj_gen/msg/PolySpline.js
 CMakeFiles/traj_gen_generate_messages_nodejs: devel/share/gennodejs/ros/traj_gen/msg/PolySplineXYZ.js
 CMakeFiles/traj_gen_generate_messages_nodejs: devel/share/gennodejs/ros/traj_gen/msg/PolyCoeff.js
-CMakeFiles/traj_gen_generate_messages_nodejs: devel/share/gennodejs/ros/traj_gen/srv/SplineGen.js
 
 
 devel/share/gennodejs/ros/traj_gen/msg/PolySpline.js: /opt/ros/kinetic/lib/gennodejs/gen_nodejs.py
@@ -77,27 +76,10 @@ devel/share/gennodejs/ros/traj_gen/msg/PolyCoeff.js: ../msg/PolyCoeff.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Javascript code from traj_gen/PolyCoeff.msg"
 	catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/jbs/catkin_ws/src/traj_gen/msg/PolyCoeff.msg -Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg -Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg -Inav_msgs:/opt/ros/kinetic/share/nav_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/kinetic/share/actionlib_msgs/cmake/../msg -p traj_gen -o /home/jbs/catkin_ws/src/traj_gen/build/devel/share/gennodejs/ros/traj_gen/msg
 
-devel/share/gennodejs/ros/traj_gen/srv/SplineGen.js: /opt/ros/kinetic/lib/gennodejs/gen_nodejs.py
-devel/share/gennodejs/ros/traj_gen/srv/SplineGen.js: ../srv/SplineGen.srv
-devel/share/gennodejs/ros/traj_gen/srv/SplineGen.js: /opt/ros/kinetic/share/geometry_msgs/msg/Twist.msg
-devel/share/gennodejs/ros/traj_gen/srv/SplineGen.js: /opt/ros/kinetic/share/std_msgs/msg/Header.msg
-devel/share/gennodejs/ros/traj_gen/srv/SplineGen.js: ../msg/PolySpline.msg
-devel/share/gennodejs/ros/traj_gen/srv/SplineGen.js: /opt/ros/kinetic/share/geometry_msgs/msg/Quaternion.msg
-devel/share/gennodejs/ros/traj_gen/srv/SplineGen.js: ../msg/PolyCoeff.msg
-devel/share/gennodejs/ros/traj_gen/srv/SplineGen.js: ../msg/PolySplineXYZ.msg
-devel/share/gennodejs/ros/traj_gen/srv/SplineGen.js: /opt/ros/kinetic/share/geometry_msgs/msg/Vector3.msg
-devel/share/gennodejs/ros/traj_gen/srv/SplineGen.js: /opt/ros/kinetic/share/geometry_msgs/msg/Point.msg
-devel/share/gennodejs/ros/traj_gen/srv/SplineGen.js: /opt/ros/kinetic/share/geometry_msgs/msg/PoseStamped.msg
-devel/share/gennodejs/ros/traj_gen/srv/SplineGen.js: /opt/ros/kinetic/share/geometry_msgs/msg/Pose.msg
-devel/share/gennodejs/ros/traj_gen/srv/SplineGen.js: /opt/ros/kinetic/share/nav_msgs/msg/Path.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Javascript code from traj_gen/SplineGen.srv"
-	catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/jbs/catkin_ws/src/traj_gen/srv/SplineGen.srv -Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg -Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg -Inav_msgs:/opt/ros/kinetic/share/nav_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/kinetic/share/actionlib_msgs/cmake/../msg -p traj_gen -o /home/jbs/catkin_ws/src/traj_gen/build/devel/share/gennodejs/ros/traj_gen/srv
-
 traj_gen_generate_messages_nodejs: CMakeFiles/traj_gen_generate_messages_nodejs
 traj_gen_generate_messages_nodejs: devel/share/gennodejs/ros/traj_gen/msg/PolySpline.js
 traj_gen_generate_messages_nodejs: devel/share/gennodejs/ros/traj_gen/msg/PolySplineXYZ.js
 traj_gen_generate_messages_nodejs: devel/share/gennodejs/ros/traj_gen/msg/PolyCoeff.js
-traj_gen_generate_messages_nodejs: devel/share/gennodejs/ros/traj_gen/srv/SplineGen.js
 traj_gen_generate_messages_nodejs: CMakeFiles/traj_gen_generate_messages_nodejs.dir/build.make
 
 .PHONY : traj_gen_generate_messages_nodejs

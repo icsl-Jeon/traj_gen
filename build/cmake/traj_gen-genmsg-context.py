@@ -1,7 +1,7 @@
 # generated from genmsg/cmake/pkg-genmsg.context.in
 
 messages_str = "/home/jbs/catkin_ws/src/traj_gen/msg/PolyCoeff.msg;/home/jbs/catkin_ws/src/traj_gen/msg/PolySpline.msg;/home/jbs/catkin_ws/src/traj_gen/msg/PolySplineXYZ.msg"
-services_str = "/home/jbs/catkin_ws/src/traj_gen/srv/SplineGen.srv"
+services_str = ""
 pkg_name = "traj_gen"
 dependencies_str = "traj_gen;nav_msgs;std_msgs"
 langs = "gencpp;geneus;genlisp;gennodejs;genpy"

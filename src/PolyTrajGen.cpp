@@ -3,53 +3,27 @@
 // constructor 
 PathPlanner::PathPlanner():is_path_computed(false){};
 
-// output size 3x(N+1)
-Constraint PathPlanner::get_init_constraint_mat(double x0,double v0,double a0,TrajGenOpts opt){
-    int poly_order = opt.poly_order;
-    MatrixXd Aeq0(3,poly_order+1);
-    MatrixXd beq0(3,1);
-    double dt_arbitrary = 1;
+void PathPlanner::path_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt ){
 
-    Aeq0.row(0) = t_vec(poly_order,0,0).transpose()*time_scailing_mat(dt_arbitrary,poly_order);
-    Aeq0.row(1) = t_vec(poly_order,0,1).transpose()*time_scailing_mat(dt_arbitrary,poly_order)/dt_arbitrary;
-    Aeq0.row(2) = t_vec(poly_order,0,2).transpose()*time_scailing_mat(dt_arbitrary,poly_order)/pow(dt_arbitrary,2);
-    beq0(0) = x0;
-    beq0(1) = v0;
-    beq0(2) = a0;
-    
-    Constraint constraint;
-    constraint.A = Aeq0;
-    constraint.b = beq0;
-    return constraint;
+    int n_seg = waypoints.poses.size() - 1;
+    int poly_order = opt.poly_order;
+    QP_form_xyz qp_xyz = qp_gen(knots,waypoints,v0,a0,opt);
+    bool is_ok_x,is_ok_y,is_ok_z;
+    PolySpline spline_x = get_solution (solveqp(qp_xyz.x,is_ok_x),poly_order,n_seg);
+    PolySpline spline_y = get_solution (solveqp(qp_xyz.y,is_ok_y),poly_order,n_seg);
+    PolySpline spline_z = get_solution (solveqp(qp_xyz.z,is_ok_z),poly_order,n_seg);
+
+    is_path_computed = true;
+
+    // finalizing the path 
+    spline_xyz.spline_x = spline_x;
+    spline_xyz.spline_y = spline_y;
+    spline_xyz.spline_z = spline_z;
+    spline_xyz.is_valid = is_ok_x and is_ok_y and is_ok_z;
+    spline_xyz.knot_time.assign(knots.data(),knots.data()+knots.size()) ;
+    spline_xyz.n_seg = spline_x.n_seg;
 }
 
-// output size 3x(2(N+1))
-Constraint PathPlanner::get_continuity_constraint_mat(double dt1,double dt2,TrajGenOpts opt){
-    
-    int poly_order = opt.poly_order;
-    MatrixXd Aeq(3,2*(poly_order+1));
-    MatrixXd beq(3,1); beq.setZero();   
-    MatrixXd D1 = time_scailing_mat(dt1,poly_order);
-    MatrixXd D2 = time_scailing_mat(dt2,poly_order);
-
-    // 0th order         
-    Aeq.block(0,0,1,poly_order+1) = t_vec(poly_order,1,0).transpose()*D1;
-    Aeq.block(0,poly_order+1,1,poly_order+1) = -t_vec(poly_order,0,0).transpose()*D2;
-
-    // 1st order
-    Aeq.block(1,0,1,poly_order+1) = t_vec(poly_order,1,1).transpose()*D1/dt1;
-    Aeq.block(1,poly_order+1,1,poly_order+1) = -t_vec(poly_order,0,1).transpose()*D2/dt2; 
-
-    // 2nd order
-    Aeq.block(2,0,1,poly_order+1) = t_vec(poly_order,1,2).transpose()*D1/pow(dt1,2);
-    Aeq.block(2,poly_order+1,1,poly_order+1) = -t_vec(poly_order,0,2).transpose()*D2/pow(dt2,2); 
-           
-    Constraint constraint;
-    constraint.A = Aeq;
-    constraint.b = beq;
-    
-    return constraint;
-}
 
 QP_form_xyz PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt ){
 
@@ -190,6 +164,169 @@ QP_form_xyz PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& wa
     
     return qp_prob_xyz;
 };
+
+
+/*
+    sub routines   
+*/
+
+//  -----------------------------------------------------------------------    
+
+
+VectorXd PathPlanner::solveqp(QP_form qp_prob,bool& is_ok){
+    is_ok = true;
+    MatrixXd Q = qp_prob.Q;
+    MatrixXd H = qp_prob.H;
+    MatrixXd Aineq = qp_prob.A;
+    MatrixXd bineq = qp_prob.b;
+    MatrixXd Aeq = qp_prob.Aeq;
+    MatrixXd beq = qp_prob.beq;
+     
+    USING_NAMESPACE_QPOASES;
+
+    int N_var = Q.rows();
+    int N_ineq_const = Aineq.rows();
+    int N_eq_const = Aeq.rows();    
+    int N_const = N_ineq_const + N_eq_const;
+
+    real_t H_qp[N_var*N_var];
+    real_t g[N_var];
+    real_t A[N_var*N_const];
+    real_t lbA[N_const];
+    real_t ubA[N_const];
+
+    // cost
+    for (int i = 0;i<N_var;i++){
+        g[i] = H(0,i);            
+        for(int j = 0;j<N_var;j++)
+            H_qp[j*N_var+i] = 2*Q(i,j);
+    }
+    
+    // eq constraints
+    for (int r = 0; r<N_eq_const;r++){
+        lbA[r] = beq(r);
+        ubA[r] = beq(r);
+        for(int c= 0; c<N_var;c++)
+            A[r*N_var + c] = Aeq(r,c);
+    }
+
+    // ineq constraints
+    for (int r = 0; r<N_ineq_const;r++){
+        lbA[N_eq_const+r] = -std::numeric_limits<double>::min();
+        ubA[N_eq_const+r] = bineq(r);
+        for(int c= 0; c<N_var;c++)
+            A[(r+N_eq_const)*N_var + c] = Aineq(r,c);
+    }    
+
+    int_t nWSR = 2000;
+   
+	QProblem qp_obj(N_var,N_const);
+    Options options;
+	options.printLevel = PL_HIGH;
+	qp_obj.setOptions(options);
+	qp_obj.init(H_qp,g,A,NULL,NULL,lbA,ubA,nWSR);
+    if(qp_obj.isInfeasible()){
+        cout<<"[QP solver] warning: problem is infeasible. "<<endl;
+        is_ok = false;
+    }
+    real_t xOpt[N_var];
+    qp_obj.getPrimalSolution(xOpt);
+
+    if(qp_obj.isSolved()){
+        cout<<"[QP solver] warning: optimization terminated immaturely."<<endl;
+        is_ok = false;
+    }
+    
+    VectorXf sol(N_var);
+
+    for(int n = 0; n<N_var;n++)
+        sol(n) = xOpt[n];
+
+    return sol;        
+}
+
+
+PolySpline PathPlanner::get_solution(VectorXf sol,int poly_order,int n_seg ){
+            
+    // this initialization of spline object 
+    PolySpline polySpline;
+    
+    polySpline.n_seg=n_seg;
+    // polySpline.knot_time.reserve(n_seg+1);  // let's insert the time later outside of this fucntion 
+    polySpline.poly_coeff.reserve(n_seg);  // let's insert the time later outside of this fucntion 
+        
+    for(uint i = 0; i<polySpline.n_seg;i++)
+        polySpline.poly_coeff[i].poly_order=poly_order;
+    int n_var=n_seg*(poly_order+1);
+
+    // std::cout<<"[DEBUG] solution:"<<std::endl;
+    // std::cout<<var<<std::endl;
+    // from lowest order 0
+    for(int n=0;n<n_seg;n++){
+        PolyCoeff coeff;
+        coeff.coeff.resize(poly_order+1);
+        for(int i=0;i<poly_order+1;i++){
+            coeff.coeff[i]=sol(n*(poly_order+1)+i); 
+            coeff.poly_order = poly_order;         
+        }
+        polySpline.poly_coeff.push_back(coeff);
+    }
+
+    return polySpline;
+
+}
+
+
+
+// output size 3x(N+1)
+Constraint PathPlanner::get_init_constraint_mat(double x0,double v0,double a0,TrajGenOpts opt){
+    int poly_order = opt.poly_order;
+    MatrixXd Aeq0(3,poly_order+1);
+    MatrixXd beq0(3,1);
+    double dt_arbitrary = 1;
+
+    Aeq0.row(0) = t_vec(poly_order,0,0).transpose()*time_scailing_mat(dt_arbitrary,poly_order);
+    Aeq0.row(1) = t_vec(poly_order,0,1).transpose()*time_scailing_mat(dt_arbitrary,poly_order)/dt_arbitrary;
+    Aeq0.row(2) = t_vec(poly_order,0,2).transpose()*time_scailing_mat(dt_arbitrary,poly_order)/pow(dt_arbitrary,2);
+    beq0(0) = x0;
+    beq0(1) = v0;
+    beq0(2) = a0;
+    
+    Constraint constraint;
+    constraint.A = Aeq0;
+    constraint.b = beq0;
+    return constraint;
+}
+
+// output size 3x(2(N+1))
+Constraint PathPlanner::get_continuity_constraint_mat(double dt1,double dt2,TrajGenOpts opt){
+    
+    int poly_order = opt.poly_order;
+    MatrixXd Aeq(3,2*(poly_order+1));
+    MatrixXd beq(3,1); beq.setZero();   
+    MatrixXd D1 = time_scailing_mat(dt1,poly_order);
+    MatrixXd D2 = time_scailing_mat(dt2,poly_order);
+
+    // 0th order         
+    Aeq.block(0,0,1,poly_order+1) = t_vec(poly_order,1,0).transpose()*D1;
+    Aeq.block(0,poly_order+1,1,poly_order+1) = -t_vec(poly_order,0,0).transpose()*D2;
+
+    // 1st order
+    Aeq.block(1,0,1,poly_order+1) = t_vec(poly_order,1,1).transpose()*D1/dt1;
+    Aeq.block(1,poly_order+1,1,poly_order+1) = -t_vec(poly_order,0,1).transpose()*D2/dt2; 
+
+    // 2nd order
+    Aeq.block(2,0,1,poly_order+1) = t_vec(poly_order,1,2).transpose()*D1/pow(dt1,2);
+    Aeq.block(2,poly_order+1,1,poly_order+1) = -t_vec(poly_order,0,2).transpose()*D2/pow(dt2,2); 
+           
+    Constraint constraint;
+    constraint.A = Aeq;
+    constraint.b = beq;
+    
+    return constraint;
+}
+
+
 
 
 

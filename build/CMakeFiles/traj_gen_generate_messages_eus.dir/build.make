@@ -56,7 +56,6 @@ include CMakeFiles/traj_gen_generate_messages_eus.dir/progress.make
 CMakeFiles/traj_gen_generate_messages_eus: devel/share/roseus/ros/traj_gen/msg/PolySpline.l
 CMakeFiles/traj_gen_generate_messages_eus: devel/share/roseus/ros/traj_gen/msg/PolySplineXYZ.l
 CMakeFiles/traj_gen_generate_messages_eus: devel/share/roseus/ros/traj_gen/msg/PolyCoeff.l
-CMakeFiles/traj_gen_generate_messages_eus: devel/share/roseus/ros/traj_gen/srv/SplineGen.l
 CMakeFiles/traj_gen_generate_messages_eus: devel/share/roseus/ros/traj_gen/manifest.l
 
 
@@ -78,31 +77,14 @@ devel/share/roseus/ros/traj_gen/msg/PolyCoeff.l: ../msg/PolyCoeff.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating EusLisp code from traj_gen/PolyCoeff.msg"
 	catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/jbs/catkin_ws/src/traj_gen/msg/PolyCoeff.msg -Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg -Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg -Inav_msgs:/opt/ros/kinetic/share/nav_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/kinetic/share/actionlib_msgs/cmake/../msg -p traj_gen -o /home/jbs/catkin_ws/src/traj_gen/build/devel/share/roseus/ros/traj_gen/msg
 
-devel/share/roseus/ros/traj_gen/srv/SplineGen.l: /opt/ros/kinetic/lib/geneus/gen_eus.py
-devel/share/roseus/ros/traj_gen/srv/SplineGen.l: ../srv/SplineGen.srv
-devel/share/roseus/ros/traj_gen/srv/SplineGen.l: /opt/ros/kinetic/share/geometry_msgs/msg/Twist.msg
-devel/share/roseus/ros/traj_gen/srv/SplineGen.l: /opt/ros/kinetic/share/std_msgs/msg/Header.msg
-devel/share/roseus/ros/traj_gen/srv/SplineGen.l: ../msg/PolySpline.msg
-devel/share/roseus/ros/traj_gen/srv/SplineGen.l: /opt/ros/kinetic/share/geometry_msgs/msg/Quaternion.msg
-devel/share/roseus/ros/traj_gen/srv/SplineGen.l: ../msg/PolyCoeff.msg
-devel/share/roseus/ros/traj_gen/srv/SplineGen.l: ../msg/PolySplineXYZ.msg
-devel/share/roseus/ros/traj_gen/srv/SplineGen.l: /opt/ros/kinetic/share/geometry_msgs/msg/Vector3.msg
-devel/share/roseus/ros/traj_gen/srv/SplineGen.l: /opt/ros/kinetic/share/geometry_msgs/msg/Point.msg
-devel/share/roseus/ros/traj_gen/srv/SplineGen.l: /opt/ros/kinetic/share/geometry_msgs/msg/PoseStamped.msg
-devel/share/roseus/ros/traj_gen/srv/SplineGen.l: /opt/ros/kinetic/share/geometry_msgs/msg/Pose.msg
-devel/share/roseus/ros/traj_gen/srv/SplineGen.l: /opt/ros/kinetic/share/nav_msgs/msg/Path.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating EusLisp code from traj_gen/SplineGen.srv"
-	catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/jbs/catkin_ws/src/traj_gen/srv/SplineGen.srv -Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg -Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg -Inav_msgs:/opt/ros/kinetic/share/nav_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/kinetic/share/actionlib_msgs/cmake/../msg -p traj_gen -o /home/jbs/catkin_ws/src/traj_gen/build/devel/share/roseus/ros/traj_gen/srv
-
 devel/share/roseus/ros/traj_gen/manifest.l: /opt/ros/kinetic/lib/geneus/gen_eus.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating EusLisp manifest code for traj_gen"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating EusLisp manifest code for traj_gen"
 	catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py -m -o /home/jbs/catkin_ws/src/traj_gen/build/devel/share/roseus/ros/traj_gen traj_gen traj_gen nav_msgs std_msgs
 
 traj_gen_generate_messages_eus: CMakeFiles/traj_gen_generate_messages_eus
 traj_gen_generate_messages_eus: devel/share/roseus/ros/traj_gen/msg/PolySpline.l
 traj_gen_generate_messages_eus: devel/share/roseus/ros/traj_gen/msg/PolySplineXYZ.l
 traj_gen_generate_messages_eus: devel/share/roseus/ros/traj_gen/msg/PolyCoeff.l
-traj_gen_generate_messages_eus: devel/share/roseus/ros/traj_gen/srv/SplineGen.l
 traj_gen_generate_messages_eus: devel/share/roseus/ros/traj_gen/manifest.l
 traj_gen_generate_messages_eus: CMakeFiles/traj_gen_generate_messages_eus.dir/build.make
 

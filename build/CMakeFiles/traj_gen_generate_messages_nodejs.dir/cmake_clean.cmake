@@ -3,7 +3,6 @@ file(REMOVE_RECURSE
   "devel/share/gennodejs/ros/traj_gen/msg/PolySpline.js"
   "devel/share/gennodejs/ros/traj_gen/msg/PolySplineXYZ.js"
   "devel/share/gennodejs/ros/traj_gen/msg/PolyCoeff.js"
-  "devel/share/gennodejs/ros/traj_gen/srv/SplineGen.js"
 )
 
 # Per-language clean rules from dependency scanning.

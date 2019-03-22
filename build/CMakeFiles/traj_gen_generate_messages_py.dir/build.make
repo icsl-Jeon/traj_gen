@@ -56,7 +56,6 @@ include CMakeFiles/traj_gen_generate_messages_py.dir/progress.make
 CMakeFiles/traj_gen_generate_messages_py: devel/lib/python2.7/dist-packages/traj_gen/msg/_PolySpline.py
 CMakeFiles/traj_gen_generate_messages_py: devel/lib/python2.7/dist-packages/traj_gen/msg/_PolySplineXYZ.py
 CMakeFiles/traj_gen_generate_messages_py: devel/lib/python2.7/dist-packages/traj_gen/msg/_PolyCoeff.py
-CMakeFiles/traj_gen_generate_messages_py: devel/lib/python2.7/dist-packages/traj_gen/srv/_SplineGen.py
 CMakeFiles/traj_gen_generate_messages_py: devel/lib/python2.7/dist-packages/traj_gen/msg/__init__.py
 CMakeFiles/traj_gen_generate_messages_py: devel/lib/python2.7/dist-packages/traj_gen/srv/__init__.py
 
@@ -79,43 +78,24 @@ devel/lib/python2.7/dist-packages/traj_gen/msg/_PolyCoeff.py: ../msg/PolyCoeff.m
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Python from MSG traj_gen/PolyCoeff"
 	catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/jbs/catkin_ws/src/traj_gen/msg/PolyCoeff.msg -Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg -Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg -Inav_msgs:/opt/ros/kinetic/share/nav_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/kinetic/share/actionlib_msgs/cmake/../msg -p traj_gen -o /home/jbs/catkin_ws/src/traj_gen/build/devel/lib/python2.7/dist-packages/traj_gen/msg
 
-devel/lib/python2.7/dist-packages/traj_gen/srv/_SplineGen.py: /opt/ros/kinetic/lib/genpy/gensrv_py.py
-devel/lib/python2.7/dist-packages/traj_gen/srv/_SplineGen.py: ../srv/SplineGen.srv
-devel/lib/python2.7/dist-packages/traj_gen/srv/_SplineGen.py: /opt/ros/kinetic/share/geometry_msgs/msg/Twist.msg
-devel/lib/python2.7/dist-packages/traj_gen/srv/_SplineGen.py: /opt/ros/kinetic/share/std_msgs/msg/Header.msg
-devel/lib/python2.7/dist-packages/traj_gen/srv/_SplineGen.py: ../msg/PolySpline.msg
-devel/lib/python2.7/dist-packages/traj_gen/srv/_SplineGen.py: /opt/ros/kinetic/share/geometry_msgs/msg/Quaternion.msg
-devel/lib/python2.7/dist-packages/traj_gen/srv/_SplineGen.py: ../msg/PolyCoeff.msg
-devel/lib/python2.7/dist-packages/traj_gen/srv/_SplineGen.py: ../msg/PolySplineXYZ.msg
-devel/lib/python2.7/dist-packages/traj_gen/srv/_SplineGen.py: /opt/ros/kinetic/share/geometry_msgs/msg/Vector3.msg
-devel/lib/python2.7/dist-packages/traj_gen/srv/_SplineGen.py: /opt/ros/kinetic/share/geometry_msgs/msg/Point.msg
-devel/lib/python2.7/dist-packages/traj_gen/srv/_SplineGen.py: /opt/ros/kinetic/share/geometry_msgs/msg/PoseStamped.msg
-devel/lib/python2.7/dist-packages/traj_gen/srv/_SplineGen.py: /opt/ros/kinetic/share/geometry_msgs/msg/Pose.msg
-devel/lib/python2.7/dist-packages/traj_gen/srv/_SplineGen.py: /opt/ros/kinetic/share/nav_msgs/msg/Path.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Python code from SRV traj_gen/SplineGen"
-	catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/genpy/cmake/../../../lib/genpy/gensrv_py.py /home/jbs/catkin_ws/src/traj_gen/srv/SplineGen.srv -Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg -Itraj_gen:/home/jbs/catkin_ws/src/traj_gen/msg -Inav_msgs:/opt/ros/kinetic/share/nav_msgs/cmake/../msg -Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/kinetic/share/actionlib_msgs/cmake/../msg -p traj_gen -o /home/jbs/catkin_ws/src/traj_gen/build/devel/lib/python2.7/dist-packages/traj_gen/srv
-
 devel/lib/python2.7/dist-packages/traj_gen/msg/__init__.py: /opt/ros/kinetic/lib/genpy/genmsg_py.py
 devel/lib/python2.7/dist-packages/traj_gen/msg/__init__.py: devel/lib/python2.7/dist-packages/traj_gen/msg/_PolySpline.py
 devel/lib/python2.7/dist-packages/traj_gen/msg/__init__.py: devel/lib/python2.7/dist-packages/traj_gen/msg/_PolySplineXYZ.py
 devel/lib/python2.7/dist-packages/traj_gen/msg/__init__.py: devel/lib/python2.7/dist-packages/traj_gen/msg/_PolyCoeff.py
-devel/lib/python2.7/dist-packages/traj_gen/msg/__init__.py: devel/lib/python2.7/dist-packages/traj_gen/srv/_SplineGen.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating Python msg __init__.py for traj_gen"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Python msg __init__.py for traj_gen"
 	catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /home/jbs/catkin_ws/src/traj_gen/build/devel/lib/python2.7/dist-packages/traj_gen/msg --initpy
 
 devel/lib/python2.7/dist-packages/traj_gen/srv/__init__.py: /opt/ros/kinetic/lib/genpy/genmsg_py.py
 devel/lib/python2.7/dist-packages/traj_gen/srv/__init__.py: devel/lib/python2.7/dist-packages/traj_gen/msg/_PolySpline.py
 devel/lib/python2.7/dist-packages/traj_gen/srv/__init__.py: devel/lib/python2.7/dist-packages/traj_gen/msg/_PolySplineXYZ.py
 devel/lib/python2.7/dist-packages/traj_gen/srv/__init__.py: devel/lib/python2.7/dist-packages/traj_gen/msg/_PolyCoeff.py
-devel/lib/python2.7/dist-packages/traj_gen/srv/__init__.py: devel/lib/python2.7/dist-packages/traj_gen/srv/_SplineGen.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Generating Python srv __init__.py for traj_gen"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating Python srv __init__.py for traj_gen"
 	catkin_generated/env_cached.sh /usr/bin/python /opt/ros/kinetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /home/jbs/catkin_ws/src/traj_gen/build/devel/lib/python2.7/dist-packages/traj_gen/srv --initpy
 
 traj_gen_generate_messages_py: CMakeFiles/traj_gen_generate_messages_py
 traj_gen_generate_messages_py: devel/lib/python2.7/dist-packages/traj_gen/msg/_PolySpline.py
 traj_gen_generate_messages_py: devel/lib/python2.7/dist-packages/traj_gen/msg/_PolySplineXYZ.py
 traj_gen_generate_messages_py: devel/lib/python2.7/dist-packages/traj_gen/msg/_PolyCoeff.py
-traj_gen_generate_messages_py: devel/lib/python2.7/dist-packages/traj_gen/srv/_SplineGen.py
 traj_gen_generate_messages_py: devel/lib/python2.7/dist-packages/traj_gen/msg/__init__.py
 traj_gen_generate_messages_py: devel/lib/python2.7/dist-packages/traj_gen/srv/__init__.py
 traj_gen_generate_messages_py: CMakeFiles/traj_gen_generate_messages_py.dir/build.make

@@ -3,7 +3,6 @@ file(REMOVE_RECURSE
   "devel/share/roseus/ros/traj_gen/msg/PolySpline.l"
   "devel/share/roseus/ros/traj_gen/msg/PolySplineXYZ.l"
   "devel/share/roseus/ros/traj_gen/msg/PolyCoeff.l"
-  "devel/share/roseus/ros/traj_gen/srv/SplineGen.l"
   "devel/share/roseus/ros/traj_gen/manifest.l"
 )
 

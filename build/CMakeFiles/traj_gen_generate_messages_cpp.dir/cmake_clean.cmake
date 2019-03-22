@@ -3,7 +3,6 @@ file(REMOVE_RECURSE
   "devel/include/traj_gen/PolySpline.h"
   "devel/include/traj_gen/PolySplineXYZ.h"
   "devel/include/traj_gen/PolyCoeff.h"
-  "devel/include/traj_gen/SplineGen.h"
 )
 
 # Per-language clean rules from dependency scanning.
