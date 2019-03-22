@@ -18,7 +18,6 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED COMPONENTS system)
-find_package(CGAL REQUIRED )
 
 set(qpOASES_SRC /home/jbs/lib/qpOASES-3.2.1)
 
@@ -63,7 +62,7 @@ include_directories(
 
 ## Declare a C++ library
 add_library(${PROJECT_NAME}
-   src/main.cpp src/PolyTrajGen.cpp 
+   src/PolyTrajGen.cpp 
  )
 
 ## Add cmake target dependencies of the library
@@ -73,17 +72,17 @@ add_library(${PROJECT_NAME}
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME}_server src/main.cpp src/PolyTrajGen.cpp ${qpOASES_LIBS})
+# add_executable(${PROJECT_NAME}_server src/main.cpp src/PolyTrajGen.cpp ${qpOASES_LIBS})
 
- target_link_libraries(${PROJECT_NAME}_server
- ${catkin_LIBRARIES})
+#  target_link_libraries(${PROJECT_NAME}_server
+#  ${catkin_LIBRARIES})
 
 
 ## Mark executables and/or libraries for installation
-install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}_server
-   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+# install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}_server
+#    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )
 
 
