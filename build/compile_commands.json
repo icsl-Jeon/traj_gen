@@ -11,53 +11,8 @@
 },
 {
   "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
-  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.cpp",
-  "file": "/home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.cpp"
-},
-{
-  "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
-  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/QProblem.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/QProblem.cpp",
-  "file": "/home/jbs/lib/qpOASES-3.2.1/src/QProblem.cpp"
-},
-{
-  "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
-  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Utils.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/Utils.cpp",
-  "file": "/home/jbs/lib/qpOASES-3.2.1/src/Utils.cpp"
-},
-{
-  "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
-  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.cpp",
-  "file": "/home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.cpp"
-},
-{
-  "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
-  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Flipper.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/Flipper.cpp",
-  "file": "/home/jbs/lib/qpOASES-3.2.1/src/Flipper.cpp"
-},
-{
-  "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
-  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.cpp",
-  "file": "/home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.cpp"
-},
-{
-  "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
-  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.cpp",
-  "file": "/home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.cpp"
-},
-{
-  "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
-  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SQProblem.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/SQProblem.cpp",
-  "file": "/home/jbs/lib/qpOASES-3.2.1/src/SQProblem.cpp"
-},
-{
-  "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
   "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.cpp",
   "file": "/home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.cpp"
-},
-{
-  "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
-  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.cpp",
-  "file": "/home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.cpp"
 },
 {
   "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
@@ -66,13 +21,8 @@
 },
 {
   "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
-  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Indexlist.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/Indexlist.cpp",
-  "file": "/home/jbs/lib/qpOASES-3.2.1/src/Indexlist.cpp"
-},
-{
-  "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
-  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Constraints.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/Constraints.cpp",
-  "file": "/home/jbs/lib/qpOASES-3.2.1/src/Constraints.cpp"
+  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.cpp",
+  "file": "/home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.cpp"
 },
 {
   "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
@@ -81,8 +31,43 @@
 },
 {
   "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
+  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Indexlist.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/Indexlist.cpp",
+  "file": "/home/jbs/lib/qpOASES-3.2.1/src/Indexlist.cpp"
+},
+{
+  "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
+  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/QProblem.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/QProblem.cpp",
+  "file": "/home/jbs/lib/qpOASES-3.2.1/src/QProblem.cpp"
+},
+{
+  "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
+  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.cpp",
+  "file": "/home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.cpp"
+},
+{
+  "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
+  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.cpp",
+  "file": "/home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.cpp"
+},
+{
+  "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
+  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.cpp",
+  "file": "/home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.cpp"
+},
+{
+  "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
   "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Matrices.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/Matrices.cpp",
   "file": "/home/jbs/lib/qpOASES-3.2.1/src/Matrices.cpp"
+},
+{
+  "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
+  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.cpp",
+  "file": "/home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.cpp"
+},
+{
+  "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
+  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Constraints.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/Constraints.cpp",
+  "file": "/home/jbs/lib/qpOASES-3.2.1/src/Constraints.cpp"
 },
 {
   "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
@@ -91,13 +76,28 @@
 },
 {
   "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
-  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Bounds.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/Bounds.cpp",
-  "file": "/home/jbs/lib/qpOASES-3.2.1/src/Bounds.cpp"
+  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Flipper.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/Flipper.cpp",
+  "file": "/home/jbs/lib/qpOASES-3.2.1/src/Flipper.cpp"
 },
 {
   "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
-  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.cpp",
-  "file": "/home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.cpp"
+  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SQProblem.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/SQProblem.cpp",
+  "file": "/home/jbs/lib/qpOASES-3.2.1/src/SQProblem.cpp"
+},
+{
+  "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
+  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Utils.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/Utils.cpp",
+  "file": "/home/jbs/lib/qpOASES-3.2.1/src/Utils.cpp"
+},
+{
+  "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
+  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.cpp",
+  "file": "/home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.cpp"
+},
+{
+  "directory": "/home/jbs/catkin_ws/src/traj_gen/build",
+  "command": "/usr/bin/g++-5   -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\\\"traj_gen\\\" -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp  -O3 -DNDEBUG   -std=c++11 -o CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Bounds.cpp.o -c /home/jbs/lib/qpOASES-3.2.1/src/Bounds.cpp",
+  "file": "/home/jbs/lib/qpOASES-3.2.1/src/Bounds.cpp"
 },
 {
   "directory": "/home/jbs/catkin_ws/src/traj_gen/build",

@@ -149,16 +149,16 @@ void MainWindow::on_pushButton_trajectory_clicked()
 
     //parameter parsing
 
-    double tf = atoi(ui->lineEdit_sim_tf->text().toStdString().c_str());
+    double tf = atof(ui->lineEdit_sim_tf->text().toStdString().c_str());
 
     TrajGenOpts option;
     option.poly_order = atoi(ui->lineEdit_poly_order->text().toStdString().c_str());
     option.objective_derivative = atoi(ui->lineEdit_derivative->text().toStdString().c_str());
     option.is_waypoint_soft = ui->checkBox_is_soft->isChecked();
     option.is_parallel_corridor = not(ui->checkBox_is_multi->isChecked());
-    option.w_d = atoi(ui->lineEdit_deviation_weight->text().toStdString().c_str());
+    option.w_d = atof(ui->lineEdit_deviation_weight->text().toStdString().c_str());
     option.N_safe_pnts = atoi(ui->lineEdit_n_corridor->text().toStdString().c_str());
-    option.safe_r = atoi(ui->lineEdit_safe_radius->text().toStdString().c_str());
+    option.safe_r = atof(ui->lineEdit_safe_radius->text().toStdString().c_str());
     
     if(qnode->traj_gen_call(tf,geometry_msgs::Twist(),geometry_msgs::Twist(),option))
         ui->textEdit_message->append("trajectory obtained");
