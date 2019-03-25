@@ -1,5 +1,7 @@
 /home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/rebuild_cache.dir
 /home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/install/local.dir
+/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/traj_gen_client.dir
+/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/traj_gen.dir
 /home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/traj_gen_genpy.dir
 /home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/traj_gen_generate_messages_nodejs.dir
 /home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/clean_test_results.dir
@@ -55,6 +57,8 @@
 /home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/_traj_gen_generate_messages_check_deps_PolySpline.dir
 /home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/edit_cache.dir
 /home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/traj_gen_generate_messages_eus.dir
+/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/traj_gen_client_automoc.dir
+/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/traj_gen_automoc.dir
 /home/jbs/catkin_ws/src/traj_gen/build/gtest/CMakeFiles/list_install_components.dir
 /home/jbs/catkin_ws/src/traj_gen/build/gtest/CMakeFiles/install.dir
 /home/jbs/catkin_ws/src/traj_gen/build/gtest/CMakeFiles/rebuild_cache.dir

@@ -96,7 +96,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>Publish</string>
+     <string>Publish control</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QGroupBox" name="groupBox">
@@ -157,7 +160,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>100</y>
+       <y>123</y>
        <width>101</width>
        <height>17</height>
       </rect>
@@ -177,7 +180,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>180</y>
+       <y>190</y>
        <width>67</width>
        <height>17</height>
       </rect>
@@ -223,7 +226,7 @@
      <property name="geometry">
       <rect>
        <x>230</x>
-       <y>157</y>
+       <y>170</y>
        <width>113</width>
        <height>20</height>
       </rect>
@@ -236,7 +239,7 @@
      <property name="geometry">
       <rect>
        <x>60</x>
-       <y>150</y>
+       <y>163</y>
        <width>141</width>
        <height>17</height>
       </rect>
@@ -258,11 +261,11 @@
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
-    <widget class="QCheckBox" name="checkBox_2">
+    <widget class="QCheckBox" name="checkBox_is_soft">
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>130</y>
+       <y>143</y>
        <width>141</width>
        <height>22</height>
       </rect>
@@ -294,7 +297,7 @@
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>150</y>
+       <y>163</y>
        <width>16</width>
        <height>21</height>
       </rect>
@@ -306,7 +309,7 @@
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
-    <widget class="QCheckBox" name="checkBox_3">
+    <widget class="QCheckBox" name="checkBox_is_multi">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -387,14 +390,63 @@
       <string>3</string>
      </property>
     </widget>
+    <widget class="QLabel" name="label_9">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>80</y>
+       <width>121</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>simulation tf</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_sim_tf">
+     <property name="geometry">
+      <rect>
+       <x>232</x>
+       <y>80</y>
+       <width>111</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>20</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_10">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>100</y>
+       <width>161</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>objective derivative</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_derivative">
+     <property name="geometry">
+      <rect>
+       <x>232</x>
+       <y>100</y>
+       <width>111</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
    <widget class="QTextEdit" name="textEdit_message">
     <property name="geometry">
      <rect>
       <x>390</x>
-      <y>130</y>
+      <y>160</y>
       <width>271</width>
-      <height>191</height>
+      <height>161</height>
      </rect>
     </property>
    </widget>
@@ -437,6 +489,42 @@
      <string>Maintainer: 
  Boseong Felipe Jeon 
  junbs95@gmail.com  </string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_load">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>130</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>load</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_load_directory">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>130</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_save">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>130</y>
+      <width>41</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>save</string>
     </property>
    </widget>
   </widget>

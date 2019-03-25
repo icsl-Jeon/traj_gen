@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/g++-5
 CXX_FLAGS = -O3 -DNDEBUG -fPIC   -std=c++11
 
-CXX_DEFINES = -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\"traj_gen\" -Dtraj_gen_EXPORTS
+CXX_DEFINES = -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_NO_KEYWORDS -DROSCONSOLE_BACKEND_LOG4CXX -DROS_PACKAGE_NAME=\"traj_gen\" -Dtraj_gen_EXPORTS
 
-CXX_INCLUDES = -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp 
+CXX_INCLUDES = -I/home/jbs/catkin_ws/src/traj_gen/build/devel/include -isystem /usr/include/qt4 -isystem /usr/include/qt4/QtGui -isystem /usr/include/qt4/QtCore -I/home/jbs/catkin_ws/src/traj_gen/build -I/home/jbs/catkin_ws/src/traj_gen/include -I/opt/ros/kinetic/include -I/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp 
 

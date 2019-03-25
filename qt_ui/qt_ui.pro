@@ -14,14 +14,15 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    qnode.cpp
+#    qnode.cpp
 
 HEADERS  += mainwindow.h \
-    qnode.h
+#    qnode.h
 
 FORMS    += mainwindow.ui
 
 
 INCLUDEPATH += \
                 /opt/ros/kinetic/include\
-                /usr/include
+                /usr/include\
+                /home/jbs/catkin_ws/src/traj_gen/include

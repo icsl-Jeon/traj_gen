@@ -106,13 +106,13 @@ class PathPlanner{
     public: 
         // constructor
         PathPlanner();
-
+        bool is_spline_valid() {return spline_xyz.is_valid;};        
         // update spline and current path 
         void path_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt );
         QP_form_xyz qp_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt );
-        
+        nav_msgs::Path get_path() {return current_path;}
         // evaluate at a time horizon 
-        nav_msgs::Path horizon_eval_spline(int N_eval_interval);
+        void horizon_eval_spline(int N_eval_interval);
         nav_msgs::Path sub_horizon_eval_spline(int N_eval_interval,double t_start,double t_final);        
         
         // evaluate at a time
@@ -124,13 +124,13 @@ class PathPlanner{
 
 
         // sub routine 
-        PolySpline get_solution(VectorXf sol,int poly_order,int n_seg );        
+        PolySpline get_solution(VectorXd sol,int poly_order,int n_seg );        
         VectorXd solveqp(QP_form qp_prob,bool& is_ok);
         Constraint get_init_constraint_mat(double x0, double v0, double a0,TrajGenOpts option); // up to 2nd order conditions 
         Constraint get_continuity_constraint_mat(double dt1,double dt2,TrajGenOpts option); // up to 2nd order continuity 
         Eigen::Index find_spline_interval(const vector<double>& ts,double t_eval); 
 
-}
+};
 
 
 

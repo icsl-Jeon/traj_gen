@@ -166,6 +166,32 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named traj_gen_client
+
+# Build rule for target.
+traj_gen_client: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 traj_gen_client
+.PHONY : traj_gen_client
+
+# fast build rule for target.
+traj_gen_client/fast:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/build
+.PHONY : traj_gen_client/fast
+
+#=============================================================================
+# Target rules for targets named traj_gen
+
+# Build rule for target.
+traj_gen: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 traj_gen
+.PHONY : traj_gen
+
+# fast build rule for target.
+traj_gen/fast:
+	$(MAKE) -f CMakeFiles/traj_gen.dir/build.make CMakeFiles/traj_gen.dir/build
+.PHONY : traj_gen/fast
+
+#=============================================================================
 # Target rules for targets named traj_gen_genpy
 
 # Build rule for target.
@@ -816,6 +842,32 @@ traj_gen_generate_messages_eus/fast:
 .PHONY : traj_gen_generate_messages_eus/fast
 
 #=============================================================================
+# Target rules for targets named traj_gen_client_automoc
+
+# Build rule for target.
+traj_gen_client_automoc: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 traj_gen_client_automoc
+.PHONY : traj_gen_client_automoc
+
+# fast build rule for target.
+traj_gen_client_automoc/fast:
+	$(MAKE) -f CMakeFiles/traj_gen_client_automoc.dir/build.make CMakeFiles/traj_gen_client_automoc.dir/build
+.PHONY : traj_gen_client_automoc/fast
+
+#=============================================================================
+# Target rules for targets named traj_gen_automoc
+
+# Build rule for target.
+traj_gen_automoc: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 traj_gen_automoc
+.PHONY : traj_gen_automoc
+
+# fast build rule for target.
+traj_gen_automoc/fast:
+	$(MAKE) -f CMakeFiles/traj_gen_automoc.dir/build.make CMakeFiles/traj_gen_automoc.dir/build
+.PHONY : traj_gen_automoc/fast
+
+#=============================================================================
 # Target rules for targets named gmock
 
 # Build rule for target.
@@ -867,6 +919,657 @@ gtest_main/fast:
 	$(MAKE) -f gtest/gtest/CMakeFiles/gtest_main.dir/build.make gtest/gtest/CMakeFiles/gtest_main.dir/build
 .PHONY : gtest_main/fast
 
+home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.o: home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.cpp.o
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.o
+
+# target to build an object file
+home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.cpp.o
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.cpp.o
+
+home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.i: home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.cpp.i
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.i
+
+# target to preprocess a source file
+home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.cpp.i
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.cpp.i
+
+home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.s: home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.cpp.s
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.s
+
+# target to generate assembly for a file
+home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.cpp.s
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.cpp.s
+
+home/jbs/lib/qpOASES-3.2.1/src/Bounds.o: home/jbs/lib/qpOASES-3.2.1/src/Bounds.cpp.o
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Bounds.o
+
+# target to build an object file
+home/jbs/lib/qpOASES-3.2.1/src/Bounds.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Bounds.cpp.o
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Bounds.cpp.o
+
+home/jbs/lib/qpOASES-3.2.1/src/Bounds.i: home/jbs/lib/qpOASES-3.2.1/src/Bounds.cpp.i
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Bounds.i
+
+# target to preprocess a source file
+home/jbs/lib/qpOASES-3.2.1/src/Bounds.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Bounds.cpp.i
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Bounds.cpp.i
+
+home/jbs/lib/qpOASES-3.2.1/src/Bounds.s: home/jbs/lib/qpOASES-3.2.1/src/Bounds.cpp.s
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Bounds.s
+
+# target to generate assembly for a file
+home/jbs/lib/qpOASES-3.2.1/src/Bounds.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Bounds.cpp.s
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Bounds.cpp.s
+
+home/jbs/lib/qpOASES-3.2.1/src/Constraints.o: home/jbs/lib/qpOASES-3.2.1/src/Constraints.cpp.o
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Constraints.o
+
+# target to build an object file
+home/jbs/lib/qpOASES-3.2.1/src/Constraints.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Constraints.cpp.o
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Constraints.cpp.o
+
+home/jbs/lib/qpOASES-3.2.1/src/Constraints.i: home/jbs/lib/qpOASES-3.2.1/src/Constraints.cpp.i
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Constraints.i
+
+# target to preprocess a source file
+home/jbs/lib/qpOASES-3.2.1/src/Constraints.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Constraints.cpp.i
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Constraints.cpp.i
+
+home/jbs/lib/qpOASES-3.2.1/src/Constraints.s: home/jbs/lib/qpOASES-3.2.1/src/Constraints.cpp.s
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Constraints.s
+
+# target to generate assembly for a file
+home/jbs/lib/qpOASES-3.2.1/src/Constraints.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Constraints.cpp.s
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Constraints.cpp.s
+
+home/jbs/lib/qpOASES-3.2.1/src/Flipper.o: home/jbs/lib/qpOASES-3.2.1/src/Flipper.cpp.o
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Flipper.o
+
+# target to build an object file
+home/jbs/lib/qpOASES-3.2.1/src/Flipper.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Flipper.cpp.o
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Flipper.cpp.o
+
+home/jbs/lib/qpOASES-3.2.1/src/Flipper.i: home/jbs/lib/qpOASES-3.2.1/src/Flipper.cpp.i
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Flipper.i
+
+# target to preprocess a source file
+home/jbs/lib/qpOASES-3.2.1/src/Flipper.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Flipper.cpp.i
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Flipper.cpp.i
+
+home/jbs/lib/qpOASES-3.2.1/src/Flipper.s: home/jbs/lib/qpOASES-3.2.1/src/Flipper.cpp.s
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Flipper.s
+
+# target to generate assembly for a file
+home/jbs/lib/qpOASES-3.2.1/src/Flipper.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Flipper.cpp.s
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Flipper.cpp.s
+
+home/jbs/lib/qpOASES-3.2.1/src/Indexlist.o: home/jbs/lib/qpOASES-3.2.1/src/Indexlist.cpp.o
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Indexlist.o
+
+# target to build an object file
+home/jbs/lib/qpOASES-3.2.1/src/Indexlist.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Indexlist.cpp.o
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Indexlist.cpp.o
+
+home/jbs/lib/qpOASES-3.2.1/src/Indexlist.i: home/jbs/lib/qpOASES-3.2.1/src/Indexlist.cpp.i
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Indexlist.i
+
+# target to preprocess a source file
+home/jbs/lib/qpOASES-3.2.1/src/Indexlist.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Indexlist.cpp.i
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Indexlist.cpp.i
+
+home/jbs/lib/qpOASES-3.2.1/src/Indexlist.s: home/jbs/lib/qpOASES-3.2.1/src/Indexlist.cpp.s
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Indexlist.s
+
+# target to generate assembly for a file
+home/jbs/lib/qpOASES-3.2.1/src/Indexlist.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Indexlist.cpp.s
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Indexlist.cpp.s
+
+home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.o: home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.cpp.o
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.o
+
+# target to build an object file
+home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.cpp.o
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.cpp.o
+
+home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.i: home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.cpp.i
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.i
+
+# target to preprocess a source file
+home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.cpp.i
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.cpp.i
+
+home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.s: home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.cpp.s
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.s
+
+# target to generate assembly for a file
+home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.cpp.s
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.cpp.s
+
+home/jbs/lib/qpOASES-3.2.1/src/Matrices.o: home/jbs/lib/qpOASES-3.2.1/src/Matrices.cpp.o
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Matrices.o
+
+# target to build an object file
+home/jbs/lib/qpOASES-3.2.1/src/Matrices.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Matrices.cpp.o
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Matrices.cpp.o
+
+home/jbs/lib/qpOASES-3.2.1/src/Matrices.i: home/jbs/lib/qpOASES-3.2.1/src/Matrices.cpp.i
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Matrices.i
+
+# target to preprocess a source file
+home/jbs/lib/qpOASES-3.2.1/src/Matrices.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Matrices.cpp.i
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Matrices.cpp.i
+
+home/jbs/lib/qpOASES-3.2.1/src/Matrices.s: home/jbs/lib/qpOASES-3.2.1/src/Matrices.cpp.s
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Matrices.s
+
+# target to generate assembly for a file
+home/jbs/lib/qpOASES-3.2.1/src/Matrices.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Matrices.cpp.s
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Matrices.cpp.s
+
+home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.o: home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.cpp.o
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.o
+
+# target to build an object file
+home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.cpp.o
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.cpp.o
+
+home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.i: home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.cpp.i
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.i
+
+# target to preprocess a source file
+home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.cpp.i
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.cpp.i
+
+home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.s: home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.cpp.s
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.s
+
+# target to generate assembly for a file
+home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.cpp.s
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.cpp.s
+
+home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.o: home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.cpp.o
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.o
+
+# target to build an object file
+home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.cpp.o
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.cpp.o
+
+home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.i: home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.cpp.i
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.i
+
+# target to preprocess a source file
+home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.cpp.i
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.cpp.i
+
+home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.s: home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.cpp.s
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.s
+
+# target to generate assembly for a file
+home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.cpp.s
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.cpp.s
+
+home/jbs/lib/qpOASES-3.2.1/src/Options.o: home/jbs/lib/qpOASES-3.2.1/src/Options.cpp.o
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Options.o
+
+# target to build an object file
+home/jbs/lib/qpOASES-3.2.1/src/Options.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Options.cpp.o
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Options.cpp.o
+
+home/jbs/lib/qpOASES-3.2.1/src/Options.i: home/jbs/lib/qpOASES-3.2.1/src/Options.cpp.i
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Options.i
+
+# target to preprocess a source file
+home/jbs/lib/qpOASES-3.2.1/src/Options.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Options.cpp.i
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Options.cpp.i
+
+home/jbs/lib/qpOASES-3.2.1/src/Options.s: home/jbs/lib/qpOASES-3.2.1/src/Options.cpp.s
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Options.s
+
+# target to generate assembly for a file
+home/jbs/lib/qpOASES-3.2.1/src/Options.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Options.cpp.s
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Options.cpp.s
+
+home/jbs/lib/qpOASES-3.2.1/src/QProblem.o: home/jbs/lib/qpOASES-3.2.1/src/QProblem.cpp.o
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/QProblem.o
+
+# target to build an object file
+home/jbs/lib/qpOASES-3.2.1/src/QProblem.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/QProblem.cpp.o
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/QProblem.cpp.o
+
+home/jbs/lib/qpOASES-3.2.1/src/QProblem.i: home/jbs/lib/qpOASES-3.2.1/src/QProblem.cpp.i
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/QProblem.i
+
+# target to preprocess a source file
+home/jbs/lib/qpOASES-3.2.1/src/QProblem.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/QProblem.cpp.i
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/QProblem.cpp.i
+
+home/jbs/lib/qpOASES-3.2.1/src/QProblem.s: home/jbs/lib/qpOASES-3.2.1/src/QProblem.cpp.s
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/QProblem.s
+
+# target to generate assembly for a file
+home/jbs/lib/qpOASES-3.2.1/src/QProblem.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/QProblem.cpp.s
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/QProblem.cpp.s
+
+home/jbs/lib/qpOASES-3.2.1/src/QProblemB.o: home/jbs/lib/qpOASES-3.2.1/src/QProblemB.cpp.o
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/QProblemB.o
+
+# target to build an object file
+home/jbs/lib/qpOASES-3.2.1/src/QProblemB.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/QProblemB.cpp.o
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/QProblemB.cpp.o
+
+home/jbs/lib/qpOASES-3.2.1/src/QProblemB.i: home/jbs/lib/qpOASES-3.2.1/src/QProblemB.cpp.i
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/QProblemB.i
+
+# target to preprocess a source file
+home/jbs/lib/qpOASES-3.2.1/src/QProblemB.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/QProblemB.cpp.i
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/QProblemB.cpp.i
+
+home/jbs/lib/qpOASES-3.2.1/src/QProblemB.s: home/jbs/lib/qpOASES-3.2.1/src/QProblemB.cpp.s
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/QProblemB.s
+
+# target to generate assembly for a file
+home/jbs/lib/qpOASES-3.2.1/src/QProblemB.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/QProblemB.cpp.s
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/QProblemB.cpp.s
+
+home/jbs/lib/qpOASES-3.2.1/src/SQProblem.o: home/jbs/lib/qpOASES-3.2.1/src/SQProblem.cpp.o
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SQProblem.o
+
+# target to build an object file
+home/jbs/lib/qpOASES-3.2.1/src/SQProblem.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SQProblem.cpp.o
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SQProblem.cpp.o
+
+home/jbs/lib/qpOASES-3.2.1/src/SQProblem.i: home/jbs/lib/qpOASES-3.2.1/src/SQProblem.cpp.i
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SQProblem.i
+
+# target to preprocess a source file
+home/jbs/lib/qpOASES-3.2.1/src/SQProblem.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SQProblem.cpp.i
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SQProblem.cpp.i
+
+home/jbs/lib/qpOASES-3.2.1/src/SQProblem.s: home/jbs/lib/qpOASES-3.2.1/src/SQProblem.cpp.s
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SQProblem.s
+
+# target to generate assembly for a file
+home/jbs/lib/qpOASES-3.2.1/src/SQProblem.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SQProblem.cpp.s
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SQProblem.cpp.s
+
+home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.o: home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.cpp.o
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.o
+
+# target to build an object file
+home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.cpp.o
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.cpp.o
+
+home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.i: home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.cpp.i
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.i
+
+# target to preprocess a source file
+home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.cpp.i
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.cpp.i
+
+home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.s: home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.cpp.s
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.s
+
+# target to generate assembly for a file
+home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.cpp.s
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.cpp.s
+
+home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.o: home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.cpp.o
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.o
+
+# target to build an object file
+home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.cpp.o
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.cpp.o
+
+home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.i: home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.cpp.i
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.i
+
+# target to preprocess a source file
+home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.cpp.i
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.cpp.i
+
+home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.s: home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.cpp.s
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.s
+
+# target to generate assembly for a file
+home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.cpp.s
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.cpp.s
+
+home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.o: home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.cpp.o
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.o
+
+# target to build an object file
+home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.cpp.o
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.cpp.o
+
+home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.i: home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.cpp.i
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.i
+
+# target to preprocess a source file
+home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.cpp.i
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.cpp.i
+
+home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.s: home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.cpp.s
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.s
+
+# target to generate assembly for a file
+home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.cpp.s
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.cpp.s
+
+home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.o: home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.cpp.o
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.o
+
+# target to build an object file
+home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.cpp.o
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.cpp.o
+
+home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.i: home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.cpp.i
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.i
+
+# target to preprocess a source file
+home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.cpp.i
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.cpp.i
+
+home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.s: home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.cpp.s
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.s
+
+# target to generate assembly for a file
+home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.cpp.s
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.cpp.s
+
+home/jbs/lib/qpOASES-3.2.1/src/Utils.o: home/jbs/lib/qpOASES-3.2.1/src/Utils.cpp.o
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Utils.o
+
+# target to build an object file
+home/jbs/lib/qpOASES-3.2.1/src/Utils.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Utils.cpp.o
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Utils.cpp.o
+
+home/jbs/lib/qpOASES-3.2.1/src/Utils.i: home/jbs/lib/qpOASES-3.2.1/src/Utils.cpp.i
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Utils.i
+
+# target to preprocess a source file
+home/jbs/lib/qpOASES-3.2.1/src/Utils.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Utils.cpp.i
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Utils.cpp.i
+
+home/jbs/lib/qpOASES-3.2.1/src/Utils.s: home/jbs/lib/qpOASES-3.2.1/src/Utils.cpp.s
+
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Utils.s
+
+# target to generate assembly for a file
+home/jbs/lib/qpOASES-3.2.1/src/Utils.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/home/jbs/lib/qpOASES-3.2.1/src/Utils.cpp.s
+.PHONY : home/jbs/lib/qpOASES-3.2.1/src/Utils.cpp.s
+
+qt_ui/main.o: qt_ui/main.cpp.o
+
+.PHONY : qt_ui/main.o
+
+# target to build an object file
+qt_ui/main.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/qt_ui/main.cpp.o
+.PHONY : qt_ui/main.cpp.o
+
+qt_ui/main.i: qt_ui/main.cpp.i
+
+.PHONY : qt_ui/main.i
+
+# target to preprocess a source file
+qt_ui/main.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/qt_ui/main.cpp.i
+.PHONY : qt_ui/main.cpp.i
+
+qt_ui/main.s: qt_ui/main.cpp.s
+
+.PHONY : qt_ui/main.s
+
+# target to generate assembly for a file
+qt_ui/main.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/qt_ui/main.cpp.s
+.PHONY : qt_ui/main.cpp.s
+
+qt_ui/mainwindow.o: qt_ui/mainwindow.cpp.o
+
+.PHONY : qt_ui/mainwindow.o
+
+# target to build an object file
+qt_ui/mainwindow.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/qt_ui/mainwindow.cpp.o
+.PHONY : qt_ui/mainwindow.cpp.o
+
+qt_ui/mainwindow.i: qt_ui/mainwindow.cpp.i
+
+.PHONY : qt_ui/mainwindow.i
+
+# target to preprocess a source file
+qt_ui/mainwindow.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/qt_ui/mainwindow.cpp.i
+.PHONY : qt_ui/mainwindow.cpp.i
+
+qt_ui/mainwindow.s: qt_ui/mainwindow.cpp.s
+
+.PHONY : qt_ui/mainwindow.s
+
+# target to generate assembly for a file
+qt_ui/mainwindow.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/qt_ui/mainwindow.cpp.s
+.PHONY : qt_ui/mainwindow.cpp.s
+
+qt_ui/moc_mainwindow.o: qt_ui/moc_mainwindow.cxx.o
+
+.PHONY : qt_ui/moc_mainwindow.o
+
+# target to build an object file
+qt_ui/moc_mainwindow.cxx.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/qt_ui/moc_mainwindow.cxx.o
+.PHONY : qt_ui/moc_mainwindow.cxx.o
+
+qt_ui/moc_mainwindow.i: qt_ui/moc_mainwindow.cxx.i
+
+.PHONY : qt_ui/moc_mainwindow.i
+
+# target to preprocess a source file
+qt_ui/moc_mainwindow.cxx.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/qt_ui/moc_mainwindow.cxx.i
+.PHONY : qt_ui/moc_mainwindow.cxx.i
+
+qt_ui/moc_mainwindow.s: qt_ui/moc_mainwindow.cxx.s
+
+.PHONY : qt_ui/moc_mainwindow.s
+
+# target to generate assembly for a file
+qt_ui/moc_mainwindow.cxx.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/qt_ui/moc_mainwindow.cxx.s
+.PHONY : qt_ui/moc_mainwindow.cxx.s
+
+qt_ui/moc_qnode.o: qt_ui/moc_qnode.cxx.o
+
+.PHONY : qt_ui/moc_qnode.o
+
+# target to build an object file
+qt_ui/moc_qnode.cxx.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/qt_ui/moc_qnode.cxx.o
+.PHONY : qt_ui/moc_qnode.cxx.o
+
+qt_ui/moc_qnode.i: qt_ui/moc_qnode.cxx.i
+
+.PHONY : qt_ui/moc_qnode.i
+
+# target to preprocess a source file
+qt_ui/moc_qnode.cxx.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/qt_ui/moc_qnode.cxx.i
+.PHONY : qt_ui/moc_qnode.cxx.i
+
+qt_ui/moc_qnode.s: qt_ui/moc_qnode.cxx.s
+
+.PHONY : qt_ui/moc_qnode.s
+
+# target to generate assembly for a file
+qt_ui/moc_qnode.cxx.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/qt_ui/moc_qnode.cxx.s
+.PHONY : qt_ui/moc_qnode.cxx.s
+
+qt_ui/qnode.o: qt_ui/qnode.cpp.o
+
+.PHONY : qt_ui/qnode.o
+
+# target to build an object file
+qt_ui/qnode.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/qt_ui/qnode.cpp.o
+.PHONY : qt_ui/qnode.cpp.o
+
+qt_ui/qnode.i: qt_ui/qnode.cpp.i
+
+.PHONY : qt_ui/qnode.i
+
+# target to preprocess a source file
+qt_ui/qnode.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/qt_ui/qnode.cpp.i
+.PHONY : qt_ui/qnode.cpp.i
+
+qt_ui/qnode.s: qt_ui/qnode.cpp.s
+
+.PHONY : qt_ui/qnode.s
+
+# target to generate assembly for a file
+qt_ui/qnode.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/qt_ui/qnode.cpp.s
+.PHONY : qt_ui/qnode.cpp.s
+
+src/PolyTrajGen.o: src/PolyTrajGen.cpp.o
+
+.PHONY : src/PolyTrajGen.o
+
+# target to build an object file
+src/PolyTrajGen.cpp.o:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/src/PolyTrajGen.cpp.o
+	$(MAKE) -f CMakeFiles/traj_gen.dir/build.make CMakeFiles/traj_gen.dir/src/PolyTrajGen.cpp.o
+.PHONY : src/PolyTrajGen.cpp.o
+
+src/PolyTrajGen.i: src/PolyTrajGen.cpp.i
+
+.PHONY : src/PolyTrajGen.i
+
+# target to preprocess a source file
+src/PolyTrajGen.cpp.i:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/src/PolyTrajGen.cpp.i
+	$(MAKE) -f CMakeFiles/traj_gen.dir/build.make CMakeFiles/traj_gen.dir/src/PolyTrajGen.cpp.i
+.PHONY : src/PolyTrajGen.cpp.i
+
+src/PolyTrajGen.s: src/PolyTrajGen.cpp.s
+
+.PHONY : src/PolyTrajGen.s
+
+# target to generate assembly for a file
+src/PolyTrajGen.cpp.s:
+	$(MAKE) -f CMakeFiles/traj_gen_client.dir/build.make CMakeFiles/traj_gen_client.dir/src/PolyTrajGen.cpp.s
+	$(MAKE) -f CMakeFiles/traj_gen.dir/build.make CMakeFiles/traj_gen.dir/src/PolyTrajGen.cpp.s
+.PHONY : src/PolyTrajGen.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -875,6 +1578,8 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... install/local"
+	@echo "... traj_gen_client"
+	@echo "... traj_gen"
 	@echo "... traj_gen_genpy"
 	@echo "... traj_gen_generate_messages_nodejs"
 	@echo "... clean_test_results"
@@ -930,10 +1635,84 @@ help:
 	@echo "... _traj_gen_generate_messages_check_deps_PolySpline"
 	@echo "... edit_cache"
 	@echo "... traj_gen_generate_messages_eus"
+	@echo "... traj_gen_client_automoc"
+	@echo "... traj_gen_automoc"
 	@echo "... gmock"
 	@echo "... gmock_main"
 	@echo "... gtest"
 	@echo "... gtest_main"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.o"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.i"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/BLASReplacement.s"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Bounds.o"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Bounds.i"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Bounds.s"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Constraints.o"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Constraints.i"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Constraints.s"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Flipper.o"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Flipper.i"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Flipper.s"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Indexlist.o"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Indexlist.i"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Indexlist.s"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.o"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.i"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/LAPACKReplacement.s"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Matrices.o"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Matrices.i"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Matrices.s"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.o"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.i"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/MessageHandling.s"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.o"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.i"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/OQPinterface.s"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Options.o"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Options.i"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Options.s"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/QProblem.o"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/QProblem.i"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/QProblem.s"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/QProblemB.o"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/QProblemB.i"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/QProblemB.s"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/SQProblem.o"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/SQProblem.i"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/SQProblem.s"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.o"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.i"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/SQProblemSchur.s"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.o"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.i"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/SolutionAnalysis.s"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.o"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.i"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/SparseSolver.s"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.o"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.i"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/SubjectTo.s"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Utils.o"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Utils.i"
+	@echo "... home/jbs/lib/qpOASES-3.2.1/src/Utils.s"
+	@echo "... qt_ui/main.o"
+	@echo "... qt_ui/main.i"
+	@echo "... qt_ui/main.s"
+	@echo "... qt_ui/mainwindow.o"
+	@echo "... qt_ui/mainwindow.i"
+	@echo "... qt_ui/mainwindow.s"
+	@echo "... qt_ui/moc_mainwindow.o"
+	@echo "... qt_ui/moc_mainwindow.i"
+	@echo "... qt_ui/moc_mainwindow.s"
+	@echo "... qt_ui/moc_qnode.o"
+	@echo "... qt_ui/moc_qnode.i"
+	@echo "... qt_ui/moc_qnode.s"
+	@echo "... qt_ui/qnode.o"
+	@echo "... qt_ui/qnode.i"
+	@echo "... qt_ui/qnode.s"
+	@echo "... src/PolyTrajGen.o"
+	@echo "... src/PolyTrajGen.i"
+	@echo "... src/PolyTrajGen.s"
 .PHONY : help
 
 

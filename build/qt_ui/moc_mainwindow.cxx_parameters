@@ -1,0 +1,13 @@
+-I/usr/include/qt4
+-I/usr/include/qt4/QtGui
+-I/usr/include/qt4/QtCore
+-I/home/jbs/catkin_ws/src/traj_gen/build
+-DROS_PACKAGE_NAME="traj_gen"
+-DROSCONSOLE_BACKEND_LOG4CXX
+-D$<$<NOT:$<CONFIG:Debug>>:QT_NO_DEBUG>
+-DQT_GUI_LIB
+-DQT_CORE_LIB
+-DQT_NO_KEYWORDS
+-o
+/home/jbs/catkin_ws/src/traj_gen/build/qt_ui/moc_mainwindow.cxx
+/home/jbs/catkin_ws/src/traj_gen/qt_ui/mainwindow.h

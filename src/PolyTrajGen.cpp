@@ -22,6 +22,11 @@ void PathPlanner::path_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoi
     spline_xyz.is_valid = is_ok_x and is_ok_y and is_ok_z;
     spline_xyz.knot_time.assign(knots.data(),knots.data()+knots.size()) ;
     spline_xyz.n_seg = spline_x.n_seg;
+    spline_xyz.poly_order = poly_order;
+
+    // update current path 
+    horizon_eval_spline(10);
+
 }
 
 
@@ -36,10 +41,12 @@ QP_form_xyz PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& wa
     int blck_size=poly_order+1;
 
     MatrixXd Q(n_var_total,n_var_total),H(1,n_var_total);
+    Q.setZero(); H.setZero();
     MatrixXd Qx = Q, Qy = Q, Qz = Q; 
     MatrixXd Hx = H, Hy = H, Hz = H;
 
-    MatrixXd Aeq(0,n_var_total),beq(0,n_var_total),Aineq(0,n_var_total),bineq(0,n_var_total);
+    MatrixXd Aeq(0,n_var_total),beq(0,1),Aineq(0,n_var_total),bineq(0,1);
+    Aeq.setZero(); beq.setZero(); Aineq.setZero(); bineq.setZero();
     MatrixXd Aeq_x = Aeq, Aeq_y = Aeq, Aeq_z =Aeq;
     MatrixXd beq_x = beq, beq_y = beq, beq_z =beq;  
     MatrixXd Aineq_x = Aineq, Aineq_y = Aineq, Aineq_z =Aineq;
@@ -68,7 +75,7 @@ QP_form_xyz PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& wa
         }
     }else{
         cerr<<"undefined derivative in objective"<<endl;
-        return;
+        return QP_form_xyz();
     }
 
     // if it is soft, we include the deviation term 
@@ -94,6 +101,7 @@ QP_form_xyz PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& wa
     // (1) Initial constraints 
 
     MatrixXd Aeq0(3,n_var_total),beq0_sub(3,1);
+    Aeq0.setZero(), beq0_sub.setZero();
     Aeq0.block(0,0,3,poly_order+1)  = get_init_constraint_mat(waypoints.poses[0].pose.position.x,v0.linear.x,a0.linear.x,opt).A;
     row_append(Aeq_x,Aeq0); 
     row_append(Aeq_y,Aeq0); 
@@ -113,17 +121,17 @@ QP_form_xyz PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& wa
             int insert_idx = k*blck_size;
             MatrixXd Dn = time_scailing_mat(knots[k + 1]-knots[k], poly_order);
             MatrixXd Aeq_sub(1,n_var_total),beq_sub(1,1);
-
+            Aeq_sub.setZero(); beq_sub.setZero();
             Aeq_sub.block(0,insert_idx,1,blck_size) = t_vec(poly_order,1,0).transpose()*Dn;
             row_append(Aeq_x,Aeq_sub); 
             row_append(Aeq_y,Aeq_sub); 
             row_append(Aeq_z,Aeq_sub);             
             
-            beq_sub(0) = waypoints.poses[k].pose.position.x;
+            beq_sub(0) = waypoints.poses[k+1].pose.position.x;
             row_append(beq_x,beq_sub);
-            beq_sub(0) = waypoints.poses[k].pose.position.y;
+            beq_sub(0) = waypoints.poses[k+1].pose.position.y;
             row_append(beq_y,beq_sub);
-            beq_sub(0) = waypoints.poses[k].pose.position.z;
+            beq_sub(0) = waypoints.poses[k+1].pose.position.z;
             row_append(beq_z,beq_sub);
             
         }
@@ -134,6 +142,7 @@ QP_form_xyz PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& wa
     for(int k = 0;k<n_seg-1;k++){
         int insert_idx = k*blck_size;        
         MatrixXd Aeq_sub(3,n_var_total),beq_sub(3,1);
+        Aeq_sub.setZero(); beq_sub.setZero();
         Aeq_sub.block(0,insert_idx,3,2*blck_size) = get_continuity_constraint_mat(knots[k+1]-knots[k],knots[k+2]-knots[k+1],opt).A;
         beq_sub = get_continuity_constraint_mat(knots[k+1]-knots[k],knots[k+2]-knots[k+1],opt).b;
         row_append(Aeq_x,Aeq_sub); row_append(beq_x,beq_sub);
@@ -172,6 +181,44 @@ QP_form_xyz PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& wa
 
 //  -----------------------------------------------------------------------    
 
+void PathPlanner::horizon_eval_spline(int N_eval_interval){
+
+    geometry_msgs::PoseStamped poseStamped;
+    nav_msgs::Path path; 
+
+    ROS_INFO("evaluating spline....");
+
+    int n_seg=spline_xyz.n_seg;
+    int poly_order = spline_xyz.poly_order;
+    
+    printf("n_seg : %d, poly_order: %d, \n",spline_xyz.n_seg,spline_xyz.poly_order);
+
+    // std::cout<<spline.knot_time.size()<<std::endl;
+    // per each segment
+    for(int n=0;n<n_seg;n++){
+        // evaluation start and end
+        
+        double t1=spline_xyz.knot_time[n];
+        double t2=spline_xyz.knot_time[n+1];
+
+        // time horizon between start and end
+        VectorXd eval_time_horizon(N_eval_interval);
+        eval_time_horizon.setLinSpaced(N_eval_interval,t1,t2);
+
+        // evaluation path on that horizon
+        for(int t_idx=0;t_idx<N_eval_interval;t_idx++){
+            double t_eval=eval_time_horizon.coeff(t_idx)-t1;
+            poseStamped.pose.position.x=t_vec(poly_order,t_eval,0).transpose()*Map<VectorXd>(spline_xyz.spline_x.poly_coeff[n].coeff.data(),poly_order+1);
+            poseStamped.pose.position.y=t_vec(poly_order,t_eval,0).transpose()*Map<VectorXd>(spline_xyz.spline_y.poly_coeff[n].coeff.data(),poly_order+1);
+            poseStamped.pose.position.z=t_vec(poly_order,t_eval,0).transpose()*Map<VectorXd>(spline_xyz.spline_z.poly_coeff[n].coeff.data(),poly_order+1);
+            path.poses.push_back(poseStamped);
+        }
+    }
+
+     current_path=path;
+
+}
+
 
 VectorXd PathPlanner::solveqp(QP_form qp_prob,bool& is_ok){
     is_ok = true;
@@ -181,7 +228,25 @@ VectorXd PathPlanner::solveqp(QP_form qp_prob,bool& is_ok){
     MatrixXd bineq = qp_prob.b;
     MatrixXd Aeq = qp_prob.Aeq;
     MatrixXd beq = qp_prob.beq;
-     
+
+    cout<<"Q: "<<endl;
+    cout<<Q<<endl;
+    
+    cout<<"H: "<<endl;
+    cout<<H<<endl;
+        
+    cout<<"Aineq: "<<endl;
+    cout<<Aineq<<endl;        
+
+    cout<<"bineq: "<<endl;
+    cout<<bineq<<endl;  
+
+    cout<<"Aeq: "<<endl;
+    cout<<Aeq<<endl;        
+
+    cout<<"beq: "<<endl;
+    cout<<beq<<endl;  
+
     USING_NAMESPACE_QPOASES;
 
     int N_var = Q.rows();
@@ -192,7 +257,7 @@ VectorXd PathPlanner::solveqp(QP_form qp_prob,bool& is_ok){
     real_t H_qp[N_var*N_var];
     real_t g[N_var];
     real_t A[N_var*N_const];
-    real_t lbA[N_const];
+        real_t lbA[N_const];
     real_t ubA[N_const];
 
     // cost
@@ -222,7 +287,7 @@ VectorXd PathPlanner::solveqp(QP_form qp_prob,bool& is_ok){
    
 	QProblem qp_obj(N_var,N_const);
     Options options;
-	options.printLevel = PL_HIGH;
+	options.printLevel = PL_MEDIUM;
 	qp_obj.setOptions(options);
 	qp_obj.init(H_qp,g,A,NULL,NULL,lbA,ubA,nWSR);
     if(qp_obj.isInfeasible()){
@@ -232,12 +297,12 @@ VectorXd PathPlanner::solveqp(QP_form qp_prob,bool& is_ok){
     real_t xOpt[N_var];
     qp_obj.getPrimalSolution(xOpt);
 
-    if(qp_obj.isSolved()){
-        cout<<"[QP solver] warning: optimization terminated immaturely."<<endl;
+    if(not qp_obj.isSolved()){
+        cout<<"[QP solver] quadratic programming has not been solved "<<endl;
         is_ok = false;
     }
     
-    VectorXf sol(N_var);
+    VectorXd sol(N_var);
 
     for(int n = 0; n<N_var;n++)
         sol(n) = xOpt[n];
@@ -246,7 +311,7 @@ VectorXd PathPlanner::solveqp(QP_form qp_prob,bool& is_ok){
 }
 
 
-PolySpline PathPlanner::get_solution(VectorXf sol,int poly_order,int n_seg ){
+PolySpline PathPlanner::get_solution(VectorXd sol,int poly_order,int n_seg ){
             
     // this initialization of spline object 
     PolySpline polySpline;
@@ -283,6 +348,8 @@ Constraint PathPlanner::get_init_constraint_mat(double x0,double v0,double a0,Tr
     int poly_order = opt.poly_order;
     MatrixXd Aeq0(3,poly_order+1);
     MatrixXd beq0(3,1);
+    Aeq0.setZero();
+    beq0.setZero();
     double dt_arbitrary = 1;
 
     Aeq0.row(0) = t_vec(poly_order,0,0).transpose()*time_scailing_mat(dt_arbitrary,poly_order);
@@ -304,6 +371,8 @@ Constraint PathPlanner::get_continuity_constraint_mat(double dt1,double dt2,Traj
     int poly_order = opt.poly_order;
     MatrixXd Aeq(3,2*(poly_order+1));
     MatrixXd beq(3,1); beq.setZero();   
+    Aeq.setZero();
+    beq.setZero();
     MatrixXd D1 = time_scailing_mat(dt1,poly_order);
     MatrixXd D2 = time_scailing_mat(dt2,poly_order);
 
@@ -312,12 +381,12 @@ Constraint PathPlanner::get_continuity_constraint_mat(double dt1,double dt2,Traj
     Aeq.block(0,poly_order+1,1,poly_order+1) = -t_vec(poly_order,0,0).transpose()*D2;
 
     // 1st order
-    Aeq.block(1,0,1,poly_order+1) = t_vec(poly_order,1,1).transpose()*D1/dt1;
-    Aeq.block(1,poly_order+1,1,poly_order+1) = -t_vec(poly_order,0,1).transpose()*D2/dt2; 
+    Aeq.block(1,0,1,poly_order+1) = t_vec(poly_order,1,1).transpose()*D1*dt2;
+    Aeq.block(1,poly_order+1,1,poly_order+1) = -t_vec(poly_order,0,1).transpose()*D2*dt1; 
 
     // 2nd order
-    Aeq.block(2,0,1,poly_order+1) = t_vec(poly_order,1,2).transpose()*D1/pow(dt1,2);
-    Aeq.block(2,poly_order+1,1,poly_order+1) = -t_vec(poly_order,0,2).transpose()*D2/pow(dt2,2); 
+    Aeq.block(2,0,1,poly_order+1) = t_vec(poly_order,1,2).transpose()*D1*pow(dt2,2);
+    Aeq.block(2,poly_order+1,1,poly_order+1) = -t_vec(poly_order,0,2).transpose()*D2*pow(dt1,2); 
            
     Constraint constraint;
     constraint.A = Aeq;
@@ -329,8 +398,76 @@ Constraint PathPlanner::get_continuity_constraint_mat(double dt1,double dt2,Traj
 
 
 
+MatrixXd time_scailing_mat(double dt, int poly_order) {
+    MatrixXd D(poly_order+1,poly_order+1);
+    D.setZero();
+
+    for(int i=0;i<poly_order+1;i++)
+        D.coeffRef(i,i)=pow(dt,i);
+    return D;
+}
+
+
+VectorXd t_vec(int poly_order, double t, int n_diff) {
+    VectorXd vec(poly_order+1);
+    vec.setZero();
+    switch(n_diff){
+        case 0:
+            for(int i=0;i<poly_order+1;i++)
+                vec.coeffRef(i)=pow(t,i);
+            break;
+        case 1:
+            for(int i=1;i<poly_order+1;i++)
+                vec.coeffRef(i)=i*pow(t,i-1);
+
+            break;
+        case 2:
+            for(int i=2;i<poly_order+1;i++)
+                vec.coeffRef(i)=i*(i-1)*pow(t,i-2);
+            break;
+    }
+
+    return vec;
+}
+
+
+ MatrixXd integral_jerk_squared(int poly_order){
+    // this is ingeral of jerk matrix from 0 to 1 given polynomial order
+     int n=poly_order;
+    MatrixXd Qj(n+1,n+1);
+    Qj.setZero();
+
+    for(int i=3;i<n+1;i++)
+        for(int j=3;j<n+1;j++)
+            if(i==3 and j==3)
+                Qj.coeffRef(i,j)=i*(i-1)*(i-2)*j*(j-1)*(j-2);
+            else
+                Qj.coeffRef(i,j)=i*(i-1)*(i-2)*j*(j-1)*(j-2)/(i+j-5);
+
+
+    return Qj;
+}
+
+ MatrixXd integral_snap_squared(int poly_order){
+    // this is ingeral of jerk matrix from 0 to 1 given polynomial order
+     int n=poly_order;
+    MatrixXd Qj(n+1,n+1);
+    Qj.setZero();
+
+    for(int i=4;i<n+1;i++)
+        for(int j=4;j<n+1;j++)
+            if(i==4 and j==4)
+                Qj.coeffRef(i,j)=i*(i-1)*(i-2)*(i-3)*j*(j-1)*(j-2)*(j-3);
+            else
+                Qj.coeffRef(i,j)=i*(i-1)*(i-2)*(i-3)*j*(j-1)*(j-2)*(j-3)/(i+j-7);
+
+
+    return Qj;
+}
 
 void row_append(MatrixXd & mat,MatrixXd mat_sub){
+    int orig_row_size = mat.rows();
     mat.conservativeResize(mat.rows()+mat_sub.rows(),mat.cols());
-    mat.block(mat.rows(),0,mat_sub.rows(),mat.cols()) = mat_sub;
+    mat.block(orig_row_size,0,mat_sub.rows(),mat.cols()) = mat_sub;
+
 }
