@@ -55,7 +55,7 @@ include CMakeFiles/traj_gen_automoc.dir/progress.make
 
 CMakeFiles/traj_gen_automoc:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic uic for target traj_gen"
-	/usr/bin/cmake -E cmake_autogen /home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/traj_gen_automoc.dir/ Release
+	/usr/bin/cmake -E cmake_autogen /home/jbs/catkin_ws/src/traj_gen/build/CMakeFiles/traj_gen_automoc.dir/ Debug
 
 traj_gen_automoc: CMakeFiles/traj_gen_automoc
 traj_gen_automoc: CMakeFiles/traj_gen_automoc.dir/build.make

@@ -174,11 +174,12 @@ QP_form_xyz PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& wa
 
     // (3) continuity constraints 
     
+    // if the objective is snap, we will include 3rd order continuity 
     for(int k = 0;k<n_seg-1;k++){
         int insert_idx = k*blck_size;        
-        MatrixXd Aeq_sub(3,n_var_total),beq_sub(3,1);
+        MatrixXd Aeq_sub(opt.objective_derivative,n_var_total),beq_sub(opt.objective_derivative,1);
         Aeq_sub.setZero(); beq_sub.setZero();
-        Aeq_sub.block(0,insert_idx,3,2*blck_size) = get_continuity_constraint_mat(knots[k+1]-knots[k],knots[k+2]-knots[k+1],opt).A;
+        Aeq_sub.block(0,insert_idx,opt.objective_derivative,2*blck_size) = get_continuity_constraint_mat(knots[k+1]-knots[k],knots[k+2]-knots[k+1],opt).A;
         beq_sub = get_continuity_constraint_mat(knots[k+1]-knots[k],knots[k+2]-knots[k+1],opt).b;
         row_append(Aeq_x,Aeq_sub); row_append(beq_x,beq_sub);
         row_append(Aeq_y,Aeq_sub); row_append(beq_y,beq_sub);
@@ -190,6 +191,94 @@ QP_form_xyz PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& wa
         3. Inequality constraints  
     */
     //  -----------------------------------------------------------------------    
+
+    if(opt.is_multi_corridor){
+
+        double safe_r = opt.safe_r;
+        int N_safe_pnts = opt.N_safe_pnts;
+        int n_ineq_consts = 2*(N_safe_pnts)*n_seg;
+        int poly_order = opt.poly_order;
+
+        safe_corridor_marker.header.frame_id = "/world";
+        safe_corridor_marker.ns = "sf_corridor";
+        safe_corridor_marker.type = 6; // cube list 
+        safe_corridor_marker.scale.x = 2*safe_r;
+        safe_corridor_marker.scale.y = 2*safe_r;
+        safe_corridor_marker.scale.z = 2*safe_r;
+        safe_corridor_marker.action = 0;
+        safe_corridor_marker.pose.orientation.w = 1;
+        safe_corridor_marker.color.a = 0.5;
+        safe_corridor_marker.color.r = 170.0/255.0;
+        safe_corridor_marker.color.g = 1.0;
+        safe_corridor_marker.color.b = 1.0;
+        safe_corridor_marker.points.clear();
+
+        safe_corridor_marker.points.resize((N_safe_pnts)*n_seg);
+
+
+        MatrixXd A_sub(n_ineq_consts,n_var_total),bx_sub(n_ineq_consts,1),by_sub(n_ineq_consts,1),bz_sub(n_ineq_consts,1);
+        A_sub.setZero(); bx_sub.setZero(); by_sub.setZero(); bz_sub.setZero();
+        
+        int ineq_col_insert_idx1=0,ineq_row_insert_idx = 0; 
+        int idx = 0;
+
+        for (int n = 0 ; n<n_seg;n++){
+
+            // sub points along this line segment 
+            double x0,y0,z0;
+            double xf,yf,zf;
+            double dx,dy,dz;
+            
+            x0 = waypoints.poses[n].pose.position.x;
+            y0 = waypoints.poses[n].pose.position.y;
+            z0 = waypoints.poses[n].pose.position.z;
+
+            xf = waypoints.poses[n+1].pose.position.x;
+            yf = waypoints.poses[n+1].pose.position.y;
+            zf = waypoints.poses[n+1].pose.position.z;
+            
+            dx = (xf-x0)/((N_safe_pnts+1));
+            dy = (yf-y0)/((N_safe_pnts+1));
+            dz = (zf-z0)/((N_safe_pnts+1));
+            for (int n_sub = 1; n_sub<=N_safe_pnts;n_sub++){
+
+                double x_sub,y_sub,z_sub;
+                x_sub = x0 + dx*n_sub;
+                y_sub = y0 + dy*n_sub;
+                z_sub = z0 + dz*n_sub;
+                
+                safe_corridor_marker.points[idx].x = x_sub;
+                safe_corridor_marker.points[idx].y = y_sub;
+                safe_corridor_marker.points[idx].z = z_sub;
+                idx++;
+
+                double t_control = 1.0/(N_safe_pnts+1) * n_sub;
+
+                // lower limit 
+                A_sub.block(ineq_row_insert_idx,ineq_col_insert_idx1,1,blck_size)=-t_vec(poly_order,t_control,0).transpose();        
+                bx_sub.coeffRef(ineq_row_insert_idx) = -(x_sub - safe_r);
+                by_sub.coeffRef(ineq_row_insert_idx) = -(y_sub - safe_r);
+                bz_sub.coeffRef(ineq_row_insert_idx) = -(z_sub - safe_r);        
+
+                ineq_row_insert_idx++;
+
+                // upper limit 
+                A_sub.block(ineq_row_insert_idx,ineq_col_insert_idx1,1,blck_size)=t_vec(poly_order,t_control,0).transpose();        
+                bx_sub.coeffRef(ineq_row_insert_idx) = (x_sub + safe_r);
+                by_sub.coeffRef(ineq_row_insert_idx) = (y_sub + safe_r);
+                bz_sub.coeffRef(ineq_row_insert_idx) = (z_sub + safe_r);      
+
+                ineq_row_insert_idx++;
+
+            }
+            ineq_col_insert_idx1 += blck_size;
+        }
+
+        row_append(Aineq_x,A_sub); row_append(bineq_x,bx_sub);
+        row_append(Aineq_y,A_sub); row_append(bineq_y,by_sub);
+        row_append(Aineq_z,A_sub); row_append(bineq_z,bz_sub); 
+
+    }
 
 
     /*
@@ -314,7 +403,7 @@ VectorXd PathPlanner::solveqp(QP_form qp_prob,bool& is_ok){
 
     // ineq constraints
     for (int r = 0; r<N_ineq_const;r++){
-        lbA[N_eq_const+r] = -std::numeric_limits<double>::min();
+        lbA[N_eq_const+r] = -1e+8;
         ubA[N_eq_const+r] = bineq(r);
         for(int c= 0; c<N_var;c++)
             A[(r+N_eq_const)*N_var + c] = Aineq(r,c);
@@ -410,9 +499,10 @@ Constraint PathPlanner::get_init_constraint_mat(double x0,double v0,double a0,Tr
 // output size 3x(2(N+1))
 Constraint PathPlanner::get_continuity_constraint_mat(double dt1,double dt2,TrajGenOpts opt){
     
+    int N_constraint = opt.objective_derivative;
     int poly_order = opt.poly_order;
-    MatrixXd Aeq(3,2*(poly_order+1));
-    MatrixXd beq(3,1); beq.setZero();   
+    MatrixXd Aeq(N_constraint,2*(poly_order+1));
+    MatrixXd beq(N_constraint,1); beq.setZero();   
     Aeq.setZero();
     beq.setZero();
     MatrixXd D1 = time_scailing_mat(dt1,poly_order);
@@ -437,9 +527,12 @@ Constraint PathPlanner::get_continuity_constraint_mat(double dt1,double dt2,Traj
     // 2nd order
     Aeq.block(2,0,1,poly_order+1) = t_vec(poly_order,1,2).transpose()*pow(dt2,2);
     Aeq.block(2,poly_order+1,1,poly_order+1) = -t_vec(poly_order,0,2).transpose()*pow(dt1,2); 
-           
 
-
+    if (N_constraint == 4){    
+        // 3rd order
+        Aeq.block(3,0,1,poly_order+1) = t_vec(poly_order,1,3).transpose()*pow(dt2,3);
+        Aeq.block(3,poly_order+1,1,poly_order+1) = -t_vec(poly_order,0,3).transpose()*pow(dt1,3); 
+    }
 
     Constraint constraint;
     constraint.A = Aeq;
@@ -477,6 +570,11 @@ VectorXd t_vec(int poly_order, double t, int n_diff) {
         case 2:
             for(int i=2;i<poly_order+1;i++)
                 vec.coeffRef(i)=i*(i-1)*pow(t,i-2);
+            break;
+
+        case 3:
+            for(int i=3;i<poly_order+1;i++)
+                vec.coeffRef(i)=i*(i-1)*(i-2)*pow(t,i-3);
             break;
     }
 

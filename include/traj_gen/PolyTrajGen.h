@@ -8,6 +8,7 @@
 #include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/PoseStamped.h>
+#include <visualization_msgs/MarkerArray.h>
 #include <nav_msgs/Path.h>
 #include <eigen3/Eigen/Core>
 #include <eigen3/Eigen/Dense>
@@ -66,7 +67,9 @@ struct TrajGenOpts{
     bool is_waypoint_soft;
     double w_d; // weight for deviation
 
-    bool is_parallel_corridor;  
+    bool is_single_corridor;  
+    bool is_multi_corridor;  
+
     int poly_order;
     // In case of parallel corridor = true the followings are required
     double safe_r;
@@ -102,7 +105,8 @@ class PathPlanner{
         bool is_path_computed;
         nav_msgs::Path current_path; // latest path from optimization for entire horizon 
         traj_gen::PolySplineXYZ spline_xyz; // the coefficient of this polynomials 
-
+        visualization_msgs::Marker safe_corridor_marker;
+        
     public: 
         // constructor
         PathPlanner();
@@ -114,7 +118,8 @@ class PathPlanner{
         // evaluate at a time horizon 
         void horizon_eval_spline(int N_eval_interval);
         nav_msgs::Path sub_horizon_eval_spline(int N_eval_interval,double t_start,double t_final);        
-        
+        visualization_msgs::Marker get_safe_corridor_marker(){return safe_corridor_marker;}
+
         // evaluate at a time
         Point point_eval_spline(double t_eval);
         Twist vel_eval_spline(double t_eval);

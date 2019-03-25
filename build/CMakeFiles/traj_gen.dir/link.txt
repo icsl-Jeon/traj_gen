@@ -1,1 +1,1 @@
-/usr/bin/g++-5  -fPIC -O3 -DNDEBUG  -shared -Wl,-soname,libtraj_gen.so -o devel/lib/libtraj_gen.so CMakeFiles/traj_gen.dir/src/PolyTrajGen.cpp.o 
+/usr/bin/g++-5  -fPIC -g  -shared -Wl,-soname,libtraj_gen.so -o devel/lib/libtraj_gen.so CMakeFiles/traj_gen.dir/src/PolyTrajGen.cpp.o 

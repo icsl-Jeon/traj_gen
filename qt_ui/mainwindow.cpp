@@ -21,6 +21,7 @@ MainWindow::MainWindow(QNode* qnode,QWidget *parent) :
     int h2 = ui->label_larr_2->height();
     ui->label_larr_2->setPixmap(pix_larr2.scaled(w2,h2,Qt::KeepAspectRatio));
 
+    
 
     // push button color
     ui->pushButton_ros->setStyleSheet("  QPushButton:checked{background-color: rgba(200, 20, 80,20);\
@@ -35,6 +36,9 @@ MainWindow::MainWindow(QNode* qnode,QWidget *parent) :
     QObject::connect(qnode,SIGNAL(writeOnBoard(QString)),this,SLOT(textEdit_write(QString)));
     QObject::connect(qnode, SIGNAL(rosShutdown()), this, SLOT(close()));
     ReadSettings();
+
+    ui->lineEdit_n_corridor->setDisabled(true);
+    ui->lineEdit_deviation_weight->setDisabled(true);
 
 
 }
@@ -64,7 +68,7 @@ void MainWindow::ReadSettings(){
     QString num_per_seg = settings.value("number_per_seg",QString("2")).toString();
     QString derivative = settings.value("derivative",QString("3")).toString();
  
-
+    
     // fill with previous settings 
     ui->lineEdit_load_directory->setText(filename);
     ui->lineEdit_sim_tf->setText(simulation_tf);
@@ -73,6 +77,7 @@ void MainWindow::ReadSettings(){
     ui->lineEdit_safe_radius->setText(safe_rad);
     ui->lineEdit_poly_order->setText(poly_order);
     ui->lineEdit_derivative->setText(derivative);
+    
 }
 
 
@@ -94,7 +99,18 @@ void MainWindow::WriteSettings(){
 }
 
 
+void MainWindow::on_pushButton_clear_clicked(){
+    // initialize the queue in qnode 
+    qnode->queue.clear();
+    qnode->wpnt_markerArray.markers.clear();
 
+}
+
+void MainWindow::on_pushButton_undo_clicked(){
+    // remove the back element
+    qnode->queue.pop_back();
+    qnode->wpnt_markerArray.markers.pop_back();
+}
 void MainWindow::on_pushButton_ros_clicked(bool checked)
 {
 
@@ -149,14 +165,15 @@ void MainWindow::on_pushButton_trajectory_clicked()
 
     //parameter parsing
 
-    double tf = atof(ui->lineEdit_sim_tf->text().toStdString().c_str());
+    double tf = atoi(ui->lineEdit_sim_tf->text().toStdString().c_str());
 
     TrajGenOpts option;
     option.poly_order = atoi(ui->lineEdit_poly_order->text().toStdString().c_str());
     option.objective_derivative = atoi(ui->lineEdit_derivative->text().toStdString().c_str());
     option.is_waypoint_soft = ui->checkBox_is_soft->isChecked();
-    option.is_parallel_corridor = not(ui->checkBox_is_multi->isChecked());
-    option.w_d = atof(ui->lineEdit_deviation_weight->text().toStdString().c_str());
+    option.is_single_corridor = ui->checkBox->isChecked();
+    option.is_multi_corridor = ui->checkBox_is_multi->isChecked();
+    option.w_d = atoi(ui->lineEdit_deviation_weight->text().toStdString().c_str());
     option.N_safe_pnts = atoi(ui->lineEdit_n_corridor->text().toStdString().c_str());
     option.safe_r = atof(ui->lineEdit_safe_radius->text().toStdString().c_str());
     
@@ -165,6 +182,38 @@ void MainWindow::on_pushButton_trajectory_clicked()
     else
         ui->textEdit_message->append("generation failed.");
 
+}
+
+void MainWindow::on_checkBox_is_multi_clicked(){
+
+    if(ui->checkBox_is_multi->isChecked()){
+        ui->lineEdit_n_corridor->setEnabled(true);
+        if(ui->checkBox->isChecked())
+            ui->checkBox->setChecked(false);
+    }else{
+
+        ui->lineEdit_n_corridor->setDisabled(true);
+    }
+}
+
+void MainWindow::on_checkBox_is_soft_clicked(){
+
+    if(ui->checkBox_is_soft->isChecked()){
+        ui->lineEdit_deviation_weight->setEnabled(true);
+    }else{
+        ui->lineEdit_deviation_weight->setDisabled(true);
+    }
+
+}
+// single box safety 
+void MainWindow::on_checkBox_clicked(){
+
+     if(ui->checkBox->isChecked()){
+        if(ui->checkBox_is_multi->isChecked()){
+            ui->checkBox_is_multi->setChecked(false);
+            ui->lineEdit_n_corridor->setDisabled(true);
+        }
+    }
 }
 
 void MainWindow::on_pushButton_load_clicked()

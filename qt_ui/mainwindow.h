@@ -35,7 +35,20 @@ private Q_SLOTS:
 
     void on_pushButton_save_clicked();
 
+    void on_pushButton_undo_clicked();
+
+    void on_pushButton_clear_clicked();
+    
+    void on_checkBox_clicked();
+
+    void on_checkBox_is_multi_clicked();
+
+    void on_checkBox_is_soft_clicked();
+
+    
+
     void textEdit_write(QString);
+
 
 //    void on_pushButton_waypoint_clicked();
 

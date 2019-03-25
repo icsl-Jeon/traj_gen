@@ -59,10 +59,18 @@ public:
     QLineEdit *lineEdit_n_corridor;
     QLabel *label_9;
     QLineEdit *lineEdit_sim_tf;
+    QLabel *label_10;
+    QLineEdit *lineEdit_derivative;
+    QCheckBox *checkBox_is_single;
     QTextEdit *textEdit_message;
     QLabel *label_larr;
     QLabel *label_larr_2;
     QLabel *label_8;
+    QPushButton *pushButton_load;
+    QLineEdit *lineEdit_load_directory;
+    QPushButton *pushButton_save;
+    QPushButton *pushButton_undo;
+    QPushButton *pushButton_clear;
     QMenuBar *menuBar;
     QMenu *menuPath_planner;
     QToolBar *mainToolBar;
@@ -79,6 +87,7 @@ public:
         MainWindow->setStyleSheet(QString::fromUtf8("backgroundColourButton->setStyleSheet(\"background-color: red\");"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
+        centralWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
         pushButton_ros = new QPushButton(centralWidget);
         pushButton_ros->setObjectName(QString::fromUtf8("pushButton_ros"));
         pushButton_ros->setGeometry(QRect(390, 10, 131, 51));
@@ -120,7 +129,7 @@ public:
         label->setFont(font1);
         label_2 = new QLabel(groupBox);
         label_2->setObjectName(QString::fromUtf8("label_2"));
-        label_2->setGeometry(QRect(10, 110, 101, 17));
+        label_2->setGeometry(QRect(10, 123, 101, 17));
         label_2->setFont(font1);
         label_3 = new QLabel(groupBox);
         label_3->setObjectName(QString::fromUtf8("label_3"));
@@ -136,10 +145,10 @@ public:
         label_4->setGeometry(QRect(30, 60, 161, 20));
         lineEdit_deviation_weight = new QLineEdit(groupBox);
         lineEdit_deviation_weight->setObjectName(QString::fromUtf8("lineEdit_deviation_weight"));
-        lineEdit_deviation_weight->setGeometry(QRect(230, 157, 113, 20));
+        lineEdit_deviation_weight->setGeometry(QRect(230, 170, 113, 20));
         label_5 = new QLabel(groupBox);
         label_5->setObjectName(QString::fromUtf8("label_5"));
-        label_5->setGeometry(QRect(60, 150, 141, 17));
+        label_5->setGeometry(QRect(60, 163, 141, 17));
         line_2 = new QFrame(groupBox);
         line_2->setObjectName(QString::fromUtf8("line_2"));
         line_2->setGeometry(QRect(-10, 290, 371, 41));
@@ -147,7 +156,7 @@ public:
         line_2->setFrameShadow(QFrame::Sunken);
         checkBox_is_soft = new QCheckBox(groupBox);
         checkBox_is_soft->setObjectName(QString::fromUtf8("checkBox_is_soft"));
-        checkBox_is_soft->setGeometry(QRect(30, 130, 141, 22));
+        checkBox_is_soft->setGeometry(QRect(30, 143, 141, 22));
         line_3 = new QFrame(groupBox);
         line_3->setObjectName(QString::fromUtf8("line_3"));
         line_3->setGeometry(QRect(210, 30, 20, 271));
@@ -156,7 +165,7 @@ public:
         line_3->setFrameShape(QFrame::VLine);
         line_5 = new QFrame(groupBox);
         line_5->setObjectName(QString::fromUtf8("line_5"));
-        line_5->setGeometry(QRect(40, 150, 16, 21));
+        line_5->setGeometry(QRect(40, 163, 16, 21));
         line_5->setFrameShadow(QFrame::Raised);
         line_5->setFrameShape(QFrame::VLine);
         checkBox_is_multi = new QCheckBox(groupBox);
@@ -185,9 +194,18 @@ public:
         lineEdit_sim_tf = new QLineEdit(groupBox);
         lineEdit_sim_tf->setObjectName(QString::fromUtf8("lineEdit_sim_tf"));
         lineEdit_sim_tf->setGeometry(QRect(232, 80, 111, 20));
+        label_10 = new QLabel(groupBox);
+        label_10->setObjectName(QString::fromUtf8("label_10"));
+        label_10->setGeometry(QRect(30, 100, 161, 17));
+        lineEdit_derivative = new QLineEdit(groupBox);
+        lineEdit_derivative->setObjectName(QString::fromUtf8("lineEdit_derivative"));
+        lineEdit_derivative->setGeometry(QRect(232, 100, 111, 20));
+        checkBox_is_single = new QCheckBox(groupBox);
+        checkBox_is_single->setObjectName(QString::fromUtf8("checkBox_is_single"));
+        checkBox_is_single->setGeometry(QRect(30, 270, 151, 22));
         textEdit_message = new QTextEdit(centralWidget);
         textEdit_message->setObjectName(QString::fromUtf8("textEdit_message"));
-        textEdit_message->setGeometry(QRect(390, 130, 271, 191));
+        textEdit_message->setGeometry(QRect(390, 190, 271, 131));
         label_larr = new QLabel(centralWidget);
         label_larr->setObjectName(QString::fromUtf8("label_larr"));
         label_larr->setGeometry(QRect(30, 320, 171, 61));
@@ -197,6 +215,21 @@ public:
         label_8 = new QLabel(centralWidget);
         label_8->setObjectName(QString::fromUtf8("label_8"));
         label_8->setGeometry(QRect(390, 330, 151, 51));
+        pushButton_load = new QPushButton(centralWidget);
+        pushButton_load->setObjectName(QString::fromUtf8("pushButton_load"));
+        pushButton_load->setGeometry(QRect(460, 160, 61, 20));
+        lineEdit_load_directory = new QLineEdit(centralWidget);
+        lineEdit_load_directory->setObjectName(QString::fromUtf8("lineEdit_load_directory"));
+        lineEdit_load_directory->setGeometry(QRect(390, 130, 271, 21));
+        pushButton_save = new QPushButton(centralWidget);
+        pushButton_save->setObjectName(QString::fromUtf8("pushButton_save"));
+        pushButton_save->setGeometry(QRect(390, 160, 61, 21));
+        pushButton_undo = new QPushButton(centralWidget);
+        pushButton_undo->setObjectName(QString::fromUtf8("pushButton_undo"));
+        pushButton_undo->setGeometry(QRect(530, 160, 61, 21));
+        pushButton_clear = new QPushButton(centralWidget);
+        pushButton_clear->setObjectName(QString::fromUtf8("pushButton_clear"));
+        pushButton_clear->setGeometry(QRect(600, 160, 61, 21));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
@@ -241,11 +274,17 @@ public:
         lineEdit_n_corridor->setText(QApplication::translate("MainWindow", "3", 0, QApplication::UnicodeUTF8));
         label_9->setText(QApplication::translate("MainWindow", "simulation tf", 0, QApplication::UnicodeUTF8));
         lineEdit_sim_tf->setText(QApplication::translate("MainWindow", "20", 0, QApplication::UnicodeUTF8));
+        label_10->setText(QApplication::translate("MainWindow", "objective derivative", 0, QApplication::UnicodeUTF8));
+        checkBox_is_single->setText(QApplication::translate("MainWindow", "Single corridor", 0, QApplication::UnicodeUTF8));
         label_larr->setText(QString());
         label_larr_2->setText(QString());
         label_8->setText(QApplication::translate("MainWindow", "Maintainer: \n"
 " Boseong Felipe Jeon \n"
 " junbs95@gmail.com  ", 0, QApplication::UnicodeUTF8));
+        pushButton_load->setText(QApplication::translate("MainWindow", "load", 0, QApplication::UnicodeUTF8));
+        pushButton_save->setText(QApplication::translate("MainWindow", "save", 0, QApplication::UnicodeUTF8));
+        pushButton_undo->setText(QApplication::translate("MainWindow", "undo", 0, QApplication::UnicodeUTF8));
+        pushButton_clear->setText(QApplication::translate("MainWindow", "clear", 0, QApplication::UnicodeUTF8));
         menuPath_planner->setTitle(QApplication::translate("MainWindow", "path planner", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 

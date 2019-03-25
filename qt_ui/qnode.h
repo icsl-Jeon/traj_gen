@@ -49,7 +49,8 @@ public:
    string write_path;
 
    std::vector<geometry_msgs::PoseStamped> queue; // the wpnts from user
-
+   visualization_msgs::MarkerArray wpnt_markerArray;
+   
    // flags
    bool is_connected = false; // to ros
    bool is_insert_permit; // is insert waypoints active
@@ -94,8 +95,7 @@ private:
    ros::Subscriber wpnt_sub; // the pnts subscriber
 
    ros::Publisher wpnt_marker_pub; // the wpnts from user (vis)
-   visualization_msgs::MarkerArray wpnt_markerArray;
-
+   ros::Publisher safe_corridor_pub; // safe corridor 
    // generated global path
    traj_gen::PolySplineXYZ spline;
 

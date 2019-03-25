@@ -1,4 +1,3 @@
-
 #include "qnode.h"
 
 
@@ -50,7 +49,7 @@ void QNode::ros_comms_init(){
     spline_path_pub = nh.advertise<nav_msgs::Path>("trajectory",1);
     spline_knot_pub = nh.advertise<visualization_msgs::MarkerArray>("trajectory_knots",1);
     target_goal_pub = nh.advertise<geometry_msgs::PoseStamped>("control_pose",1);
-
+    safe_corridor_pub = nh.advertise<visualization_msgs::Marker>("safe_corridor",1);
 
 }
 
@@ -61,6 +60,7 @@ bool QNode::traj_gen_call(double tf,
     
                          
     nav_msgs::Path waypoints;
+    
     waypoints.poses = queue;
     TimeSeries knots(queue.size());
     knots.setLinSpaced(queue.size(),0,tf);
@@ -159,7 +159,7 @@ void QNode::run(){
         // generated path  
         if(is_path)
             spline_path_pub.publish(spline_path);
-
+        safe_corridor_pub.publish(planner.get_safe_corridor_marker());
         ros::spinOnce();
         loop_rate.sleep();
     }
