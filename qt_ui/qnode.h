@@ -60,8 +60,9 @@ public:
    double cur_spline_eval_time = 0;
    double total_duration = 5;
    double global_time_end;
-
-
+   double previous_elapsed =0; // before publish control button pressed 
+   double button_elapsed=0; // after the button pressed again,
+   ros::Time button_click_time; 
    // params
    ros::Time pred_start_time;
    ros::Time session_ckp;
@@ -108,7 +109,6 @@ private:
 
    // for publising path
    ros::Publisher target_goal_pub; // publisher for target goal
-   string control_point_topic; // target goal point topic name
    geometry_msgs::PoseStamped target_goal; // goal point for control
 
 };

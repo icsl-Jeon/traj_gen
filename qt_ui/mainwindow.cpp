@@ -171,7 +171,7 @@ void MainWindow::on_pushButton_trajectory_clicked()
     option.poly_order = atoi(ui->lineEdit_poly_order->text().toStdString().c_str());
     option.objective_derivative = atoi(ui->lineEdit_derivative->text().toStdString().c_str());
     option.is_waypoint_soft = ui->checkBox_is_soft->isChecked();
-    option.is_single_corridor = ui->checkBox->isChecked();
+    option.is_single_corridor = ui->checkBox_is_single->isChecked();
     option.is_multi_corridor = ui->checkBox_is_multi->isChecked();
     option.w_d = atoi(ui->lineEdit_deviation_weight->text().toStdString().c_str());
     option.N_safe_pnts = atoi(ui->lineEdit_n_corridor->text().toStdString().c_str());
@@ -188,8 +188,8 @@ void MainWindow::on_checkBox_is_multi_clicked(){
 
     if(ui->checkBox_is_multi->isChecked()){
         ui->lineEdit_n_corridor->setEnabled(true);
-        if(ui->checkBox->isChecked())
-            ui->checkBox->setChecked(false);
+        if(ui->checkBox_is_single->isChecked())
+            ui->checkBox_is_single->setChecked(false);
     }else{
 
         ui->lineEdit_n_corridor->setDisabled(true);
@@ -206,9 +206,9 @@ void MainWindow::on_checkBox_is_soft_clicked(){
 
 }
 // single box safety 
-void MainWindow::on_checkBox_clicked(){
+void MainWindow::on_checkBox_is_single_clicked(){
 
-     if(ui->checkBox->isChecked()){
+     if(ui->checkBox_is_single->isChecked()){
         if(ui->checkBox_is_multi->isChecked()){
             ui->checkBox_is_multi->setChecked(false);
             ui->lineEdit_n_corridor->setDisabled(true);
@@ -265,14 +265,13 @@ void MainWindow::on_pushButton_publish_clicked()
     if(ui->pushButton_publish->isChecked()){        
         ui->textEdit_message->append("publishing control point..");
         qnode->is_in_session = true;
+        qnode->button_click_time = ros::Time::now();
+    
     }else{
-
         ui->textEdit_message->append("stop publishing.");
         qnode->is_in_session = false;
+        qnode->previous_elapsed = (ros::Time::now() - qnode->button_click_time).toSec() + qnode->previous_elapsed; // total elasped time
     }
-
-    
-
 
 }
 

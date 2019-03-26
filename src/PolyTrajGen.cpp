@@ -346,6 +346,33 @@ void PathPlanner::horizon_eval_spline(int N_eval_interval){
 }
 
 
+geometry_msgs::Point PathPlanner::point_eval_spline(double t_eval) {
+
+
+    geometry_msgs::Point eval_point;
+
+    int poly_order=spline_xyz.poly_order;
+	// DEBUG
+//			std::cout<<"knot time of this: "<<std::endl;
+	for(auto it = spline_xyz.knot_time.begin();it<spline_xyz.knot_time.end();it++)
+//		std::cout<<*it<<", ";spline_xyz
+//	std::cout<<std::endl;
+//    std::cout<<"point_eval: "<<t_eval.toSec()<<"knot time final: "<<spline.knot_time.back()<<std::endl;
+    t_eval =min(spline_xyz.knot_time.back(),t_eval);
+    Eigen::Index spline_idx=find_spline_interval(spline_xyz.knot_time,t_eval);
+//	std::cout<<"Index: "<<spline_idx<<std::endl;
+    // double t_eval_norm = (t_eval-spline_xyz.knot_time[spline_idx])/(spline_xyz.knot_time[spline_idx+1]-spline_xyz.knot_time[spline_idx]);
+    double t_eval_norm = (t_eval-spline_xyz.knot_time[spline_idx]);
+
+    eval_point.x=t_vec(poly_order,t_eval_norm,0).transpose()*Map<VectorXd>(spline_xyz.spline_x.poly_coeff[spline_idx].coeff.data(),poly_order+1);
+    eval_point.y=t_vec(poly_order,t_eval_norm,0).transpose()*Map<VectorXd>(spline_xyz.spline_y.poly_coeff[spline_idx].coeff.data(),poly_order+1);
+    eval_point.z=t_vec(poly_order,t_eval_norm,0).transpose()*Map<VectorXd>(spline_xyz.spline_z.poly_coeff[spline_idx].coeff.data(),poly_order+1);
+	
+    return eval_point;
+}
+
+
+
 VectorXd PathPlanner::solveqp(QP_form qp_prob,bool& is_ok){
     is_ok = true;
     MatrixXd Q = qp_prob.Q;
@@ -621,4 +648,22 @@ void row_append(MatrixXd & mat,MatrixXd mat_sub){
     mat.conservativeResize(mat.rows()+mat_sub.rows(),mat.cols());
     mat.block(orig_row_size,0,mat_sub.rows(),mat.cols()) = mat_sub;
 
+}
+
+
+
+int find_spline_interval(const vector<double>& ts,double t_eval) {
+
+
+    int idx=-1;
+    
+    for(int i=0;i<ts.size()-1;i++)
+        if(ts[i]<=t_eval && ts[i+1]>t_eval)
+            idx=i;
+    if (t_eval >= ts.back())
+        idx = ts.size()-2;
+
+    return idx;
+
+    // if idx == -1, then could not find
 }

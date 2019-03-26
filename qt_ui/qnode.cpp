@@ -9,7 +9,7 @@ QNode::QNode(int argc, char** argv, const std::string &name ) :
     {
 
     is_insert_permit = false;
-
+    header.frame_id = "/world";
 }
 
 // destructor 
@@ -42,8 +42,9 @@ void QNode::ros_comms_init(){
     
     ros::NodeHandle nh("~");
     nh.param("world_frame_id",header.frame_id,std::string("/world"));
+    
     nh.param("waypoint_topic",target_wnpt_topic,std::string("/waypoint"));
-
+    target_goal.header = header;    
     wpnt_sub = nh.subscribe(target_wnpt_topic,1,&QNode::waypoint_cb,this);
     wpnt_marker_pub = nh.advertise<visualization_msgs::MarkerArray>("waypoints_marker",1);
     spline_path_pub = nh.advertise<nav_msgs::Path>("trajectory",1);
@@ -60,7 +61,9 @@ bool QNode::traj_gen_call(double tf,
     
                          
     nav_msgs::Path waypoints;
-    
+
+    // initialize the total time 
+    previous_elapsed = 0;
     waypoints.poses = queue;
     TimeSeries knots(queue.size());
     knots.setLinSpaced(queue.size(),0,tf);
@@ -152,14 +155,22 @@ void QNode::waypoint_cb(const geometry_msgs::PoseStampedConstPtr & pose){
 // we don't have to include run explicitly in the main function
 void QNode::run(){
     ros::Rate loop_rate(50);
+
     while(ros::ok()){
         // the marker waypoints from user 
         wpnt_marker_pub.publish(wpnt_markerArray);
         
         // generated path  
-        if(is_path)
+        if(is_path){
             spline_path_pub.publish(spline_path);
-        safe_corridor_pub.publish(planner.get_safe_corridor_marker());
+            safe_corridor_pub.publish(planner.get_safe_corridor_marker());
+            // control point publish
+            if(is_in_session){
+                double t_eval = (ros::Time::now() - button_click_time).toSec() + previous_elapsed;
+                target_goal.pose.position = planner.point_eval_spline(t_eval);
+                target_goal_pub.publish(target_goal);            
+            }
+        }
         ros::spinOnce();
         loop_rate.sleep();
     }

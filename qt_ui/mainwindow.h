@@ -39,7 +39,7 @@ private Q_SLOTS:
 
     void on_pushButton_clear_clicked();
     
-    void on_checkBox_clicked();
+    void on_checkBox_is_single_clicked();
 
     void on_checkBox_is_multi_clicked();
 

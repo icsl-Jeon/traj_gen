@@ -133,7 +133,6 @@ class PathPlanner{
         VectorXd solveqp(QP_form qp_prob,bool& is_ok);
         Constraint get_init_constraint_mat(double x0, double v0, double a0,TrajGenOpts option); // up to 2nd order conditions 
         Constraint get_continuity_constraint_mat(double dt1,double dt2,TrajGenOpts option); // up to 2nd order continuity 
-        Eigen::Index find_spline_interval(const vector<double>& ts,double t_eval); 
 
 };
 
