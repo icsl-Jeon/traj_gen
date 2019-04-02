@@ -1,5 +1,7 @@
 # traj_gen 
 
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/intro.png">
+
 ## USAGE 
 
 This library provides interface where you can specifiy a sequence of waypoints from Rviz 
