@@ -33,32 +33,32 @@ This package is based on minimum jerk or snap with motion primitives of polynomi
 **refer**
 Mellinger, Daniel, and Vijay Kumar. "Minimum snap trajectory generation and control for quadrotors." 2011 IEEE International Conference on Robotics and Automation. IEEE, 2011.
 * * * 
-1. Waypoints 
+### 1. Waypoints 
 
 
 <img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/hard_vs_soft.png"> 
 
-(1) Soft waypoints
+#### (1) Soft waypoints
 
 not necessarily pass through the specified waypoints. But it can minimize jerk more.
 
-(2) Hard waypoints
+#### (2) Hard waypoints
 	
 the waypoints will be passed exactly as hard constraints 
 
 * * * 
 
-2. Corridor
+### 2. Corridor
  
 <img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/explain_corridor.jpg"> 
 
-(1) multiple sub boxes between waypoints which is axis-parallel 
+#### (1) multiple sub boxes between waypoints which is axis-parallel 
 	
 Number of constraints will be increased but x,y,z can be solved independently.
 	
 In general, imposing too many sub constraints will be infeasible for polynomial curves 
 
-(2) single box between waypoints 
+#### (2) single box between waypoints 
 
 Number of constraints will be decreased but x,y,z can be solved independently
 	
