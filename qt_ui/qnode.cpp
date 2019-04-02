@@ -51,7 +51,7 @@ void QNode::ros_comms_init(){
     spline_knot_pub = nh.advertise<visualization_msgs::MarkerArray>("trajectory_knots",1);
     target_goal_pub = nh.advertise<geometry_msgs::PoseStamped>("control_pose",1);
     safe_corridor_pub = nh.advertise<visualization_msgs::Marker>("safe_corridor",1);
-
+    
 }
 
 bool QNode::traj_gen_call(double tf,

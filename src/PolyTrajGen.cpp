@@ -371,6 +371,38 @@ geometry_msgs::Point PathPlanner::point_eval_spline(double t_eval) {
     return eval_point;
 }
 
+geometry_msgs::Twist PathPlanner::vel_eval_spline(double t_eval){
+
+    geometry_msgs::Twist eval_vel;
+    int poly_order=spline_xyz.poly_order;
+    t_eval =min(spline_xyz.knot_time.back(),t_eval);
+    Eigen::Index spline_idx=find_spline_interval(spline_xyz.knot_time,t_eval);  
+    double t_eval_norm = (t_eval-spline_xyz.knot_time[spline_idx]);
+
+    eval_vel.linear.x=t_vec(poly_order,t_eval_norm,1).transpose()*Map<VectorXd>(spline_xyz.spline_x.poly_coeff[spline_idx].coeff.data(),poly_order+1);
+    eval_vel.linear.y=t_vec(poly_order,t_eval_norm,1).transpose()*Map<VectorXd>(spline_xyz.spline_y.poly_coeff[spline_idx].coeff.data(),poly_order+1);
+    eval_vel.linear.z=t_vec(poly_order,t_eval_norm,1).transpose()*Map<VectorXd>(spline_xyz.spline_z.poly_coeff[spline_idx].coeff.data(),poly_order+1);
+	
+    return eval_vel;
+
+}
+
+geometry_msgs::Twist PathPlanner::accel_eval_spline(double t_eval){
+
+    geometry_msgs::Twist eval_acc;
+    int poly_order=spline_xyz.poly_order;
+    t_eval =min(spline_xyz.knot_time.back(),t_eval);
+    Eigen::Index spline_idx=find_spline_interval(spline_xyz.knot_time,t_eval);  
+    double t_eval_norm = (t_eval-spline_xyz.knot_time[spline_idx]);
+
+    eval_acc.linear.x=t_vec(poly_order,t_eval_norm,2).transpose()*Map<VectorXd>(spline_xyz.spline_x.poly_coeff[spline_idx].coeff.data(),poly_order+1);
+    eval_acc.linear.y=t_vec(poly_order,t_eval_norm,2).transpose()*Map<VectorXd>(spline_xyz.spline_y.poly_coeff[spline_idx].coeff.data(),poly_order+1);
+    eval_acc.linear.z=t_vec(poly_order,t_eval_norm,2).transpose()*Map<VectorXd>(spline_xyz.spline_z.poly_coeff[spline_idx].coeff.data(),poly_order+1);
+	
+    return eval_acc;
+
+}
+
 
 
 VectorXd PathPlanner::solveqp(QP_form qp_prob,bool& is_ok){
@@ -441,7 +473,7 @@ VectorXd PathPlanner::solveqp(QP_form qp_prob,bool& is_ok){
 	QProblem qp_obj(N_var,N_const,HST_SEMIDEF);
     std::cout<<"hessian type: "<<qp_obj.getHessianType()<<endl;
     Options options;
-	options.printLevel = PL_MEDIUM;
+	options.printLevel = PL_LOW;
 	qp_obj.setOptions(options);
 	qp_obj.init(H_qp,g,A,NULL,NULL,lbA,ubA,nWSR);
     if(qp_obj.isInfeasible()){
