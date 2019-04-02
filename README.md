@@ -4,6 +4,9 @@
 
 **(left)** piecewise polynomial path obtained **(right)** multiple safe corridors in subinterval 
 
+## 
+
+
 ## USAGE 
 
 ### Qt gui
@@ -19,7 +22,9 @@ This library provides interface where you can specifiy a sequence of waypoints f
 
 (4) publish : the time allocation of the trajectory is equal division from 0 to "simulation tf" of gui. A desired control point will be published in *geometry_msg/PoseStamped* message type.  
 
+(5) manage waypoints : please provide the absolute of directory for txt file 
 
+(6) textbox. important message will appear 
 
 ### waypoints selection from user
 <img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/traj_gen-2.png"> 
