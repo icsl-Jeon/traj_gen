@@ -6,20 +6,41 @@
 
 ## USAGE 
 
+### Qt gui
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/traj_gen.png"> 
+
 This library provides interface where you can specifiy a sequence of waypoints from Rviz 
 
-Also, it can be used as components by other packages 
+(1) ROS connect : please push the button at the beginning while roscore is running 
+
+(2) select waypoints : waypoints insertion from rviz is allowed while this button is clicked 
+
+(3) trajectory generation : quadratic programming with assigned parameters
+
+(4) publish : the trajectory 
+
+
+
+### waypoints selection from user
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/traj_gen-2.png"> 
+
+*You can also save and load the waypoints in txt file format. In that way, you may assign the heights for each waypoint*
 
 ## Alogrithm 
 
-Minimum jerk or snap with motion primitives of polynomials 
+This package is based on minimum jerk or snap with motion primitives of polynomials 
 
+**refer**
+Mellinger, Daniel, and Vijay Kumar. "Minimum snap trajectory generation and control for quadrotors." 2011 IEEE International Conference on Robotics and Automation. IEEE, 2011.
 
 1. Waypoints 
 
+
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/hard_vs_soft.png"> 
+
 (1) Soft waypoints
 
-	not necessarily pass through the specified waypoints 
+	not necessarily pass through the specified waypoints. But it can minimize jerk more.
 
 (2) Hard waypoints
 	
@@ -27,6 +48,8 @@ Minimum jerk or snap with motion primitives of polynomials
 
 2. Corridor
  
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/explain_corridor.png"> 
+
 (1) multiple sub boxes between waypoints which is axis-parallel 
 	
 	Number of constraints will be increased but x,y,z can be solved independently.
