@@ -17,7 +17,7 @@ This library provides interface where you can specifiy a sequence of waypoints f
 
 (3) trajectory generation : quadratic programming with assigned parameters
 
-(4) publish : the trajectory 
+(4) publish : the time allocation of the trajectory is equal division from 0 to "simulation tf" of gui. A desired control point will be published in *geometry_msg/PoseStamped* message type.  
 
 
 
@@ -32,7 +32,7 @@ This package is based on minimum jerk or snap with motion primitives of polynomi
 
 **refer**
 Mellinger, Daniel, and Vijay Kumar. "Minimum snap trajectory generation and control for quadrotors." 2011 IEEE International Conference on Robotics and Automation. IEEE, 2011.
-
+* * * 
 1. Waypoints 
 
 
@@ -40,25 +40,27 @@ Mellinger, Daniel, and Vijay Kumar. "Minimum snap trajectory generation and cont
 
 (1) Soft waypoints
 
-	not necessarily pass through the specified waypoints. But it can minimize jerk more.
+not necessarily pass through the specified waypoints. But it can minimize jerk more.
 
 (2) Hard waypoints
 	
-	the waypoints will be passed exactly as hard constraints 
+the waypoints will be passed exactly as hard constraints 
+
+* * * 
 
 2. Corridor
  
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/explain_corridor.png"> 
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/explain_corridor.jpg"> 
 
 (1) multiple sub boxes between waypoints which is axis-parallel 
 	
-	Number of constraints will be increased but x,y,z can be solved independently.
+Number of constraints will be increased but x,y,z can be solved independently.
 	
-	In general, imposing too many sub constraints will be infeasible for polynomial curves 
+In general, imposing too many sub constraints will be infeasible for polynomial curves 
 
 (2) single box between waypoints 
 
-	Number of constraints will be decreased but x,y,z can be solved independently
+Number of constraints will be decreased but x,y,z can be solved independently
 	
 	
  	
