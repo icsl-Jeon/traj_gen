@@ -4,6 +4,9 @@
 
 **(left)** piecewise polynomial path obtained **(right)** multiple safe corridors in subinterval 
 
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/run_video.gif"> 
+
+
 ## 
 
 
@@ -20,7 +23,7 @@ This library provides interface where you can specifiy a sequence of waypoints f
 
 (3) trajectory generation : quadratic programming with assigned parameters
 
-(4) publish : the time allocation of the trajectory is equal division from 0 to "simulation tf" of gui. A desired control point will be published in *geometry_msg/PoseStamped* message type.  
+(4) publish : the time allocation of the trajectory is equal division from 0 to "simulation tf" of gui. A desired control point will be published in *geometry_msg/PoseStamped* message type. The evaluation time for control point will be paused by re-clicking (still publishing).
 
 (5) manage waypoints : please provide the absolute of directory for txt file 
 
