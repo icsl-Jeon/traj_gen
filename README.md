@@ -7,7 +7,10 @@
 <img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/run_video.gif"> 
 
 
-## 
+- **(running traj_gen)** step by step tutorial  
+
+## Installation 
+
 
 
 ## USAGE 
