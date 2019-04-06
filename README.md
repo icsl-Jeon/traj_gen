@@ -31,7 +31,23 @@ file(GLOB_RECURSE qpOASES_LIBS ${qpOASES_SRC}/src/*.cpp)
 
 ## 2 ROS Node API
 
+### 2.1 Published Topics 
 
+ * control_pose [geometry_msgs/PoseStamped] : published topic for desired control point of current time step  
+ * safe_corridor [visualization_msgs/Marker] : the safe corridor marker
+ * trajectory [nav_msgs/Path] : generated trajectory 
+ * trajectory_knots [visualization_msgs/Marker] : the points on the path evaluated each waypoint time 
+ * waypoints_marker [visualization_msgs/MarkerArray] : the recieved waypoints from user
+ 
+### 2.2 Subscribed Topics 
+ * /waypoint [geometry_msgs/PoseStamped] : waypoint input from Rvis by user
+
+
+
+### 2.3 Parameters in Launch 
+ * world_frame_id : the world frame id. (default : /world)
+ * waypoint_topic : the topic name by user input 
+ 
 
 
 ## 3 USAGE 
@@ -64,6 +80,8 @@ This package is based on minimum jerk or snap with motion primitives of polynomi
 
 **refer**
 Mellinger, Daniel, and Vijay Kumar. "Minimum snap trajectory generation and control for quadrotors." 2011 IEEE International Conference on Robotics and Automation. IEEE, 2011.
+
+
 * * * 
 ### 1. Waypoints 
 
@@ -90,10 +108,13 @@ Number of constraints will be increased but x,y,z can be solved independently.
 	
 In general, imposing too many sub constraints will be infeasible for polynomial curves 
 
-#### (2) single box between waypoints 
+#### (2) single box between waypoints (sitll developing)
 
 Number of constraints will be decreased but x,y,z cannot be solved independently
-	
+
+
+## Issues 
+ * please avoid using polynomial order 6 for the case where you minimize the jerk squared integral (objective derivate = 3)
 	
  	
 
