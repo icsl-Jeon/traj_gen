@@ -4,12 +4,23 @@
 
 **(left)** piecewise polynomial path obtained **(right)** multiple safe corridors in subinterval 
 
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/run_video.gif"> 
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/run_video.gif">
 
 
 - **(running traj_gen)** step by step tutorial  
 
 ## Installation 
+
+### Dependencies 
+
+#### qpOASES 
+The package bases qpOASES as quadratic programming solver.  Please refer  https://projects.coin-or.org/qpOASES and intall the library.
+
+
+
+
+## ROS Node API
+
 
 
 
@@ -71,7 +82,7 @@ In general, imposing too many sub constraints will be infeasible for polynomial 
 
 #### (2) single box between waypoints 
 
-Number of constraints will be decreased but x,y,z can be solved independently
+Number of constraints will be decreased but x,y,z cannot be solved independently
 	
 	
  	
