@@ -9,24 +9,34 @@
 
 - **(running traj_gen)** step by step tutorial  
 
-## Installation 
+## 1 Installation 
 
-### Dependencies 
+### 1.1 Dependencies 
 
-#### qpOASES 
-The package bases qpOASES as quadratic programming solver.  Please refer  https://projects.coin-or.org/qpOASES and intall the library.
+#### (0) ROS and qt related packages
+
+#### (1) qpOASES 
+- The package bases qpOASES as quadratic programming solver.  Please refer  https://projects.coin-or.org/qpOASES and intall the library.
+- Let the qpOASES package direcotry ${qpOASES_SRC}. Please insert your qpOASES directory in CMakeList.txt 
+
+```
+## System dependencies are found with CMake's conventions
+find_package(Boost REQUIRED COMPONENTS system)
+// here insert your qpOASES directory 
+set(qpOASES_SRC /home/jbs/lib/qpOASES-3.2.1)
+
+file(GLOB_RECURSE qpOASES_LIBS ${qpOASES_SRC}/src/*.cpp)
+``` 
+
+
+## 2 ROS Node API
 
 
 
 
-## ROS Node API
+## 3 USAGE 
 
-
-
-
-## USAGE 
-
-### Qt gui
+### 3.1 Qt gui
 <img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/traj_gen.png"> 
 
 This library provides interface where you can specifiy a sequence of waypoints from Rviz 
