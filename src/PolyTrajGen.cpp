@@ -4,39 +4,41 @@
 PathPlanner::PathPlanner():is_path_computed(false){};
 
 void PathPlanner::path_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt ){
-
+    
+    is_this_verbose = opt.verbose;
     int n_seg = waypoints.poses.size() - 1;
     int poly_order = opt.poly_order;
     QP_form_xyz qp_xyz = qp_gen(knots,waypoints,v0,a0,opt);
     bool is_ok_x,is_ok_y,is_ok_z;
+
     PolySpline spline_x = get_solution (solveqp(qp_xyz.x,is_ok_x),poly_order,n_seg);
     PolySpline spline_y = get_solution (solveqp(qp_xyz.y,is_ok_y),poly_order,n_seg);
     PolySpline spline_z = get_solution (solveqp(qp_xyz.z,is_ok_z),poly_order,n_seg);
 
-    // interpret the solution and rescaling
-    cout<<"------------solution in increasing order---------------"<<endl;
-    for(int k=0;k<n_seg;k++){
-        cout<<"segment "<<k+1<<endl;
-        cout<<"x: ";
-        for(int n = 0; n<=poly_order ; n++){
-            spline_x.poly_coeff[k].coeff[n] /= pow(knots[k+1]-knots[k],n);
-            printf("%.4f , ",spline_x.poly_coeff[k].coeff[n]);
+        // interpret the solution and rescaling
+        cout<<"------------solution in increasing order---------------"<<endl;
+        for(int k=0;k<n_seg;k++){
+            cout<<"segment "<<k+1<<endl;
+            cout<<"x: ";
+            for(int n = 0; n<=poly_order ; n++){
+                spline_x.poly_coeff[k].coeff[n] /= pow(knots[k+1]-knots[k],n);
+                printf("%.4f , ",spline_x.poly_coeff[k].coeff[n]);
+            }
+            cout<<endl;
+            cout<<"y: ";
+            for(int n = 0; n<=poly_order ; n++){
+                spline_y.poly_coeff[k].coeff[n] /= pow(knots[k+1]-knots[k],n);
+                printf("%.4f , ",spline_y.poly_coeff[k].coeff[n]);
+            }
+            cout<<endl;
+            cout<<"z: ";
+            for(int n = 0; n<=poly_order ; n++){
+                spline_z.poly_coeff[k].coeff[n] /= pow(knots[k+1]-knots[k],n);
+                printf("%.4f , ",spline_z.poly_coeff[k].coeff[n]);
+            }
+            cout<<endl;
         }
-        cout<<endl;
-        cout<<"y: ";
-        for(int n = 0; n<=poly_order ; n++){
-            spline_y.poly_coeff[k].coeff[n] /= pow(knots[k+1]-knots[k],n);
-            printf("%.4f , ",spline_y.poly_coeff[k].coeff[n]);
-        }
-        cout<<endl;
-        cout<<"z: ";
-        for(int n = 0; n<=poly_order ; n++){
-            spline_z.poly_coeff[k].coeff[n] /= pow(knots[k+1]-knots[k],n);
-            printf("%.4f , ",spline_z.poly_coeff[k].coeff[n]);
-        }
-        cout<<endl;
-    }
-
+    
     is_path_computed = true;
 
     // finalizing the path 
@@ -359,6 +361,8 @@ geometry_msgs::Point PathPlanner::point_eval_spline(double t_eval) {
 //	std::cout<<std::endl;
 //    std::cout<<"point_eval: "<<t_eval.toSec()<<"knot time final: "<<spline.knot_time.back()<<std::endl;
     t_eval =min(spline_xyz.knot_time.back(),t_eval);
+    t_eval =max(spline_xyz.knot_time.front(),t_eval);
+
     Eigen::Index spline_idx=find_spline_interval(spline_xyz.knot_time,t_eval);
 //	std::cout<<"Index: "<<spline_idx<<std::endl;
     // double t_eval_norm = (t_eval-spline_xyz.knot_time[spline_idx])/(spline_xyz.knot_time[spline_idx+1]-spline_xyz.knot_time[spline_idx]);
@@ -413,25 +417,25 @@ VectorXd PathPlanner::solveqp(QP_form qp_prob,bool& is_ok){
     MatrixXd bineq = qp_prob.b;
     MatrixXd Aeq = qp_prob.Aeq;
     MatrixXd beq = qp_prob.beq;
-
-    cout<<"Q: "<<endl;
-    cout<<Q<<endl;
-    
-    cout<<"H: "<<endl;
-    cout<<H<<endl;
+    if(is_this_verbose){
+        cout<<"Q: "<<endl;
+        cout<<Q<<endl;
         
-    cout<<"Aineq: "<<endl;
-    cout<<Aineq<<endl;        
+        cout<<"H: "<<endl;
+        cout<<H<<endl;
+            
+        cout<<"Aineq: "<<endl;
+        cout<<Aineq<<endl;        
 
-    cout<<"bineq: "<<endl;
-    cout<<bineq<<endl;  
+        cout<<"bineq: "<<endl;
+        cout<<bineq<<endl;  
 
-    cout<<"Aeq: "<<endl;
-    cout<<Aeq<<endl;        
+        cout<<"Aeq: "<<endl;
+        cout<<Aeq<<endl;        
 
-    cout<<"beq: "<<endl;
-    cout<<beq<<endl;  
-
+        cout<<"beq: "<<endl;
+        cout<<beq<<endl;  
+    }
     USING_NAMESPACE_QPOASES;
 
     int N_var = Q.rows();
@@ -553,6 +557,30 @@ Constraint PathPlanner::get_init_constraint_mat(double x0,double v0,double a0,Tr
     constraint.A = Aeq0;
     constraint.b = beq0;
     return constraint;
+}
+
+
+visualization_msgs::Marker PathPlanner::get_knots_marker(){
+ 
+    visualization_msgs::Marker knots_marker;
+
+    knots_marker.ns = "knots";
+    knots_marker.id = 0;
+    knots_marker.type = visualization_msgs::Marker::SPHERE_LIST;
+    knots_marker.color.r = 10.0/255.0;
+    knots_marker.color.g = 50.0/255.0;
+    knots_marker.color.b = 1.0;
+    knots_marker.color.a = 0.8;
+    knots_marker.pose.orientation.w = 1.0;
+    double scale = 0.2; 
+    knots_marker.scale.x = scale;
+    knots_marker.scale.y = scale;
+    knots_marker.scale.z = scale;       
+    
+    for (auto it = spline_xyz.knot_time.begin(); it<spline_xyz.knot_time.end();it++)
+        knots_marker.points.push_back(point_eval_spline(*it));
+
+    return knots_marker;
 }
 
 // output size 3x(2(N+1))

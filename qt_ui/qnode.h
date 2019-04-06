@@ -105,7 +105,6 @@ private:
    nav_msgs::Path spline_path;
 
    ros::Publisher spline_knot_pub;
-   visualization_msgs::MarkerArray knot_markerArray; // knot viz
 
 
    // for publising path

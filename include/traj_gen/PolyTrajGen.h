@@ -73,7 +73,10 @@ struct TrajGenOpts{
     int poly_order;
     // In case of parallel corridor = true the followings are required
     double safe_r;
-    int N_safe_pnts;    
+    int N_safe_pnts;   
+
+    bool verbose = true; // print the optimization matrices 
+
 };
 
 struct Constraint{
@@ -103,10 +106,12 @@ struct QP_form_xyz{
 class PathPlanner{
     private:
         bool is_path_computed;
+        bool is_this_verbose = true; 
         nav_msgs::Path current_path; // latest path from optimization for entire horizon 
         traj_gen::PolySplineXYZ spline_xyz; // the coefficient of this polynomials 
-        visualization_msgs::Marker safe_corridor_marker;
-        
+        visualization_msgs::Marker safe_corridor_marker; 
+        visualization_msgs::Marker knots_marker; // knots marker (the actual point at th knot time)
+
     public: 
         // constructor
         PathPlanner();
@@ -119,6 +124,7 @@ class PathPlanner{
         void horizon_eval_spline(int N_eval_interval);
         nav_msgs::Path sub_horizon_eval_spline(int N_eval_interval,double t_start,double t_final);        
         visualization_msgs::Marker get_safe_corridor_marker(){return safe_corridor_marker;}
+        visualization_msgs::Marker get_knots_marker();
 
         // evaluate at a time
         Point point_eval_spline(double t_eval);

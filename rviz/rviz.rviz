@@ -10,7 +10,6 @@ Panels:
         - /Path1
         - /Axes1
         - /Marker1
-        - /Marker1/Status1
         - /Pose1
       Splitter Ratio: 0.396788985
     Tree Height: 717
@@ -115,6 +114,14 @@ Visualization Manager:
       Topic: /traj_gen_ui/control_pose
       Unreliable: false
       Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /traj_gen_ui/trajectory_knots
+      Name: Marker
+      Namespaces:
+        knots: true
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 235; 235; 235
@@ -140,16 +147,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 17.083849
+      Distance: 16.0772648
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.305945128
-        Y: -1.26843798
-        Z: -0.408276111
+        X: 3.08496976
+        Y: 2.4397893
+        Z: -0.405457795
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false

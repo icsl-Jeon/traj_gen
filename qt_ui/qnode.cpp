@@ -48,7 +48,7 @@ void QNode::ros_comms_init(){
     wpnt_sub = nh.subscribe(target_wnpt_topic,1,&QNode::waypoint_cb,this);
     wpnt_marker_pub = nh.advertise<visualization_msgs::MarkerArray>("waypoints_marker",1);
     spline_path_pub = nh.advertise<nav_msgs::Path>("trajectory",1);
-    spline_knot_pub = nh.advertise<visualization_msgs::MarkerArray>("trajectory_knots",1);
+    spline_knot_pub = nh.advertise<visualization_msgs::Marker>("trajectory_knots",1);
     target_goal_pub = nh.advertise<geometry_msgs::PoseStamped>("control_pose",1);
     safe_corridor_pub = nh.advertise<visualization_msgs::Marker>("safe_corridor",1);
     
@@ -164,6 +164,10 @@ void QNode::run(){
         if(is_path){
             spline_path_pub.publish(spline_path);
             safe_corridor_pub.publish(planner.get_safe_corridor_marker());
+            visualization_msgs::Marker knots = planner.get_knots_marker();
+            knots.header.frame_id = spline_path.header.frame_id;
+            spline_knot_pub.publish(knots);
+            
             // control point publish
             if(is_in_session){
                 double t_eval = (ros::Time::now() - button_click_time).toSec() + previous_elapsed;
