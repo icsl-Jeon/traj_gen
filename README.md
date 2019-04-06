@@ -74,7 +74,7 @@ This library provides interface where you can specifiy a sequence of waypoints f
 
 *You can also save and load the waypoints in txt file format. In that way, you may assign the heights for each waypoint*
 
-## Alogrithm 
+## 4 Alogrithm 
 
 This package is based on minimum jerk or snap with motion primitives of polynomials 
 
@@ -83,7 +83,7 @@ Mellinger, Daniel, and Vijay Kumar. "Minimum snap trajectory generation and cont
 
 
 * * * 
-### 1. Waypoints 
+### 4.1 Waypoints 
 
 
 <img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/hard_vs_soft.png"> 
@@ -98,7 +98,7 @@ the waypoints will be passed exactly as hard constraints
 
 * * * 
 
-### 2. Corridor
+### 4.2 Corridor
  
 <img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/explain_corridor.jpg"> 
 
@@ -113,7 +113,7 @@ In general, imposing too many sub constraints will be infeasible for polynomial 
 Number of constraints will be decreased but x,y,z cannot be solved independently
 
 
-## Issues 
+## 5 Issues 
  * please avoid using polynomial order 6 for the case where you minimize the jerk squared integral (objective derivate = 3)
 	
  	
