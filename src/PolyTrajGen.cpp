@@ -586,7 +586,8 @@ visualization_msgs::Marker PathPlanner::get_knots_marker(){
 // output size 3x(2(N+1))
 Constraint PathPlanner::get_continuity_constraint_mat(double dt1,double dt2,TrajGenOpts opt){
     
-    int N_constraint = opt.objective_derivative;
+    // int N_constraint = opt.objective_derivative;
+    int N_constraint = 4;
     int poly_order = opt.poly_order;
     MatrixXd Aeq(N_constraint,2*(poly_order+1));
     MatrixXd beq(N_constraint,1); beq.setZero();   
@@ -615,11 +616,11 @@ Constraint PathPlanner::get_continuity_constraint_mat(double dt1,double dt2,Traj
     Aeq.block(2,0,1,poly_order+1) = t_vec(poly_order,1,2).transpose()*pow(dt2,2);
     Aeq.block(2,poly_order+1,1,poly_order+1) = -t_vec(poly_order,0,2).transpose()*pow(dt1,2); 
 
-    if (N_constraint == 4){    
+    // if (N_constraint == 4){    
         // 3rd order
         Aeq.block(3,0,1,poly_order+1) = t_vec(poly_order,1,3).transpose()*pow(dt2,3);
         Aeq.block(3,poly_order+1,1,poly_order+1) = -t_vec(poly_order,0,3).transpose()*pow(dt1,3); 
-    }
+    // }
 
     Constraint constraint;
     constraint.A = Aeq;
