@@ -4,18 +4,55 @@
 
 **(left)** piecewise polynomial path obtained **(right)** multiple safe corridors in subinterval 
 
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/run_video.gif"> 
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/run_video.gif">
 
 
 - **(running traj_gen)** step by step tutorial  
 
-## Installation 
+## 1 Installation 
+
+### 1.1 Dependencies 
+
+#### (0) ROS and qt related packages
+
+#### (1) qpOASES 
+- The package bases qpOASES as quadratic programming solver.  Please refer  https://projects.coin-or.org/qpOASES and intall the library.
+- Let the qpOASES package direcotry ${qpOASES_SRC}. Please insert your qpOASES directory in CMakeList.txt 
+
+```
+## System dependencies are found with CMake's conventions
+find_package(Boost REQUIRED COMPONENTS system)
+// here insert your qpOASES directory 
+set(qpOASES_SRC /home/jbs/lib/qpOASES-3.2.1)
+
+file(GLOB_RECURSE qpOASES_LIBS ${qpOASES_SRC}/src/*.cpp)
+``` 
+
+
+## 2 ROS Node API
+
+### 2.1 Published Topics 
+
+ * control_pose [geometry_msgs/PoseStamped] : published topic for desired control point of current time step  
+ * safe_corridor [visualization_msgs/Marker] : the safe corridor marker
+ * trajectory [nav_msgs/Path] : generated trajectory 
+ * trajectory_knots [visualization_msgs/Marker] : the points on the path evaluated each waypoint time 
+ * waypoints_marker [visualization_msgs/MarkerArray] : the recieved waypoints from user
+ 
+### 2.2 Subscribed Topics 
+ * /waypoint [geometry_msgs/PoseStamped] : waypoint input from Rvis by user
 
 
 
-## USAGE 
+### 2.3 Parameters in Launch 
+ * world_frame_id : the world frame id. (default : /world)
+ * waypoint_topic : the topic name by user input 
+ 
 
-### Qt gui
+
+## 3 USAGE 
+
+### 3.1 Qt gui
 <img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/traj_gen.png"> 
 
 This library provides interface where you can specifiy a sequence of waypoints from Rviz 
@@ -37,14 +74,16 @@ This library provides interface where you can specifiy a sequence of waypoints f
 
 *You can also save and load the waypoints in txt file format. In that way, you may assign the heights for each waypoint*
 
-## Alogrithm 
+## 4 Alogrithm 
 
 This package is based on minimum jerk or snap with motion primitives of polynomials 
 
 **refer**
 Mellinger, Daniel, and Vijay Kumar. "Minimum snap trajectory generation and control for quadrotors." 2011 IEEE International Conference on Robotics and Automation. IEEE, 2011.
+
+
 * * * 
-### 1. Waypoints 
+### 4.1 Waypoints 
 
 
 <img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/hard_vs_soft.png"> 
@@ -59,7 +98,7 @@ the waypoints will be passed exactly as hard constraints
 
 * * * 
 
-### 2. Corridor
+### 4.2 Corridor
  
 <img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/explain_corridor.jpg"> 
 
@@ -69,10 +108,13 @@ Number of constraints will be increased but x,y,z can be solved independently.
 	
 In general, imposing too many sub constraints will be infeasible for polynomial curves 
 
-#### (2) single box between waypoints 
+#### (2) single box between waypoints (sitll developing)
 
-Number of constraints will be decreased but x,y,z can be solved independently
-	
+Number of constraints will be decreased but x,y,z cannot be solved independently
+
+
+## 5 Issues 
+ * please avoid using polynomial order 6 for the case where you minimize the jerk squared integral (objective derivate = 3)
 	
  	
 
