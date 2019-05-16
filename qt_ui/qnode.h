@@ -15,7 +15,9 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <chrono>
+#include <ctype.h>
 
 #include <QThread>
 #include <QStringListModel>
@@ -75,6 +77,7 @@ Q_SIGNALS:
    void loggingUpdated();
    void rosShutdown();
    void writeOnBoard(QString);
+   void askSlider(double* height);
 
 protected:
    void ros_comms_init();

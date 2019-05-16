@@ -45,7 +45,7 @@ private Q_SLOTS:
 
     void on_checkBox_is_soft_clicked();
 
-    
+    void get_slider_value(double *);    
 
     void textEdit_write(QString);
 

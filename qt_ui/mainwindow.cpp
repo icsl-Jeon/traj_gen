@@ -2,6 +2,9 @@
 #include "ui_mainwindow.h"
 #include <QPixmap>
 #include <QSettings>
+
+const double SLIDER_MAX = 5;
+
 MainWindow::MainWindow(QNode* qnode,QWidget *parent) :
     QMainWindow(parent),qnode(qnode),
     ui(new Ui::MainWindow)
@@ -37,13 +40,25 @@ MainWindow::MainWindow(QNode* qnode,QWidget *parent) :
 
     QObject::connect(qnode,SIGNAL(writeOnBoard(QString)),this,SLOT(textEdit_write(QString)));
     QObject::connect(qnode, SIGNAL(rosShutdown()), this, SLOT(close()));
+    QObject::connect(qnode, SIGNAL(askSlider(double *)), this, SLOT(get_slider_value(double *)));   
     ReadSettings();
 
     ui->lineEdit_n_corridor->setDisabled(true);
     ui->lineEdit_deviation_weight->setDisabled(true);
 
+    std::ostringstream strs1;
+    strs1 << SLIDER_MAX;
+    std::string str1 = strs1.str();
+    
+    std::ostringstream strs2;
+    strs2 << SLIDER_MAX/2.0;
+    std::string str2 = strs2.str();
+    
+    ui->label_slider_upper->setText(str1.c_str());
+    ui->label_slider_middle->setText(str2.c_str());
 
 }
+
 
 MainWindow::~MainWindow()
 {
@@ -79,6 +94,7 @@ void MainWindow::ReadSettings(){
     ui->lineEdit_safe_radius->setText(safe_rad);
     ui->lineEdit_poly_order->setText(poly_order);
     ui->lineEdit_derivative->setText(derivative);
+
     
 }
 
@@ -280,3 +296,9 @@ void MainWindow::on_pushButton_publish_clicked()
 void MainWindow::textEdit_write(QString line){    
     ui->textEdit_message->append(line);
 };
+
+void MainWindow::get_slider_value(double * height){
+    *height = double(ui->verticalSlider->sliderPosition())/double(ui->verticalSlider->maximum()) * SLIDER_MAX; 
+    std::cout<<"slider: "<<ui->verticalSlider->sliderPosition()<<std::endl;
+           
+} 

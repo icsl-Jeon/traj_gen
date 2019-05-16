@@ -117,16 +117,26 @@ void QNode::queue_file_load(int target_idx, vector<geometry_msgs::PoseStamped>& 
 } 
 
 
-void QNode::waypoint_cb(const geometry_msgs::PoseStampedConstPtr & pose){
+void QNode::waypoint_cb(const geometry_msgs::PoseStampedConstPtr & pose_msg){
     if (is_insert_permit){
         ROS_INFO("point received");
-        queue.push_back(*pose);
-        visualization_msgs::Marker marker;
+        geometry_msgs::PoseStamped pose =*pose_msg;
+        // height information from qslider 
+        double height;
+        // read value from slider 
+        Q_EMIT askSlider(&height);
         
+        ros::Rate rate(20);
+        rate.sleep();
+        
+        std::cout<<"height: "<<height<<std::endl;        
+        pose.pose.position.z = height;         
+        queue.push_back(pose);
+        visualization_msgs::Marker marker;        
         marker.action = 0;
         marker.header = header;
         marker.type = visualization_msgs::Marker::CUBE;
-        marker.pose = pose->pose;
+        marker.pose = pose.pose;
         float scale = 0.1;
         marker.scale.x = scale;
         marker.scale.y = scale;
@@ -136,10 +146,13 @@ void QNode::waypoint_cb(const geometry_msgs::PoseStampedConstPtr & pose){
         marker.id = queue.size();
         wpnt_markerArray.markers.push_back(marker);
         
+
+
         // lets print in board  
         string line = "recieved point: " 
-                        + to_string(pose->pose.position.x) + " , "
-                        + to_string(pose->pose.position.y);
+                        + to_string(pose.pose.position.x) + " , "
+                        + to_string(pose.pose.position.y) + " , "
+                        + to_string(pose.pose.position.z);
         
         Q_EMIT writeOnBoard(QString::fromStdString(line));
         
