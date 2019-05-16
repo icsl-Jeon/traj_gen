@@ -15,7 +15,7 @@
 
 QSlider was added. As of now, *traj_gen* can accommodate height input from user. Adjust slider for height and then select waypoint. In this way, height value will be encoded together(see below).    
 
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/gui_update">
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/gui_update.png">
 
 
 
