@@ -180,7 +180,7 @@ void MainWindow::on_pushButton_waypoint_clicked(bool checked){
 void MainWindow::on_pushButton_trajectory_clicked()
 {
     // path generation requested
-
+    if (qnode->queue.size()){    
     //parameter parsing
 
     double tf = atoi(ui->lineEdit_sim_tf->text().toStdString().c_str());
@@ -199,7 +199,9 @@ void MainWindow::on_pushButton_trajectory_clicked()
         ui->textEdit_message->append("trajectory obtained");
     else
         ui->textEdit_message->append("generation failed.");
-
+    }
+    else
+        ui->textEdit_message->append("No waypoints yet.");
 }
 
 void MainWindow::on_checkBox_is_multi_clicked(){
@@ -281,7 +283,7 @@ void MainWindow::on_pushButton_load_clicked()
 void MainWindow::on_pushButton_publish_clicked()
 {
     if(ui->pushButton_publish->isChecked()){        
-        ui->textEdit_message->append("publishing control point..");
+        ui->textEdit_message->append("Move control pose from current pose");
         qnode->is_in_session = true;
         qnode->button_click_time = ros::Time::now();
     

@@ -125,11 +125,12 @@ void QNode::waypoint_cb(const geometry_msgs::PoseStampedConstPtr & pose_msg){
         double height;
         // read value from slider 
         Q_EMIT askSlider(&height);
-        
+
+        // this was added due to the delay of Qthread        
         ros::Rate rate(20);
         rate.sleep();
-        
-        std::cout<<"height: "<<height<<std::endl;        
+
+        // std::cout<<"height: "<<height<<std::endl;        
         pose.pose.position.z = height;         
         queue.push_back(pose);
         visualization_msgs::Marker marker;        
@@ -186,7 +187,14 @@ void QNode::run(){
                 double t_eval = (ros::Time::now() - button_click_time).toSec() + previous_elapsed;
                 target_goal.pose.position = planner.point_eval_spline(t_eval);
                 target_goal_pub.publish(target_goal);            
+            
+            }else{
+                // publish only start point  
+                double t_eval = previous_elapsed;
+                target_goal.pose.position = planner.point_eval_spline(t_eval);
+                target_goal_pub.publish(target_goal);   
             }
+
         }
         ros::spinOnce();
         loop_rate.sleep();

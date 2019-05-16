@@ -99,7 +99,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Publish control</string>
+     <string>Move desired</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
