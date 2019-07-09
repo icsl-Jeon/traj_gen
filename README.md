@@ -28,7 +28,7 @@ QSlider was added. As of now, *traj_gen* can accommodate height input from user.
 #### (0) ROS and qt related packages
 
 #### (1) qpOASES 
-- The package bases qpOASES as quadratic programming solver.  Please refer  https://projects.coin-or.org/qpOASES and intall the library.
+- The package bases qpOASES as quadratic programming solver.  Please refer  https://projects.coin-or.org/qpOASES and install the library. (make sure `sudo make install` after build of qpOASES)
 - Let the qpOASES package direcotry ${qpOASES_SRC}. Please insert your qpOASES directory in CMakeList.txt 
 
 ```
@@ -75,7 +75,7 @@ This library provides interface where you can specifiy a sequence of waypoints f
 
 (3) trajectory generation : quadratic programming with assigned parameters
 
-(4) publish : the time allocation of the trajectory is equal division from 0 to "simulation tf" of gui. A desired control point will be published in *geometry_msg/PoseStamped* message type. The evaluation time for control point will be paused by re-clicking (still publishing).
+(4) publish : the time allocation of the trajectory is equal division from 0 to "simulation tf" of gui. A desired control point will be published in *geometry_msg/PoseStamped* message type. The evaluation time for control point will be paused by re-clicking (still publishing). If you want to evaluate the trajectory of interest again from the start, Then release the button and re-create the same trajectory with *Traj generation* button. 
 
 (5) manage waypoints : please provide the absolute of directory for txt file 
 
