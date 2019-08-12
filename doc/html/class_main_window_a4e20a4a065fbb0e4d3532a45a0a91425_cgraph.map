@@ -1,0 +1,25 @@
+<map id="MainWindow::closeEvent" name="MainWindow::closeEvent">
+<area shape="rect" id="node2" href="$class_q_node.html#a770568addece696138f515d38408ff5c" title="QNode::shutdown" alt="" coords="253,364,379,391"/>
+<area shape="rect" id="node3" href="$class_main_window.html#a56a5e4d5e0a022e8c1ecf350d2916ade" title="MainWindow::WriteSettings" alt="" coords="224,415,408,442"/>
+<area shape="rect" id="node4" href="$class_q_node.html#ac21ae24311df97ac0e15c97179763b0e" title="QNode::nodeName" alt="" coords="456,390,591,416"/>
+<area shape="rect" id="node6" href="$class_q_node.html#af5092d0c618f01146c415c77bd025a35" title="QNode::traj_gen_call" alt="" coords="648,288,792,315"/>
+<area shape="rect" id="node22" href="$class_q_node.html#a2b816456344fcf2d809fe6ff5526b6e9" title="QNode::queue_file_load" alt="" coords="639,440,801,467"/>
+<area shape="rect" id="node23" href="$class_q_node.html#a32d00dbcf15c277e08caabf95af04f6e" title="QNode::on_init" alt="" coords="469,491,578,518"/>
+<area shape="rect" id="node5" href="$class_q_node.html#a7d0604b662cbda7b970efaa08e5b855c" title="QNode::waypoint_cb" alt="" coords="855,448,999,475"/>
+<area shape="rect" id="node21" href="$class_q_node.html#a2b1b82bfd6e5e6187fe8216ba840bb09" title="QNode::wpnts_init" alt="" coords="655,390,785,416"/>
+<area shape="rect" id="node7" href="$class_path_planner.html#a197058bceddd7a22cd23c74239562754" title="PathPlanner::path_gen" alt="" coords="849,288,1004,315"/>
+<area shape="rect" id="node19" href="$class_path_planner.html#a58b48f13a0beefa08e584040d4e29bae" title="PathPlanner::is_spline\l_valid" alt="" coords="851,340,1003,381"/>
+<area shape="rect" id="node20" href="$class_path_planner.html#a36d08d3831066c76be5195ed99fa1f68" title="PathPlanner::get_path" alt="" coords="851,238,1002,264"/>
+<area shape="rect" id="node8" href="$class_path_planner.html#a4b5f5beea2c380ae4340f65dd1d5bd10" title="PathPlanner::qp_gen" alt="" coords="1066,184,1209,211"/>
+<area shape="rect" id="node16" href="$class_path_planner.html#a35e8872f5ffc5fc3227dc45f9f969a85" title="PathPlanner::get_solution" alt="" coords="1052,263,1223,290"/>
+<area shape="rect" id="node17" href="$class_path_planner.html#a6fd581289799d1daac012050fb712a0c" title="PathPlanner::solveqp" alt="" coords="1064,314,1211,340"/>
+<area shape="rect" id="node18" href="$class_path_planner.html#ad231acc2bce7d5e143fa49c69515c4a9" title="PathPlanner::horizon\l_eval_spline" alt="" coords="1066,369,1209,410"/>
+<area shape="rect" id="node9" href="$_poly_traj_gen_8cpp.html#a5a2e38cc8bf6ae9ab0395994b68e52ae" title="time_scailing_mat" alt="" coords="1501,20,1628,47"/>
+<area shape="rect" id="node10" href="$_poly_traj_gen_8cpp.html#a0b792e87b38c7882b087726a82eaa72e" title="integral_jerk_squared" alt="" coords="1289,108,1435,135"/>
+<area shape="rect" id="node11" href="$_poly_traj_gen_8cpp.html#a98c8e48d65c22d6da6b6b82242586f15" title="integral_snap_squared" alt="" coords="1286,159,1438,186"/>
+<area shape="rect" id="node12" href="$_poly_traj_gen_8cpp.html#a5344e44ce223789d62117ae55c9a5ac5" title="t_vec" alt="" coords="1537,239,1592,266"/>
+<area shape="rect" id="node13" href="$class_path_planner.html#a1d6a959095513585bfc10468f7b8d180" title="PathPlanner::get_init\l_constraint_mat" alt="" coords="1291,261,1433,302"/>
+<area shape="rect" id="node14" href="$_poly_traj_gen_8cpp.html#a2fbc0abee53f736fe5f5d2a5c04ec723" title="row_append" alt="" coords="1316,327,1408,354"/>
+<area shape="rect" id="node15" href="$class_path_planner.html#aff99e738bd54babad38867d7713e5a51" title="PathPlanner::get_continuity\l_constraint_mat" alt="" coords="1271,42,1453,84"/>
+<area shape="rect" id="node24" href="$class_q_node.html#a498b0376fc75702fd8b61b91ef109769" title="QNode::ros_comms_init" alt="" coords="639,491,801,518"/>
+</map>

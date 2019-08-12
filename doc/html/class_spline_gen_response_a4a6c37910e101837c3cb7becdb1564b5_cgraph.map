@@ -1,0 +1,5 @@
+<map id="SplineGenResponse::serialize" name="SplineGenResponse::serialize">
+<area shape="rect" id="node2" href="$class_poly_spline_x_y_z.html#a893425ffcaa6422399986ef9c54a4143" title="PolySplineXYZ::serialize" alt="" coords="203,13,369,39"/>
+<area shape="rect" id="node3" href="$class_poly_spline.html#a84b8da4742dcf2b5e836760ab7d32293" title="PolySpline::serialize" alt="" coords="417,13,557,39"/>
+<area shape="rect" id="node4" href="$class_poly_coeff.html#abf599ef0796cb098be2d69384cc4b304" title="PolyCoeff::serialize" alt="" coords="605,13,741,39"/>
+</map>

@@ -3,17 +3,87 @@
 // constructor 
 PathPlanner::PathPlanner():is_path_computed(false){};
 
+
+// R world to b (Rwb)
+Affine3d PathPlanner::get_affine_corridor_pose(Point p1,Point p2){
+
+    Affine3d Twb;
+
+    // 1. rotation matrix 
+
+        // e1 : x-axis of body axis attached to the centroid of 3D rectangle 
+        Vector3d e1(p2.x - p1.x, p2.y - p1.y , p2.z - p1.z );     
+        float box_l = e1.norm();
+        e1.normalize();
+        
+        // e2 : y-axis
+        Vector3d e2;
+        e2(2) = 0; e2(1) = 1; // for simplicity 
+        e2(0) = - e1(1)/e1(0) * e2(1);
+        e2.normalize();
+                // e3 : z-axis 
+        Vector3d e3 = e1.cross(e2);
+        
+        Matrix3d Rwb; 
+        Rwb.block(0,0,3,1) = e1; Rwb.block(0,1,3,1) = e2; Rwb.block(0,2,3,1) = e3;
+        Vector3d pnt1(p1.x,p1.y,p1.z),pnt2(p2.x,p2.y,p2.z);  
+    
+
+        Affine3d rot(Rwb); 
+        Affine3d trans(Translation3d((pnt1 + pnt2)/2));
+
+        Twb = trans * rot;
+
+        /**     
+        cout<<"e1: "<<endl;
+        cout<<e1<<endl;
+        cout<<"e2: "<<endl;
+        cout<<e2<<endl;
+        cout<<"e3: "<<endl;
+        cout<<e3<<endl;
+        cout<<Rwb<<endl;
+        cout << Twb.rotation() <<endl;
+        cout << Twb.translation() <<endl;
+        **/
+
+
+    return Twb; 
+}
+
+
+// path generation core rountine 
 void PathPlanner::path_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt ){
     
     is_this_verbose = opt.verbose;
     int n_seg = waypoints.poses.size() - 1;
     int poly_order = opt.poly_order;
-    QP_form_xyz qp_xyz = qp_gen(knots,waypoints,v0,a0,opt);
-    bool is_ok_x,is_ok_y,is_ok_z;
 
-    PolySpline spline_x = get_solution (solveqp(qp_xyz.x,is_ok_x),poly_order,n_seg);
-    PolySpline spline_y = get_solution (solveqp(qp_xyz.y,is_ok_y),poly_order,n_seg);
-    PolySpline spline_z = get_solution (solveqp(qp_xyz.z,is_ok_z),poly_order,n_seg);
+    PolySpline spline_x;
+    PolySpline spline_y;
+    PolySpline spline_z;
+    bool is_ok= false; 
+    // coupled 
+    if(opt.is_single_corridor){
+        cout << knots <<endl;
+
+        QP_form qp;
+        qp_gen(knots,waypoints,v0,a0,opt,&qp);
+        PolySplineXYZ spline_xyz_sol = get_solution_couple(solveqp(qp,is_ok),poly_order,n_seg);
+        spline_x = spline_xyz_sol.spline_x;        
+        spline_y = spline_xyz_sol.spline_y; 
+        spline_z = spline_xyz_sol.spline_z; 
+         
+    }else{ // decoupled 
+        QP_form_xyz qp_xyz;
+        qp_gen(knots,waypoints,v0,a0,opt,&qp_xyz);
+        bool is_ok_x,is_ok_y,is_ok_z;            
+        spline_x = get_solution (solveqp(qp_xyz.x,is_ok_x),poly_order,n_seg);
+        spline_y = get_solution (solveqp(qp_xyz.y,is_ok_y),poly_order,n_seg);
+        spline_z = get_solution (solveqp(qp_xyz.z,is_ok_z),poly_order,n_seg);
+        is_ok  = is_ok_x and is_ok_y and is_ok_z;
+
+    }
+
 
         // interpret the solution and rescaling
         cout<<"------------solution in increasing order---------------"<<endl;
@@ -45,7 +115,7 @@ void PathPlanner::path_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoi
     spline_xyz.spline_x = spline_x;
     spline_xyz.spline_y = spline_y;
     spline_xyz.spline_z = spline_z;
-    spline_xyz.is_valid = is_ok_x and is_ok_y and is_ok_z;
+    spline_xyz.is_valid = is_ok;
     spline_xyz.knot_time.assign(knots.data(),knots.data()+knots.size()) ;
     spline_xyz.n_seg = spline_x.n_seg;
     spline_xyz.poly_order = poly_order;
@@ -55,8 +125,253 @@ void PathPlanner::path_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoi
 
 }
 
+void PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt,QP_form* qp_form){
 
-QP_form_xyz PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt ){
+    int n_seg = waypoints.poses.size() - 1;
+    int poly_order = opt.poly_order;
+    // this should be changed when we adopt single box 
+    int n_var_total = 3 * (poly_order + 1) * n_seg;  // xyz
+    int blck_size = poly_order+1;
+    int blck_size_seg = 3*blck_size;  // stride along one segment of path 
+    
+    MatrixXd Q(n_var_total,n_var_total),H(1,n_var_total);
+    Q.setZero(); H.setZero();
+
+    MatrixXd Aeq(0,n_var_total),beq(0,1),Aineq(0,n_var_total),bineq(0,1);
+    Aeq.setZero(); beq.setZero(); Aineq.setZero(); bineq.setZero();
+
+
+    /*
+        1. Cost funtion 
+    */
+    //  -----------------------------------------------------------------------
+
+    // if minimum jerk 
+    if (opt.objective_derivative == 3){    
+        for (int n = 0; n < n_seg; n++) {
+            MatrixXd Dn = time_scailing_mat(knots[n + 1]-knots[n], poly_order);
+            double dn = knots[n + 1] - knots[n];
+            // Q.block(blck_size*(n),blck_size*(n),blck_size,blck_size)=Dn*integral_jerk_squared(poly_order)*Dn/pow(dn,5);
+            Q.block(blck_size_seg*(n),blck_size_seg*(n),blck_size_seg,blck_size_seg)=expand3(integral_jerk_squared(poly_order));
+        }         
+    }
+    // if minimum snap 
+    else if(opt.objective_derivative == 4){
+        for (int n = 0; n < n_seg; n++) {
+            MatrixXd Dn = time_scailing_mat(knots[n + 1]-knots[n], poly_order);
+            double dn = knots[n + 1] - knots[n];
+            // Q.block(blck_size*(n),blck_size*(n),blck_size,blck_size)=Dn*integral_snap_squared(poly_order)*Dn/pow(dn,7);
+            Q.block(blck_size_seg*(n),blck_size_seg*(n),blck_size_seg,blck_size_seg)=expand3(integral_snap_squared(poly_order));
+        }
+    }else{
+        cerr<<"undefined derivative in objective"<<endl;
+    }
+
+    
+    /*
+        2. Equality constraints  
+    */
+    //  -----------------------------------------------------------------------
+
+    // (1) Initial constraints 
+
+
+    // if it is soft, we include the deviation term 
+    if (opt.is_waypoint_soft){    
+            for(int n=0;n<n_seg;n++){
+                MatrixXd Dn = time_scailing_mat(knots[n + 1]-knots[n], poly_order);
+                int insert_start=blck_size_seg*(n);
+                double time_scaling_factor;
+                if (opt.objective_derivative == 3)
+                    time_scaling_factor = pow(knots[n+1]-knots[n],5);
+                else 
+                    time_scaling_factor = pow(knots[n+1]-knots[n],7);
+
+                cout<<"time scaling factor: "<<time_scaling_factor<<endl;
+                Q.block(insert_start,insert_start,blck_size_seg,blck_size_seg)+=expand3(MatrixXd(time_scaling_factor*opt.w_d*t_vec(poly_order,1,0)*t_vec(poly_order,1,0).transpose()));
+                MatrixXd H_sub(1,blck_size_seg);
+                H_sub << -2*time_scaling_factor*opt.w_d*(waypoints.poses[n+1].pose.position.x)*t_vec(poly_order,1,0).transpose(),
+                         -2*time_scaling_factor*opt.w_d*(waypoints.poses[n+1].pose.position.y)*t_vec(poly_order,1,0).transpose(),
+                         -2*time_scaling_factor*opt.w_d*(waypoints.poses[n+1].pose.position.z)*t_vec(poly_order,1,0).transpose();
+
+                H.block(0,insert_start,1,blck_size_seg) = H_sub;             
+                }
+    }
+    cout << "Q: "<<endl;
+    cout << Q << endl; 
+    cout<< "H: "<<endl;
+    cout<< H << endl;
+
+   /*
+        2. Equality constraints  
+    */
+    //  -----------------------------------------------------------------------
+
+    // (1) Initial constraints 
+
+    MatrixXd Aeq0(9,n_var_total),beq0_sub(9,1); Aeq0.setZero(); beq0_sub.setZero();
+    Aeq0.block(0,0,9,blck_size_seg) = expand3(get_init_constraint_mat(waypoints.poses[0].pose.position.x,v0.linear.x,a0.linear.x,opt).A,
+                   get_init_constraint_mat(waypoints.poses[0].pose.position.y,v0.linear.y,a0.linear.y,opt).A,
+                   get_init_constraint_mat(waypoints.poses[0].pose.position.z,v0.linear.z,a0.linear.z,opt).A);
+    
+    row_append(Aeq,Aeq0); 
+
+    beq0_sub  = row_stack3( get_init_constraint_mat(waypoints.poses[0].pose.position.x,v0.linear.x,a0.linear.x,opt).b,  
+                                           get_init_constraint_mat(waypoints.poses[0].pose.position.y,v0.linear.x,a0.linear.y,opt).b,
+                                           get_init_constraint_mat(waypoints.poses[0].pose.position.z,v0.linear.x,a0.linear.z,opt).b);
+
+    row_append(beq,beq0_sub);
+  
+
+    // (2) Waypoints constraints (if it is hard constrained)
+
+    if(not opt.is_waypoint_soft)
+        for(int k = 0;k<n_seg;k++){            
+            int insert_idx = k*blck_size_seg;
+            MatrixXd Dn = time_scailing_mat(knots[k + 1]-knots[k], poly_order);
+            MatrixXd Aeq_sub(3,n_var_total),beq_sub(3,1); Aeq_sub.setZero(); beq_sub.setZero();
+            Aeq_sub.block(0,insert_idx,1,blck_size_seg) = expand3(t_vec(poly_order,1,0).transpose());
+            row_append(Aeq,Aeq_sub); 
+
+            beq_sub(0) = waypoints.poses[k+1].pose.position.x;
+            beq_sub(1) = waypoints.poses[k+1].pose.position.y;
+            beq_sub(2) = waypoints.poses[k+1].pose.position.z;
+            row_append(beq,beq_sub);            
+        }
+
+ 
+    // (3) continuity constraints     
+    // if the objective is snap, we will include 3rd order continuity (?) 
+    for(int k = 0;k<n_seg-1;k++){
+        int insert_idx = k*blck_size_seg;        
+        MatrixXd Aeq_sub(3*3,n_var_total),beq_sub(3*3,1);
+        Aeq_sub.setZero();
+        Aeq_sub.block(0,insert_idx,3*3,2*blck_size_seg) = get_continuity_constraint_mat3(knots[k+1]-knots[k],knots[k+2]-knots[k+1],opt).A;
+        beq_sub = get_continuity_constraint_mat3(knots[k+1]-knots[k],knots[k+2]-knots[k+1],opt).b;
+        row_append(Aeq,Aeq_sub); row_append(beq,beq_sub);
+    }
+
+    cout << "Aeq: "<<endl;
+    cout << Aeq << endl; 
+    cout<< "beq: "<<endl;
+    cout<< beq << endl;
+        
+
+    /*
+        3. Inequality constraints (only if there is a corridor constraint) 
+    */
+    //  -----------------------------------------------------------------------    
+
+    int N_safe_pnts = opt.N_safe_pnts;
+    int n_ineq_consts = 3*2*(N_safe_pnts)*n_seg;
+
+    MatrixXd A_sub(n_ineq_consts,n_var_total),b_sub(n_ineq_consts,1);
+    A_sub.setZero(); b_sub.setZero(); 
+
+    int ineq_row_insert_idx=0,ineq_col_insert_idx=0;    
+
+    // flushing for new start
+    if(safe_corridor_marker.points.size())
+        safe_corridor_marker.points.clear();
+
+    if(safe_corridor_marker_single_array.markers.size())
+        safe_corridor_marker_single_array.markers.clear();
+
+
+    safe_corridor_marker_single_base.header.frame_id = "world";
+    safe_corridor_marker_single_base.ns = "sf_corridor";
+    safe_corridor_marker_single_base.type = visualization_msgs::Marker::CUBE;
+    safe_corridor_marker_single_base.action = 0;
+    safe_corridor_marker_single_base.color.a = 0.5;
+    safe_corridor_marker_single_base.color.r = 170.0/255.0;
+    safe_corridor_marker_single_base.color.g = 1.0;
+    safe_corridor_marker_single_base.color.b = 1.0;
+    
+   
+    // per segment 
+    for (int n = 0; n<n_seg ;n++){
+
+        // sub points along this line segment 
+        double x0,y0,z0;
+        double xf,yf,zf;
+        double dx,dy,dz;
+        
+        x0 = waypoints.poses[n].pose.position.x;
+        y0 = waypoints.poses[n].pose.position.y;
+        z0 = waypoints.poses[n].pose.position.z;
+
+        xf = waypoints.poses[n+1].pose.position.x;
+        yf = waypoints.poses[n+1].pose.position.y;
+        zf = waypoints.poses[n+1].pose.position.z;
+        
+        dx = (xf-x0)/((N_safe_pnts+1));
+        dy = (yf-y0)/((N_safe_pnts+1));
+        dz = (zf-z0)/((N_safe_pnts+1));
+
+        Point p1,p2;
+        p1.x = x0; p1.y = y0; p1.z = z0;
+        p2.x = xf; p2.y = yf; p2.z = zf;
+        Vector3d pnt1(p1.x,p1.y,p1.z),pnt2(p2.x,p2.y,p2.z); 
+        Affine3d Twb = get_affine_corridor_pose(p1,p2);
+        
+        // pose     
+        safe_corridor_marker_single_base.pose.position.x = Twb.translation()(0);                     
+        safe_corridor_marker_single_base.pose.position.y = Twb.translation()(1);                     
+        safe_corridor_marker_single_base.pose.position.z = Twb.translation()(2);                     
+
+        Quaterniond q(Twb.rotation());
+        safe_corridor_marker_single_base.pose.orientation.x = q.x();
+        safe_corridor_marker_single_base.pose.orientation.y = q.y();
+        safe_corridor_marker_single_base.pose.orientation.z = q.z();
+        safe_corridor_marker_single_base.pose.orientation.w = q.w();
+        
+        float l = (pnt1 - pnt2).norm();
+        // scale 
+        double safe_r = opt.safe_r;
+        safe_corridor_marker_single_base.scale.x = 2*(l/2 + safe_r);
+        safe_corridor_marker_single_base.scale.y = 2*(safe_r);
+        safe_corridor_marker_single_base.scale.z = 2*(safe_r);
+        safe_corridor_marker_single_base.id = n;
+        // append 
+        safe_corridor_marker_single_array.markers.push_back(safe_corridor_marker_single_base);
+
+
+        // per safe sample points along 
+        for (int n_sub = 1; n_sub<=N_safe_pnts;n_sub++){
+
+            double x_sub,y_sub,z_sub;
+            x_sub = x0 + dx*n_sub;
+            y_sub = y0 + dy*n_sub;
+            z_sub = z0 + dz*n_sub;
+            double t_control = 1.0/(N_safe_pnts+1) * n_sub;
+            
+            // get A,b block for this control point 
+            Constraint const_ineq = get_corridor_constraint_mat(p1,p2,t_vec(poly_order,t_control,0),opt);             
+
+            A_sub.block(ineq_row_insert_idx,ineq_col_insert_idx,6,blck_size_seg) = const_ineq.A;
+            b_sub.block(ineq_row_insert_idx,0,6,1) = const_ineq.b;
+
+            // stride along row
+            ineq_row_insert_idx += 6;        
+        }
+
+        // stride along col
+        ineq_col_insert_idx += blck_size_seg;    
+    }
+    row_append(Aineq,A_sub);
+    row_append(bineq,b_sub);
+
+    cout << "A: "<<endl;
+    cout << Aineq << endl; 
+    cout<< "b: "<<endl;
+    cout<< bineq << endl;
+ 
+    QP_form qp; qp.Q = Q; qp.H = H; qp.A = Aineq; qp.b = bineq; qp.Aeq = Aeq; qp.beq = beq; 
+    *qp_form = qp;
+}
+
+
+void PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt,QP_form_xyz* qp_form_xyz){
 
 
 
@@ -104,7 +419,6 @@ QP_form_xyz PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& wa
         }
     }else{
         cerr<<"undefined derivative in objective"<<endl;
-        return QP_form_xyz();
     }
 
     // if it is soft, we include the deviation term 
@@ -174,9 +488,8 @@ QP_form_xyz PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& wa
         }
 
 
-    // (3) continuity constraints 
-    
-    // if the objective is snap, we will include 3rd order continuity 
+    // (3) continuity constraints     
+    // if the objective is snap, we will include 3rd order continuity (?)
     for(int k = 0;k<n_seg-1;k++){
         int insert_idx = k*blck_size;        
         MatrixXd Aeq_sub(opt.objective_derivative,n_var_total),beq_sub(opt.objective_derivative,1);
@@ -189,34 +502,59 @@ QP_form_xyz PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& wa
     }
 
 
+    double safe_r = opt.safe_r;
+    int N_safe_pnts = opt.N_safe_pnts;
+    int n_ineq_consts = 2*(N_safe_pnts)*n_seg;
+
+
     /*
-        3. Inequality constraints  
+        3. Inequality constraints (only if there is a corridor constraint) 
     */
     //  -----------------------------------------------------------------------    
 
-    if(opt.is_multi_corridor){
+    if (opt.is_multi_corridor or opt.is_single_corridor){    
 
-        double safe_r = opt.safe_r;
-        int N_safe_pnts = opt.N_safe_pnts;
-        int n_ineq_consts = 2*(N_safe_pnts)*n_seg;
-        int poly_order = opt.poly_order;
+        // in case of multi corridor, the multiple cubes are used to represent the corridor region 
+        if(opt.is_multi_corridor){
+            // multi-corridor is called. if previous solve routine was single corridor, flush it 
+            if(safe_corridor_marker_single_array.markers.size())
+                safe_corridor_marker_single_array.markers.clear(); 
 
-        safe_corridor_marker.header.frame_id = "/world";
-        safe_corridor_marker.ns = "sf_corridor";
-        safe_corridor_marker.type = 6; // cube list 
-        safe_corridor_marker.scale.x = 2*safe_r;
-        safe_corridor_marker.scale.y = 2*safe_r;
-        safe_corridor_marker.scale.z = 2*safe_r;
-        safe_corridor_marker.action = 0;
-        safe_corridor_marker.pose.orientation.w = 1;
-        safe_corridor_marker.color.a = 0.5;
-        safe_corridor_marker.color.r = 170.0/255.0;
-        safe_corridor_marker.color.g = 1.0;
-        safe_corridor_marker.color.b = 1.0;
-        safe_corridor_marker.points.clear();
+            safe_corridor_marker.header.frame_id = "/world";
+            safe_corridor_marker.ns = "sf_corridor";
+            safe_corridor_marker.type = 6; // cube list 
+            safe_corridor_marker.scale.x = 2*safe_r;
+            safe_corridor_marker.scale.y = 2*safe_r;
+            safe_corridor_marker.scale.z = 2*safe_r;
+            safe_corridor_marker.action = 0;
+            safe_corridor_marker.pose.orientation.w = 1;
+            safe_corridor_marker.color.a = 0.5;
+            safe_corridor_marker.color.r = 170.0/255.0;
+            safe_corridor_marker.color.g = 1.0;
+            safe_corridor_marker.color.b = 1.0;
+            safe_corridor_marker.points.clear();
+            safe_corridor_marker.points.resize((N_safe_pnts)*n_seg);
+        }
+        // in the single corridor, affine transform is needed 
+        else if (opt.is_single_corridor){
+            if(safe_corridor_marker.points.size())
+                safe_corridor_marker.points.clear();
 
-        safe_corridor_marker.points.resize((N_safe_pnts)*n_seg);
+            safe_corridor_marker_single_base.header.frame_id = "world";
+            safe_corridor_marker_single_base.ns = "sf_corridor";
+            safe_corridor_marker_single_base.type = visualization_msgs::Marker::CUBE;
+            safe_corridor_marker_single_base.action = 0;
+            safe_corridor_marker_single_base.color.a = 0.5;
+            safe_corridor_marker_single_base.color.r = 170.0/255.0;
+            safe_corridor_marker_single_base.color.g = 1.0;
+            safe_corridor_marker_single_base.color.b = 1.0;
+            
+            // flushing 
 
+            if(safe_corridor_marker_single_array.markers.size())
+                safe_corridor_marker_single_array.markers.clear();
+        }           
+        
 
         MatrixXd A_sub(n_ineq_consts,n_var_total),bx_sub(n_ineq_consts,1),by_sub(n_ineq_consts,1),bz_sub(n_ineq_consts,1);
         A_sub.setZero(); bx_sub.setZero(); by_sub.setZero(); bz_sub.setZero();
@@ -249,26 +587,91 @@ QP_form_xyz PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& wa
                 y_sub = y0 + dy*n_sub;
                 z_sub = z0 + dz*n_sub;
                 
-                safe_corridor_marker.points[idx].x = x_sub;
-                safe_corridor_marker.points[idx].y = y_sub;
-                safe_corridor_marker.points[idx].z = z_sub;
-                idx++;
+               double t_control = 1.0/(N_safe_pnts+1) * n_sub;
 
-                double t_control = 1.0/(N_safe_pnts+1) * n_sub;
+                
+                Vector3d upper_limit,lower_limit;
 
-                // lower limit 
+                // axis parallel multiple cube
+                if (opt.is_multi_corridor){
+                    lower_limit(0) = -(x_sub - safe_r);
+                    lower_limit(1) = -(y_sub - safe_r);
+                    lower_limit(2) = -(z_sub - safe_r);
+                     
+                    upper_limit(0) = (x_sub + safe_r);
+                    upper_limit(1) = (y_sub + safe_r);
+                    upper_limit(2) = (z_sub + safe_r);
+
+                    
+
+                    // marker update               
+                    safe_corridor_marker.points[idx].x = x_sub;
+                    safe_corridor_marker.points[idx].y = y_sub;
+                    safe_corridor_marker.points[idx].z = z_sub;
+                    idx++;
+
+                // non parallel single rectangle
+                }else if(opt.is_single_corridor){
+                    //  
+                    Point p1,p2;
+                    p1.x = x0; p1.y = y0; p1.z = z0;
+                    p2.x = xf; p2.y = yf; p2.z = zf;
+                    Vector3f pnt1(p1.x,p1.y,p1.z),pnt2(p2.x,p2.y,p2.z);  
+                    float l = (pnt1 - pnt2).norm();
+                    Affine3d Twb = get_affine_corridor_pose(p1,p2);
+                    
+                    cout<<"rotation"<<endl;
+                    cout<<Twb.rotation()<<std::endl;
+
+                    cout<<"translation"<<endl;
+                    cout<<Twb.translation()<<std::endl;
+                    // in their local body axis 
+                    lower_limit(0) = -l/2 - safe_r;
+                    lower_limit(1) = -safe_r;
+                    lower_limit(2) = -safe_r;
+
+                    upper_limit = -lower_limit;
+
+                    // in world frame 
+                    lower_limit = Twb*lower_limit;
+                    upper_limit = Twb*upper_limit;
+
+                    // marker 
+                    
+                    // pose 
+                    safe_corridor_marker_single_base.pose.position.x = Twb.translation()(0);                     
+                    safe_corridor_marker_single_base.pose.position.y = Twb.translation()(1);                     
+                    safe_corridor_marker_single_base.pose.position.z = Twb.translation()(2);                     
+
+                    Quaterniond q(Twb.rotation());
+                    safe_corridor_marker_single_base.pose.orientation.x = q.x();
+                    safe_corridor_marker_single_base.pose.orientation.y = q.y();
+                    safe_corridor_marker_single_base.pose.orientation.z = q.z();
+                    safe_corridor_marker_single_base.pose.orientation.w = q.w();
+                    
+                    // scale 
+                    safe_corridor_marker_single_base.scale.x = 2*(l/2 + safe_r);
+                    safe_corridor_marker_single_base.scale.y = 2*(safe_r);
+                    safe_corridor_marker_single_base.scale.z = 2*(safe_r);
+                    safe_corridor_marker_single_base.id = n;
+                    // append 
+                    safe_corridor_marker_single_array.markers.push_back(safe_corridor_marker_single_base);
+                }
+
                 A_sub.block(ineq_row_insert_idx,ineq_col_insert_idx1,1,blck_size)=-t_vec(poly_order,t_control,0).transpose();        
-                bx_sub.coeffRef(ineq_row_insert_idx) = -(x_sub - safe_r);
-                by_sub.coeffRef(ineq_row_insert_idx) = -(y_sub - safe_r);
-                bz_sub.coeffRef(ineq_row_insert_idx) = -(z_sub - safe_r);        
+                            
+                // lower limit 
+                bx_sub.coeffRef(ineq_row_insert_idx) = -lower_limit(0);
+                by_sub.coeffRef(ineq_row_insert_idx) = -lower_limit(1);
+                bz_sub.coeffRef(ineq_row_insert_idx) = -lower_limit(2);        
 
                 ineq_row_insert_idx++;
 
                 // upper limit 
                 A_sub.block(ineq_row_insert_idx,ineq_col_insert_idx1,1,blck_size)=t_vec(poly_order,t_control,0).transpose();        
-                bx_sub.coeffRef(ineq_row_insert_idx) = (x_sub + safe_r);
-                by_sub.coeffRef(ineq_row_insert_idx) = (y_sub + safe_r);
-                bz_sub.coeffRef(ineq_row_insert_idx) = (z_sub + safe_r);      
+                bx_sub.coeffRef(ineq_row_insert_idx) = upper_limit(0);
+                by_sub.coeffRef(ineq_row_insert_idx) = upper_limit(1);
+                bz_sub.coeffRef(ineq_row_insert_idx) = upper_limit(2);      
 
                 ineq_row_insert_idx++;
 
@@ -280,8 +683,11 @@ QP_form_xyz PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& wa
         row_append(Aineq_y,A_sub); row_append(bineq_y,by_sub);
         row_append(Aineq_z,A_sub); row_append(bineq_z,bz_sub); 
 
+    
+    }else{
+        safe_corridor_marker.points.clear();
+        safe_corridor_marker_single_array.markers.clear();
     }
-
 
     /*
         4. Wrapping  
@@ -297,7 +703,7 @@ QP_form_xyz PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& wa
     qp_prob_xyz.y = qp_y;
     qp_prob_xyz.z = qp_z;
     
-    return qp_prob_xyz;
+    *qp_form_xyz = qp_prob_xyz;
 };
 
 
@@ -477,7 +883,7 @@ VectorXd PathPlanner::solveqp(QP_form qp_prob,bool& is_ok){
 	QProblem qp_obj(N_var,N_const,HST_SEMIDEF);
     std::cout<<"hessian type: "<<qp_obj.getHessianType()<<endl;
     Options options;
-	options.printLevel = PL_LOW;
+	options.printLevel = PL_MEDIUM;
 	qp_obj.setOptions(options);
 	qp_obj.init(H_qp,g,A,NULL,NULL,lbA,ubA,nWSR);
     if(qp_obj.isInfeasible()){
@@ -496,6 +902,9 @@ VectorXd PathPlanner::solveqp(QP_form qp_prob,bool& is_ok){
 
     for(int n = 0; n<N_var;n++)
         sol(n) = xOpt[n];
+
+    cout << "solution" <<endl;
+    cout << sol <<endl;
     return sol;        
 }
 
@@ -530,8 +939,43 @@ PolySpline PathPlanner::get_solution(VectorXd sol,int poly_order,int n_seg ){
 
 }
 
+PolySplineXYZ PathPlanner::get_solution_couple(VectorXd sol,int poly_order, int n_seg){
 
+    int D = 3; // xyz
+    vector<PolySpline> polySplineXYZ(D);
+    int blck_size = poly_order + 1;
+    int blck_size_seg = blck_size *3;
 
+    for(int d = 0; d<D ; d++){
+        polySplineXYZ[d].n_seg = n_seg; polySplineXYZ[d].poly_coeff.reserve(n_seg);
+
+        for(uint i = 0; i<polySplineXYZ[d].n_seg;i++)
+            polySplineXYZ[d].poly_coeff[i].poly_order=poly_order;
+        int n_var=n_seg*(poly_order+1);
+
+        // std::cout<<"[DEBUG] solution:"<<std::endl;
+        // std::cout<<var<<std::endl;
+        // from lowest order 0
+        for(int n=0;n<n_seg;n++){
+            PolyCoeff coeff;
+            coeff.coeff.resize(poly_order+1);
+            for(int i=0;i<blck_size;i++){
+                coeff.coeff[i]=sol(n*blck_size_seg+d*blck_size+i); 
+                coeff.poly_order = poly_order;         
+            }
+            polySplineXYZ[d].poly_coeff.push_back(coeff);
+        }
+    }
+
+    PolySplineXYZ spline_xyz_temp;
+    spline_xyz_temp.spline_x = polySplineXYZ[0];
+    spline_xyz_temp.spline_y = polySplineXYZ[1];
+    spline_xyz_temp.spline_z = polySplineXYZ[2];
+
+    return spline_xyz_temp;
+}
+
+       
 // output size 3x(N+1)
 Constraint PathPlanner::get_init_constraint_mat(double x0,double v0,double a0,TrajGenOpts opt){
     int poly_order = opt.poly_order;
@@ -586,8 +1030,7 @@ visualization_msgs::Marker PathPlanner::get_knots_marker(){
 // output size 3x(2(N+1))
 Constraint PathPlanner::get_continuity_constraint_mat(double dt1,double dt2,TrajGenOpts opt){
     
-    // int N_constraint = opt.objective_derivative;
-    int N_constraint = 4;
+    int N_constraint = opt.objective_derivative;
     int poly_order = opt.poly_order;
     MatrixXd Aeq(N_constraint,2*(poly_order+1));
     MatrixXd beq(N_constraint,1); beq.setZero();   
@@ -597,7 +1040,7 @@ Constraint PathPlanner::get_continuity_constraint_mat(double dt1,double dt2,Traj
     MatrixXd D2 = time_scailing_mat(dt2,poly_order);
 
     // 0th order         
-    // Aeq.block(0,0,1,poly_order+1) = t_vec(poly_order,1,0).transpose()*D1;
+    // Aeq. block(0,0,1,poly_order+1) = t_vec(poly_order,1,0).transpose()*D1;
     // Aeq.block(0,poly_order+1,1,poly_order+1) = -t_vec(poly_order,0,0).transpose()*D2;
 
     Aeq.block(0,0,1,poly_order+1) = t_vec(poly_order,1,0).transpose();
@@ -616,11 +1059,53 @@ Constraint PathPlanner::get_continuity_constraint_mat(double dt1,double dt2,Traj
     Aeq.block(2,0,1,poly_order+1) = t_vec(poly_order,1,2).transpose()*pow(dt2,2);
     Aeq.block(2,poly_order+1,1,poly_order+1) = -t_vec(poly_order,0,2).transpose()*pow(dt1,2); 
 
-    // if (N_constraint == 4){    
+     if (N_constraint == 4){    
         // 3rd order
         Aeq.block(3,0,1,poly_order+1) = t_vec(poly_order,1,3).transpose()*pow(dt2,3);
         Aeq.block(3,poly_order+1,1,poly_order+1) = -t_vec(poly_order,0,3).transpose()*pow(dt1,3); 
-    // }
+    }
+
+    Constraint constraint;
+    constraint.A = Aeq;
+    constraint.b = beq;
+    
+    return constraint;
+}
+
+// output size 3x(2(N+1))
+Constraint PathPlanner::get_continuity_constraint_mat3(double dt1,double dt2,TrajGenOpts opt){
+    
+    int N_constraint = 3*3;
+    int poly_order = opt.poly_order;
+    int blck_size = poly_order + 1;
+    int blck_size_seg = blck_size * 3;
+    MatrixXd Aeq(N_constraint,3*2*(poly_order+1));
+    MatrixXd beq(N_constraint,1);   
+    Aeq.setZero();
+    beq.setZero();
+    MatrixXd D1 = time_scailing_mat(dt1,poly_order);
+    MatrixXd D2 = time_scailing_mat(dt2,poly_order);
+
+
+    int insert_row,insert_col1,insert_col2; 
+    
+    for (int i = 0; i<3 ;i++){
+        
+        insert_row = 3*i; insert_col1 = blck_size*i,insert_col2 = blck_size_seg + insert_col1;
+        
+        // 0th order
+        Aeq.block(insert_row,insert_col1,1,blck_size) = t_vec(poly_order,1,0).transpose();
+        Aeq.block(insert_row,insert_col2,1,blck_size) = -t_vec(poly_order,0,0).transpose();
+        
+        // 1th order
+        Aeq.block(insert_row+1,insert_col1,1,blck_size) = t_vec(poly_order,1,1).transpose()*dt2;
+        Aeq.block(insert_row+1,insert_col2,1,blck_size) = -t_vec(poly_order,0,1).transpose()*dt1;
+        
+         // 2nd order
+        Aeq.block(insert_row+2,insert_col1,1,blck_size) = t_vec(poly_order,1,2).transpose()*pow(dt2,2);
+        Aeq.block(insert_row+2,insert_col2,1,blck_size) = -t_vec(poly_order,0,2).transpose()*pow(dt1,2);
+         
+    }
 
     Constraint constraint;
     constraint.A = Aeq;
@@ -630,8 +1115,100 @@ Constraint PathPlanner::get_continuity_constraint_mat(double dt1,double dt2,Traj
 }
 
 
+/**
+ * @brief 
+ * 
+ * @param pnt1 
+ * @param pnt2 
+ * @param t_vec 
+ * @param option 
+ * @return Constraint 
+ */
+Constraint PathPlanner::get_corridor_constraint_mat(Point pnt1 ,Point pnt2,VectorXd t_vec,TrajGenOpts option){
+
+    Affine3d Twb = get_affine_corridor_pose(pnt1,pnt2);
+    int blck_size = t_vec.size(); // 3* blck_size  = blck_size_seg
+
+    Vector3f p1(pnt1.x,pnt1.y,pnt1.z),p2(pnt2.x,pnt2.y,pnt2.z);  
+    float l = (p1 - p2).norm();
+
+    MatrixXd A_sub(3,3*blck_size),b(3,1);
+    Matrix3d Rbw = Twb.rotation().transpose();
+    Vector3d twb = Twb.translation();
 
 
+
+    // matrix A_sub
+    for (int r = 0 ; r<3 ; r++)
+        for(int c = 0 ; c<3 ; c++)
+            A_sub.block(r,c*blck_size,1,blck_size) = Rbw(r,c) * t_vec.transpose();
+
+
+    Vector3d upper_limit;
+    upper_limit << l/2 + option.safe_r , option.safe_r , option.safe_r;
+    Vector3d lower_limit = -upper_limit;
+
+    upper_limit += Rbw * twb;
+    lower_limit += Rbw * twb;
+
+    Constraint constraint;
+    constraint.A = MatrixXd(6,3*blck_size); constraint.b = MatrixXd(6,1);
+    constraint.A << A_sub,-A_sub ;
+    constraint.b << upper_limit, -lower_limit;
+    
+    return constraint;    
+}
+
+
+
+
+MatrixXd expand3(MatrixXd small_mat){
+    const int r_small = small_mat.rows() ,c_small =small_mat.cols();
+    MatrixXd new_mat(3*r_small,3*c_small);
+    new_mat.setZero();
+    new_mat.block(0,0,r_small,c_small) = small_mat;
+    new_mat.block(r_small,c_small,r_small,c_small) = small_mat;
+    new_mat.block(2*r_small,2*c_small,r_small,c_small) = small_mat;
+    return new_mat;
+}
+
+MatrixXd expand3(MatrixXd small_mat1,MatrixXd small_mat2,MatrixXd small_mat3){
+    const int r_small = small_mat1.rows() ,c_small =small_mat1.cols();
+    MatrixXd new_mat(3*r_small,3*c_small); new_mat.setZero();
+    new_mat.block(0,0,r_small,c_small) = small_mat1;
+    new_mat.block(r_small,c_small,r_small,c_small) = small_mat2;
+    new_mat.block(2*r_small,2*c_small,r_small,c_small) = small_mat3;
+    return new_mat;
+}
+
+MatrixXd row_stack3(MatrixXd mat1){
+    MatrixXd new_mat(3*mat1.rows(),mat1.cols());
+    new_mat.block(0,0,mat1.rows(),mat1.cols()) = mat1;
+    new_mat.block(mat1.rows(),0,mat1.rows(),mat1.cols()) = mat1;
+    new_mat.block(2*mat1.rows(),0,mat1.rows(),mat1.cols()) = mat1;
+    return new_mat;
+}
+
+
+MatrixXd row_stack3(MatrixXd mat1,MatrixXd mat2,MatrixXd mat3){
+    MatrixXd new_mat(3*mat1.rows(),mat1.cols());
+
+    new_mat.block(0,0,mat1.rows(),mat1.cols()) = mat1;
+    new_mat.block(mat1.rows(),0,mat1.rows(),mat1.cols()) = mat2;
+    new_mat.block(2*mat1.rows(),0,mat1.rows(),mat1.cols()) = mat3;
+    return new_mat;
+}
+
+/**
+MatrixXd expand3(VectorXd small_vec){
+    int len_small = small_vec.size();
+    MatrixXd new_mat(1,3*len_small); new_mat.setZero();
+    new_mat.block<0,0,1,len_small> = small_vec;
+    new_mat.block<0,len_small,1,len_small> = small_vec;
+    new_mat.block<0,2*len_small,1,len_small> = small_vec;
+    return new_mat;
+}
+**/
 MatrixXd time_scailing_mat(double dt, int poly_order) {
     MatrixXd D(poly_order+1,poly_order+1);
     D.setZero();

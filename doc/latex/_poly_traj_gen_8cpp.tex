@@ -1,0 +1,172 @@
+\hypertarget{_poly_traj_gen_8cpp}{}\section{src/\+Poly\+Traj\+Gen.cpp File Reference}
+\label{_poly_traj_gen_8cpp}\index{src/\+Poly\+Traj\+Gen.\+cpp@{src/\+Poly\+Traj\+Gen.\+cpp}}
+{\ttfamily \#include \char`\"{}traj\+\_\+gen/\+Poly\+Traj\+Gen.\+h\char`\"{}}\\*
+Include dependency graph for Poly\+Traj\+Gen.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_poly_traj_gen_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+Matrix\+Xd \hyperlink{_poly_traj_gen_8cpp_a5a2e38cc8bf6ae9ab0395994b68e52ae}{time\+\_\+scailing\+\_\+mat} (double dt, int poly\+\_\+order)
+\item 
+Vector\+Xd \hyperlink{_poly_traj_gen_8cpp_a5344e44ce223789d62117ae55c9a5ac5}{t\+\_\+vec} (int poly\+\_\+order, double t, int n\+\_\+diff)
+\item 
+Matrix\+Xd \hyperlink{_poly_traj_gen_8cpp_a0b792e87b38c7882b087726a82eaa72e}{integral\+\_\+jerk\+\_\+squared} (int poly\+\_\+order)
+\item 
+Matrix\+Xd \hyperlink{_poly_traj_gen_8cpp_a98c8e48d65c22d6da6b6b82242586f15}{integral\+\_\+snap\+\_\+squared} (int poly\+\_\+order)
+\item 
+void \hyperlink{_poly_traj_gen_8cpp_a2fbc0abee53f736fe5f5d2a5c04ec723}{row\+\_\+append} (Matrix\+Xd \&mat, Matrix\+Xd mat\+\_\+sub)
+\item 
+int \hyperlink{_poly_traj_gen_8cpp_a17e17da0f42201d595257679c8ae6170}{find\+\_\+spline\+\_\+interval} (const vector$<$ double $>$ \&ts, double t\+\_\+eval)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{Poly\+Traj\+Gen.\+cpp@{Poly\+Traj\+Gen.\+cpp}!find\+\_\+spline\+\_\+interval@{find\+\_\+spline\+\_\+interval}}
+\index{find\+\_\+spline\+\_\+interval@{find\+\_\+spline\+\_\+interval}!Poly\+Traj\+Gen.\+cpp@{Poly\+Traj\+Gen.\+cpp}}
+\subsubsection[{\texorpdfstring{find\+\_\+spline\+\_\+interval(const vector$<$ double $>$ \&ts, double t\+\_\+eval)}{find_spline_interval(const vector< double > &ts, double t_eval)}}]{\setlength{\rightskip}{0pt plus 5cm}int find\+\_\+spline\+\_\+interval (
+\begin{DoxyParamCaption}
+\item[{const vector$<$ double $>$ \&}]{ts, }
+\item[{double}]{t\+\_\+eval}
+\end{DoxyParamCaption}
+)}\hypertarget{_poly_traj_gen_8cpp_a17e17da0f42201d595257679c8ae6170}{}\label{_poly_traj_gen_8cpp_a17e17da0f42201d595257679c8ae6170}
+
+
+Definition at line 855 of file Poly\+Traj\+Gen.\+cpp.
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_poly_traj_gen_8cpp_a17e17da0f42201d595257679c8ae6170_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Poly\+Traj\+Gen.\+cpp@{Poly\+Traj\+Gen.\+cpp}!integral\+\_\+jerk\+\_\+squared@{integral\+\_\+jerk\+\_\+squared}}
+\index{integral\+\_\+jerk\+\_\+squared@{integral\+\_\+jerk\+\_\+squared}!Poly\+Traj\+Gen.\+cpp@{Poly\+Traj\+Gen.\+cpp}}
+\subsubsection[{\texorpdfstring{integral\+\_\+jerk\+\_\+squared(int poly\+\_\+order)}{integral_jerk_squared(int poly_order)}}]{\setlength{\rightskip}{0pt plus 5cm}Matrix\+Xd integral\+\_\+jerk\+\_\+squared (
+\begin{DoxyParamCaption}
+\item[{int}]{poly\+\_\+order}
+\end{DoxyParamCaption}
+)}\hypertarget{_poly_traj_gen_8cpp_a0b792e87b38c7882b087726a82eaa72e}{}\label{_poly_traj_gen_8cpp_a0b792e87b38c7882b087726a82eaa72e}
+
+
+Definition at line 812 of file Poly\+Traj\+Gen.\+cpp.
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_poly_traj_gen_8cpp_a0b792e87b38c7882b087726a82eaa72e_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Poly\+Traj\+Gen.\+cpp@{Poly\+Traj\+Gen.\+cpp}!integral\+\_\+snap\+\_\+squared@{integral\+\_\+snap\+\_\+squared}}
+\index{integral\+\_\+snap\+\_\+squared@{integral\+\_\+snap\+\_\+squared}!Poly\+Traj\+Gen.\+cpp@{Poly\+Traj\+Gen.\+cpp}}
+\subsubsection[{\texorpdfstring{integral\+\_\+snap\+\_\+squared(int poly\+\_\+order)}{integral_snap_squared(int poly_order)}}]{\setlength{\rightskip}{0pt plus 5cm}Matrix\+Xd integral\+\_\+snap\+\_\+squared (
+\begin{DoxyParamCaption}
+\item[{int}]{poly\+\_\+order}
+\end{DoxyParamCaption}
+)}\hypertarget{_poly_traj_gen_8cpp_a98c8e48d65c22d6da6b6b82242586f15}{}\label{_poly_traj_gen_8cpp_a98c8e48d65c22d6da6b6b82242586f15}
+
+
+Definition at line 829 of file Poly\+Traj\+Gen.\+cpp.
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_poly_traj_gen_8cpp_a98c8e48d65c22d6da6b6b82242586f15_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Poly\+Traj\+Gen.\+cpp@{Poly\+Traj\+Gen.\+cpp}!row\+\_\+append@{row\+\_\+append}}
+\index{row\+\_\+append@{row\+\_\+append}!Poly\+Traj\+Gen.\+cpp@{Poly\+Traj\+Gen.\+cpp}}
+\subsubsection[{\texorpdfstring{row\+\_\+append(\+Matrix\+Xd \&mat, Matrix\+Xd mat\+\_\+sub)}{row_append(MatrixXd &mat, MatrixXd mat_sub)}}]{\setlength{\rightskip}{0pt plus 5cm}void row\+\_\+append (
+\begin{DoxyParamCaption}
+\item[{Matrix\+Xd \&}]{mat, }
+\item[{Matrix\+Xd}]{mat\+\_\+sub}
+\end{DoxyParamCaption}
+)}\hypertarget{_poly_traj_gen_8cpp_a2fbc0abee53f736fe5f5d2a5c04ec723}{}\label{_poly_traj_gen_8cpp_a2fbc0abee53f736fe5f5d2a5c04ec723}
+
+
+Definition at line 846 of file Poly\+Traj\+Gen.\+cpp.
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_poly_traj_gen_8cpp_a2fbc0abee53f736fe5f5d2a5c04ec723_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Poly\+Traj\+Gen.\+cpp@{Poly\+Traj\+Gen.\+cpp}!t\+\_\+vec@{t\+\_\+vec}}
+\index{t\+\_\+vec@{t\+\_\+vec}!Poly\+Traj\+Gen.\+cpp@{Poly\+Traj\+Gen.\+cpp}}
+\subsubsection[{\texorpdfstring{t\+\_\+vec(int poly\+\_\+order, double t, int n\+\_\+diff)}{t_vec(int poly_order, double t, int n_diff)}}]{\setlength{\rightskip}{0pt plus 5cm}Vector\+Xd t\+\_\+vec (
+\begin{DoxyParamCaption}
+\item[{int}]{poly\+\_\+order, }
+\item[{double}]{time, }
+\item[{int}]{n\+\_\+diff}
+\end{DoxyParamCaption}
+)}\hypertarget{_poly_traj_gen_8cpp_a5344e44ce223789d62117ae55c9a5ac5}{}\label{_poly_traj_gen_8cpp_a5344e44ce223789d62117ae55c9a5ac5}
+Lower level routine 
+
+Definition at line 784 of file Poly\+Traj\+Gen.\+cpp.
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_poly_traj_gen_8cpp_a5344e44ce223789d62117ae55c9a5ac5_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Poly\+Traj\+Gen.\+cpp@{Poly\+Traj\+Gen.\+cpp}!time\+\_\+scailing\+\_\+mat@{time\+\_\+scailing\+\_\+mat}}
+\index{time\+\_\+scailing\+\_\+mat@{time\+\_\+scailing\+\_\+mat}!Poly\+Traj\+Gen.\+cpp@{Poly\+Traj\+Gen.\+cpp}}
+\subsubsection[{\texorpdfstring{time\+\_\+scailing\+\_\+mat(double dt, int poly\+\_\+order)}{time_scailing_mat(double dt, int poly_order)}}]{\setlength{\rightskip}{0pt plus 5cm}Matrix\+Xd time\+\_\+scailing\+\_\+mat (
+\begin{DoxyParamCaption}
+\item[{double}]{dt, }
+\item[{int}]{poly\+\_\+order}
+\end{DoxyParamCaption}
+)}\hypertarget{_poly_traj_gen_8cpp_a5a2e38cc8bf6ae9ab0395994b68e52ae}{}\label{_poly_traj_gen_8cpp_a5a2e38cc8bf6ae9ab0395994b68e52ae}
+
+
+Definition at line 774 of file Poly\+Traj\+Gen.\+cpp.
+
+
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_poly_traj_gen_8cpp_a5a2e38cc8bf6ae9ab0395994b68e52ae_icgraph}
+\end{center}
+\end{figure}
+
+

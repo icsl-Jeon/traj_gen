@@ -100,7 +100,9 @@ private:
    ros::Subscriber wpnt_sub; // the pnts subscriber
 
    ros::Publisher wpnt_marker_pub; // the wpnts from user (vis)
-   ros::Publisher safe_corridor_pub; // safe corridor 
+   ros::Publisher safe_corridor_pub; // safe corridor in case of mulitple corridor
+   ros::Publisher safe_corridor_single_pub; // safe corridor in case of single corridor
+   
    // generated global path
    traj_gen::PolySplineXYZ spline;
 
@@ -108,7 +110,6 @@ private:
    nav_msgs::Path spline_path;
 
    ros::Publisher spline_knot_pub;
-
 
    // for publising path
    ros::Publisher target_goal_pub; // publisher for target goal

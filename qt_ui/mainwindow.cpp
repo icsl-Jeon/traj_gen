@@ -191,7 +191,7 @@ void MainWindow::on_pushButton_trajectory_clicked()
     option.is_waypoint_soft = ui->checkBox_is_soft->isChecked();
     option.is_single_corridor = ui->checkBox_is_single->isChecked();
     option.is_multi_corridor = ui->checkBox_is_multi->isChecked();
-    option.w_d = atoi(ui->lineEdit_deviation_weight->text().toStdString().c_str());
+    option.w_d = atof(ui->lineEdit_deviation_weight->text().toStdString().c_str());
     option.N_safe_pnts = atoi(ui->lineEdit_n_corridor->text().toStdString().c_str());
     option.safe_r = atof(ui->lineEdit_safe_radius->text().toStdString().c_str());
     

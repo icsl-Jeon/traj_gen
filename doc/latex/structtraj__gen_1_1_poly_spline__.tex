@@ -1,0 +1,164 @@
+\hypertarget{structtraj__gen_1_1_poly_spline__}{}\section{traj\+\_\+gen\+:\+:Poly\+Spline\+\_\+$<$ Container\+Allocator $>$ Struct Template Reference}
+\label{structtraj__gen_1_1_poly_spline__}\index{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+$<$ Container\+Allocator $>$@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+$<$ Container\+Allocator $>$}}
+
+
+{\ttfamily \#include $<$Poly\+Spline.\+h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{structtraj__gen_1_1_poly_spline__}{Poly\+Spline\+\_\+}$<$ Container\+Allocator $>$ \hyperlink{structtraj__gen_1_1_poly_spline___ada19ce0d660f2092f1a7f25ac770745c}{Type}
+\item 
+typedef std\+::vector$<$ \+::\hyperlink{structtraj__gen_1_1_poly_coeff__}{traj\+\_\+gen\+::\+Poly\+Coeff\+\_\+}$<$ Container\+Allocator $>$, typename Container\+Allocator\+::template rebind$<$ \+::\hyperlink{structtraj__gen_1_1_poly_coeff__}{traj\+\_\+gen\+::\+Poly\+Coeff\+\_\+}$<$ Container\+Allocator $>$ $>$\+::other $>$ \hyperlink{structtraj__gen_1_1_poly_spline___a023653ddcbaae9497c397e82ffd22217}{\+\_\+poly\+\_\+coeff\+\_\+type}
+\item 
+typedef std\+::vector$<$ double, typename Container\+Allocator\+::template rebind$<$ double $>$\+::other $>$ \hyperlink{structtraj__gen_1_1_poly_spline___a7826607c170993b6a3846b1d9696c60e}{\+\_\+knot\+\_\+time\+\_\+type}
+\item 
+typedef int8\+\_\+t \hyperlink{structtraj__gen_1_1_poly_spline___af986120ad67cf19dd0405f94fca0f965}{\+\_\+n\+\_\+seg\+\_\+type}
+\item 
+typedef uint8\+\_\+t \hyperlink{structtraj__gen_1_1_poly_spline___a0176a14c07afec73c6cc8860ba90af3c}{\+\_\+is\+\_\+valid\+\_\+type}
+\item 
+typedef boost\+::shared\+\_\+ptr$<$ \+::\hyperlink{structtraj__gen_1_1_poly_spline__}{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}$<$ Container\+Allocator $>$ $>$ \hyperlink{structtraj__gen_1_1_poly_spline___a1ac7215311b069239e093196ae222586}{Ptr}
+\item 
+typedef boost\+::shared\+\_\+ptr$<$ \+::\hyperlink{structtraj__gen_1_1_poly_spline__}{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}$<$ Container\+Allocator $>$ const  $>$ \hyperlink{structtraj__gen_1_1_poly_spline___ad52aa70cb633c91c0052311566e5fe56}{Const\+Ptr}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structtraj__gen_1_1_poly_spline___aace33b70b9ef10bfc17096fb7f2ef851}{Poly\+Spline\+\_\+} ()
+\item 
+\hyperlink{structtraj__gen_1_1_poly_spline___a3d60c80d9701456812fc6cf3109fc0f1}{Poly\+Spline\+\_\+} (const Container\+Allocator \&\+\_\+alloc)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structtraj__gen_1_1_poly_spline___a023653ddcbaae9497c397e82ffd22217}{\+\_\+poly\+\_\+coeff\+\_\+type} \hyperlink{structtraj__gen_1_1_poly_spline___a0f2e8bfe261fae6f2b762c093c0d692d}{poly\+\_\+coeff}
+\item 
+\hyperlink{structtraj__gen_1_1_poly_spline___a7826607c170993b6a3846b1d9696c60e}{\+\_\+knot\+\_\+time\+\_\+type} \hyperlink{structtraj__gen_1_1_poly_spline___a244b6ee80a42fc29772de46dab1f259f}{knot\+\_\+time}
+\item 
+\hyperlink{structtraj__gen_1_1_poly_spline___af986120ad67cf19dd0405f94fca0f965}{\+\_\+n\+\_\+seg\+\_\+type} \hyperlink{structtraj__gen_1_1_poly_spline___aa7abf080efc8e19690ac95f3222b1f23}{n\+\_\+seg}
+\item 
+\hyperlink{structtraj__gen_1_1_poly_spline___a0176a14c07afec73c6cc8860ba90af3c}{\+\_\+is\+\_\+valid\+\_\+type} \hyperlink{structtraj__gen_1_1_poly_spline___a42cb433485a56a70d9da359939866749}{is\+\_\+valid}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class Container\+Allocator$>$\\*
+struct traj\+\_\+gen\+::\+Poly\+Spline\+\_\+$<$ Container\+Allocator $>$}
+
+
+
+Definition at line 23 of file Poly\+Spline.\+h.
+
+
+
+\subsection{Member Typedef Documentation}
+\index{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}!\+\_\+is\+\_\+valid\+\_\+type@{\+\_\+is\+\_\+valid\+\_\+type}}
+\index{\+\_\+is\+\_\+valid\+\_\+type@{\+\_\+is\+\_\+valid\+\_\+type}!traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}}
+\subsubsection[{\texorpdfstring{\+\_\+is\+\_\+valid\+\_\+type}{_is_valid_type}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\+Allocator$>$ typedef uint8\+\_\+t {\bf traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}$<$ Container\+Allocator $>$\+::{\bf \+\_\+is\+\_\+valid\+\_\+type}}\hypertarget{structtraj__gen_1_1_poly_spline___a0176a14c07afec73c6cc8860ba90af3c}{}\label{structtraj__gen_1_1_poly_spline___a0176a14c07afec73c6cc8860ba90af3c}
+
+
+Definition at line 52 of file Poly\+Spline.\+h.
+
+\index{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}!\+\_\+knot\+\_\+time\+\_\+type@{\+\_\+knot\+\_\+time\+\_\+type}}
+\index{\+\_\+knot\+\_\+time\+\_\+type@{\+\_\+knot\+\_\+time\+\_\+type}!traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}}
+\subsubsection[{\texorpdfstring{\+\_\+knot\+\_\+time\+\_\+type}{_knot_time_type}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\+Allocator$>$ typedef std\+::vector$<$double, typename Container\+Allocator\+::template rebind$<$double$>$\+::other $>$ {\bf traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}$<$ Container\+Allocator $>$\+::{\bf \+\_\+knot\+\_\+time\+\_\+type}}\hypertarget{structtraj__gen_1_1_poly_spline___a7826607c170993b6a3846b1d9696c60e}{}\label{structtraj__gen_1_1_poly_spline___a7826607c170993b6a3846b1d9696c60e}
+
+
+Definition at line 46 of file Poly\+Spline.\+h.
+
+\index{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}!\+\_\+n\+\_\+seg\+\_\+type@{\+\_\+n\+\_\+seg\+\_\+type}}
+\index{\+\_\+n\+\_\+seg\+\_\+type@{\+\_\+n\+\_\+seg\+\_\+type}!traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}}
+\subsubsection[{\texorpdfstring{\+\_\+n\+\_\+seg\+\_\+type}{_n_seg_type}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\+Allocator$>$ typedef int8\+\_\+t {\bf traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}$<$ Container\+Allocator $>$\+::{\bf \+\_\+n\+\_\+seg\+\_\+type}}\hypertarget{structtraj__gen_1_1_poly_spline___af986120ad67cf19dd0405f94fca0f965}{}\label{structtraj__gen_1_1_poly_spline___af986120ad67cf19dd0405f94fca0f965}
+
+
+Definition at line 49 of file Poly\+Spline.\+h.
+
+\index{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}!\+\_\+poly\+\_\+coeff\+\_\+type@{\+\_\+poly\+\_\+coeff\+\_\+type}}
+\index{\+\_\+poly\+\_\+coeff\+\_\+type@{\+\_\+poly\+\_\+coeff\+\_\+type}!traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}}
+\subsubsection[{\texorpdfstring{\+\_\+poly\+\_\+coeff\+\_\+type}{_poly_coeff_type}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\+Allocator$>$ typedef std\+::vector$<$ \+::{\bf traj\+\_\+gen\+::\+Poly\+Coeff\+\_\+}$<$Container\+Allocator$>$ , typename Container\+Allocator\+::template rebind$<$ \+::{\bf traj\+\_\+gen\+::\+Poly\+Coeff\+\_\+}$<$Container\+Allocator$>$ $>$\+::other $>$ {\bf traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}$<$ Container\+Allocator $>$\+::{\bf \+\_\+poly\+\_\+coeff\+\_\+type}}\hypertarget{structtraj__gen_1_1_poly_spline___a023653ddcbaae9497c397e82ffd22217}{}\label{structtraj__gen_1_1_poly_spline___a023653ddcbaae9497c397e82ffd22217}
+
+
+Definition at line 43 of file Poly\+Spline.\+h.
+
+\index{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}!Const\+Ptr@{Const\+Ptr}}
+\index{Const\+Ptr@{Const\+Ptr}!traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}}
+\subsubsection[{\texorpdfstring{Const\+Ptr}{ConstPtr}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\+Allocator$>$ typedef boost\+::shared\+\_\+ptr$<$ \+::{\bf traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}$<$Container\+Allocator$>$ const$>$ {\bf traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}$<$ Container\+Allocator $>$\+::{\bf Const\+Ptr}}\hypertarget{structtraj__gen_1_1_poly_spline___ad52aa70cb633c91c0052311566e5fe56}{}\label{structtraj__gen_1_1_poly_spline___ad52aa70cb633c91c0052311566e5fe56}
+
+
+Definition at line 60 of file Poly\+Spline.\+h.
+
+\index{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}!Ptr@{Ptr}}
+\index{Ptr@{Ptr}!traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}}
+\subsubsection[{\texorpdfstring{Ptr}{Ptr}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\+Allocator$>$ typedef boost\+::shared\+\_\+ptr$<$ \+::{\bf traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}$<$Container\+Allocator$>$ $>$ {\bf traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}$<$ Container\+Allocator $>$\+::{\bf Ptr}}\hypertarget{structtraj__gen_1_1_poly_spline___a1ac7215311b069239e093196ae222586}{}\label{structtraj__gen_1_1_poly_spline___a1ac7215311b069239e093196ae222586}
+
+
+Definition at line 59 of file Poly\+Spline.\+h.
+
+\index{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}!Type@{Type}}
+\index{Type@{Type}!traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}}
+\subsubsection[{\texorpdfstring{Type}{Type}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\+Allocator$>$ typedef {\bf Poly\+Spline\+\_\+}$<$Container\+Allocator$>$ {\bf traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}$<$ Container\+Allocator $>$\+::{\bf Type}}\hypertarget{structtraj__gen_1_1_poly_spline___ada19ce0d660f2092f1a7f25ac770745c}{}\label{structtraj__gen_1_1_poly_spline___ada19ce0d660f2092f1a7f25ac770745c}
+
+
+Definition at line 25 of file Poly\+Spline.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}!Poly\+Spline\+\_\+@{Poly\+Spline\+\_\+}}
+\index{Poly\+Spline\+\_\+@{Poly\+Spline\+\_\+}!traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}}
+\subsubsection[{\texorpdfstring{Poly\+Spline\+\_\+()}{PolySpline_()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\+Allocator$>$ {\bf traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}$<$ Container\+Allocator $>$\+::{\bf Poly\+Spline\+\_\+} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structtraj__gen_1_1_poly_spline___aace33b70b9ef10bfc17096fb7f2ef851}{}\label{structtraj__gen_1_1_poly_spline___aace33b70b9ef10bfc17096fb7f2ef851}
+
+
+Definition at line 27 of file Poly\+Spline.\+h.
+
+\index{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}!Poly\+Spline\+\_\+@{Poly\+Spline\+\_\+}}
+\index{Poly\+Spline\+\_\+@{Poly\+Spline\+\_\+}!traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}}
+\subsubsection[{\texorpdfstring{Poly\+Spline\+\_\+(const Container\+Allocator \&\+\_\+alloc)}{PolySpline_(const ContainerAllocator &_alloc)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\+Allocator$>$ {\bf traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}$<$ Container\+Allocator $>$\+::{\bf Poly\+Spline\+\_\+} (
+\begin{DoxyParamCaption}
+\item[{const Container\+Allocator \&}]{\+\_\+alloc}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{structtraj__gen_1_1_poly_spline___a3d60c80d9701456812fc6cf3109fc0f1}{}\label{structtraj__gen_1_1_poly_spline___a3d60c80d9701456812fc6cf3109fc0f1}
+
+
+Definition at line 33 of file Poly\+Spline.\+h.
+
+
+
+\subsection{Member Data Documentation}
+\index{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}!is\+\_\+valid@{is\+\_\+valid}}
+\index{is\+\_\+valid@{is\+\_\+valid}!traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}}
+\subsubsection[{\texorpdfstring{is\+\_\+valid}{is_valid}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\+Allocator$>$ {\bf \+\_\+is\+\_\+valid\+\_\+type} {\bf traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}$<$ Container\+Allocator $>$\+::is\+\_\+valid}\hypertarget{structtraj__gen_1_1_poly_spline___a42cb433485a56a70d9da359939866749}{}\label{structtraj__gen_1_1_poly_spline___a42cb433485a56a70d9da359939866749}
+
+
+Definition at line 53 of file Poly\+Spline.\+h.
+
+\index{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}!knot\+\_\+time@{knot\+\_\+time}}
+\index{knot\+\_\+time@{knot\+\_\+time}!traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}}
+\subsubsection[{\texorpdfstring{knot\+\_\+time}{knot_time}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\+Allocator$>$ {\bf \+\_\+knot\+\_\+time\+\_\+type} {\bf traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}$<$ Container\+Allocator $>$\+::knot\+\_\+time}\hypertarget{structtraj__gen_1_1_poly_spline___a244b6ee80a42fc29772de46dab1f259f}{}\label{structtraj__gen_1_1_poly_spline___a244b6ee80a42fc29772de46dab1f259f}
+
+
+Definition at line 47 of file Poly\+Spline.\+h.
+
+\index{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}!n\+\_\+seg@{n\+\_\+seg}}
+\index{n\+\_\+seg@{n\+\_\+seg}!traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}}
+\subsubsection[{\texorpdfstring{n\+\_\+seg}{n_seg}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\+Allocator$>$ {\bf \+\_\+n\+\_\+seg\+\_\+type} {\bf traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}$<$ Container\+Allocator $>$\+::n\+\_\+seg}\hypertarget{structtraj__gen_1_1_poly_spline___aa7abf080efc8e19690ac95f3222b1f23}{}\label{structtraj__gen_1_1_poly_spline___aa7abf080efc8e19690ac95f3222b1f23}
+
+
+Definition at line 50 of file Poly\+Spline.\+h.
+
+\index{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}!poly\+\_\+coeff@{poly\+\_\+coeff}}
+\index{poly\+\_\+coeff@{poly\+\_\+coeff}!traj\+\_\+gen\+::\+Poly\+Spline\+\_\+@{traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}}
+\subsubsection[{\texorpdfstring{poly\+\_\+coeff}{poly_coeff}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Container\+Allocator$>$ {\bf \+\_\+poly\+\_\+coeff\+\_\+type} {\bf traj\+\_\+gen\+::\+Poly\+Spline\+\_\+}$<$ Container\+Allocator $>$\+::poly\+\_\+coeff}\hypertarget{structtraj__gen_1_1_poly_spline___a0f2e8bfe261fae6f2b762c093c0d692d}{}\label{structtraj__gen_1_1_poly_spline___a0f2e8bfe261fae6f2b762c093c0d692d}
+
+
+Definition at line 44 of file Poly\+Spline.\+h.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+build/devel/include/traj\+\_\+gen/\hyperlink{_poly_spline_8h}{Poly\+Spline.\+h}\end{DoxyCompactItemize}

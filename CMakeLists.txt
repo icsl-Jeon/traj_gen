@@ -7,7 +7,7 @@ add_compile_options(-std=c++11)
 # If Debug mode, CGAL precision goes down
 
 
-set(CMAKE_BUILD_TYPE Release)## Find catkin macros and libraries
+set(CMAKE_BUILD_TYPE Debug)## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS

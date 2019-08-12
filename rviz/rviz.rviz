@@ -6,12 +6,8 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /MarkerArray1
-        - /Path1
-        - /Axes1
-        - /Marker1
-        - /Pose1
-      Splitter Ratio: 0.396788985
+        - /corridor_single1
+      Splitter Ratio: 0.600000024
     Tree Height: 717
   - Class: rviz/Selection
     Name: Selection
@@ -56,7 +52,7 @@ Visualization Manager:
     - Class: rviz/MarkerArray
       Enabled: true
       Marker Topic: /traj_gen_ui/waypoints_marker
-      Name: MarkerArray
+      Name: waypoint_marker
       Namespaces:
         "": true
       Queue Size: 100
@@ -71,7 +67,7 @@ Visualization Manager:
       Length: 0.300000012
       Line Style: Billboards
       Line Width: 0.0500000007
-      Name: Path
+      Name: solution_path
       Offset:
         X: 0
         Y: 0
@@ -93,10 +89,10 @@ Visualization Manager:
       Value: true
     - Class: rviz/Marker
       Enabled: true
-      Marker Topic: /traj_gen_ui/safe_corridor
-      Name: Marker
+      Marker Topic: /traj_gen_ui/safe_corridor_multi_case
+      Name: corridor_multi
       Namespaces:
-        sf_corridor: true
+        {}
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -107,7 +103,7 @@ Visualization Manager:
       Enabled: true
       Head Length: 0.300000012
       Head Radius: 0.100000001
-      Name: Pose
+      Name: control_pose
       Shaft Length: 1
       Shaft Radius: 0.0500000007
       Shape: Axes
@@ -117,9 +113,17 @@ Visualization Manager:
     - Class: rviz/Marker
       Enabled: true
       Marker Topic: /traj_gen_ui/trajectory_knots
-      Name: Marker
+      Name: trajectory_knots
       Namespaces:
         knots: true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /traj_gen_ui/safe_corridor_single_case
+      Name: corridor_single
+      Namespaces:
+        {}
       Queue Size: 100
       Value: true
   Enabled: true
@@ -147,16 +151,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 16.0772648
+      Distance: 30.5656395
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 3.08496976
-        Y: 2.4397893
-        Z: -0.405457795
+        X: 5.65064955
+        Y: 3.50358367
+        Z: -0.402881116
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false

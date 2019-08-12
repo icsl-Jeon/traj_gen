@@ -47,11 +47,23 @@ MatrixXd integral_jerk_squared(int poly_order);
 
 MatrixXd integral_snap_squared(int poly_order);
 
+/**
+ * @brief 
+ * 
+ * @param samll_mat M  
+ * @return MatrixXd blckdiag(M,M,M)
+ */
+MatrixXd expand3(MatrixXd samll_mat);
+MatrixXd expand3(MatrixXd samll_mat1,MatrixXd samll_mat2,MatrixXd samll_mat3);
+MatrixXd row_stack3(MatrixXd mat1);
+MatrixXd row_stack3(MatrixXd mat1,MatrixXd mat2, MatrixXd mat3);
+
 // find belonging time interval in time series
 int find_spline_interval(const vector<double>& knots,double eval_t);
 
 // append mat_sub to mat in the row 
 void row_append(MatrixXd & mat,MatrixXd mat_sub);
+
 
 
 /**
@@ -109,8 +121,13 @@ class PathPlanner{
         bool is_this_verbose = true; 
         nav_msgs::Path current_path; // latest path from optimization for entire horizon 
         traj_gen::PolySplineXYZ spline_xyz; // the coefficient of this polynomials 
+        
         visualization_msgs::Marker safe_corridor_marker; 
+        visualization_msgs::Marker safe_corridor_marker_single_base;
+        visualization_msgs::MarkerArray safe_corridor_marker_single_array; // in case of single corridor, marker array will be activated  
         visualization_msgs::Marker knots_marker; // knots marker (the actual point at th knot time)
+        // sub routine 
+        Affine3d get_affine_corridor_pose(Point p1,Point p2); // one affine corridor            
 
     public: 
         // constructor
@@ -118,12 +135,14 @@ class PathPlanner{
         bool is_spline_valid() {return spline_xyz.is_valid;};        
         // update spline and current path 
         void path_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt );
-        QP_form_xyz qp_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt );
+        void qp_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt,QP_form_xyz* decouple_qp);
+        void qp_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt,QP_form* couple_qt);
         nav_msgs::Path get_path() {return current_path;}
         // evaluate at a time horizon 
         void horizon_eval_spline(int N_eval_interval);
         nav_msgs::Path sub_horizon_eval_spline(int N_eval_interval,double t_start,double t_final);        
         visualization_msgs::Marker get_safe_corridor_marker(){return safe_corridor_marker;}
+        visualization_msgs::MarkerArray get_safe_corridor_single_marker(){return safe_corridor_marker_single_array;}
         visualization_msgs::Marker get_knots_marker();
 
         // evaluate at a time
@@ -133,14 +152,28 @@ class PathPlanner{
 
         // ros data retrieving from path update 
 
-
         // sub routine 
         PolySpline get_solution(VectorXd sol,int poly_order,int n_seg );        
+        PolySplineXYZ get_solution_couple(VectorXd sol,int poly_order,int n_seg ); // sol = [px1 py1 pz1 | px2 py2 pz2 | ...]        
         VectorXd solveqp(QP_form qp_prob,bool& is_ok);
         Constraint get_init_constraint_mat(double x0, double v0, double a0,TrajGenOpts option); // up to 2nd order conditions 
         Constraint get_continuity_constraint_mat(double dt1,double dt2,TrajGenOpts option); // up to 2nd order continuity 
+        Constraint get_continuity_constraint_mat3(double dt1,double dt2,TrajGenOpts option); // coupled version 
         
-};
+        
+        /**
+         * @brief Get the corridor constraint mat object
+         * 
+         * @param pnt1 
+         * @param pnt2 
+         * @param t_vec 
+         * @param option 
+         * @return Constraint A = 6 x (blck_size_seg) / b = 6 x 1
+         */
+        Constraint get_corridor_constraint_mat(Point pnt1 ,Point pnt2,VectorXd t_vec,TrajGenOpts option); // refer the research note (find A,b for safe corridor)
+       
+    };
+
 
 
 
