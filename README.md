@@ -1,6 +1,6 @@
 # traj_gen 
 
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/intro.png"> 
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/intro2.png"> 
 
 **(left)** piecewise polynomial path obtained **(right)** multiple safe corridors in subinterval 
 
