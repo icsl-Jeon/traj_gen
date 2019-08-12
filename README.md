@@ -1,12 +1,12 @@
 # traj_gen : path generation tools with a variety of options
 
-<p align - "center">
+<p align = "center">
 <img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/intro2.png" width = 800 > 
 </p>
 
 **(left)** coupled optimization for single corridor type **(right)** decoupled optimization for multi corridor or non-corridors  
 
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/run_video.gif">
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/run_video.gif" witdh = 600>
 
 
 - **(running traj_gen)** step by step tutorial  
@@ -14,13 +14,13 @@
 ## 0. Release notes
 
 #### 2019/8/12
-
+Finally, the single corridor method was develped. set ```is_single_corridor = true ``` in gui.
 
 #### 2019/5/16
 
 QSlider was added. As of now, *traj_gen* can accommodate height input from user. Adjust slider for height and then select waypoint. In this way, height value will be encoded together(see below).    
-
-<img align = "center" src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/gui_update.png" witdh = 600>
+<p >
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/gui_update.png" witdh = 600>
 <em> two types of corridor </em>
 
 
@@ -126,7 +126,7 @@ In general, imposing too many sub constraints will be infeasible for polynomial 
 
 #### (2) single box between waypoints 
 
-Number of constraints will be decreased but x,y,z cannot be solved independently
+Number of constraints will be decreased but x,y,z cannot be solved independently. This will take more time than (1)
 
 
 ## 5 Issues 
