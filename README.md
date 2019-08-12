@@ -1,8 +1,10 @@
-# traj_gen 
+# traj_gen : path generation tools with a variety of options
 
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/intro2.png"> 
+<p align - "center">
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/intro2.png" width = 800 > 
+</p>
 
-**(left)** piecewise polynomial path obtained **(right)** multiple safe corridors in subinterval 
+**(left)** coupled optimization for single corridor type **(right)** decoupled optimization for multi corridor or non-corridors  
 
 <img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/run_video.gif">
 
@@ -11,12 +13,15 @@
 
 ## 0. Release notes
 
+#### 2019/8/12
+
+
 #### 2019/5/16
 
 QSlider was added. As of now, *traj_gen* can accommodate height input from user. Adjust slider for height and then select waypoint. In this way, height value will be encoded together(see below).    
 
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/gui_update.png">
-
+<img align = "center" src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/gui_update.png" witdh = 600>
+<em> two types of corridor </em>
 
 
 
@@ -119,7 +124,7 @@ Number of constraints will be increased but x,y,z can be solved independently.
 	
 In general, imposing too many sub constraints will be infeasible for polynomial curves 
 
-#### (2) single box between waypoints (sitll developing)
+#### (2) single box between waypoints 
 
 Number of constraints will be decreased but x,y,z cannot be solved independently
 
