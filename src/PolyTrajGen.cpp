@@ -19,9 +19,22 @@ Affine3d PathPlanner::get_affine_corridor_pose(Point p1,Point p2){
         // e2 : y-axis
         Vector3d e2;
         e2(2) = 0; e2(1) = 1; // for simplicity 
-        e2(0) = - e1(1)/e1(0) * e2(1);
-        e2.normalize();
-                // e3 : z-axis 
+
+		
+		if (e1(0) != 0 and e1(1) != 0)   
+		    e2(0) = - e1(1)/e1(0) * e2(1);
+        else if (e1(0) == 0 and e1(1) != 0){
+            e2(1) = 0, e2(0) = 1;
+        }
+        else if (e1(0) != 0 and e1(1) == 0){
+            e2(0) = 0; e2(1) = 1;
+        }
+        else{
+            e2(0) = e2(1) = 1/sqrt(2);
+        }
+		e2.normalize();
+         
+        // e3 : z-axis 
         Vector3d e3 = e1.cross(e2);
         
         Matrix3d Rwb; 
@@ -64,7 +77,7 @@ void PathPlanner::path_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoi
     bool is_ok= false; 
     // coupled 
     if(opt.is_single_corridor){
-        cout << knots <<endl;
+        // cout << knots <<endl;
 
         QP_form qp;
         qp_gen(knots,waypoints,v0,a0,opt,&qp);
@@ -187,7 +200,7 @@ void PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& waypoints
                 else 
                     time_scaling_factor = pow(knots[n+1]-knots[n],7);
 
-                cout<<"time scaling factor: "<<time_scaling_factor<<endl;
+                //cout<<"time scaling factor: "<<time_scaling_factor<<endl;
                 Q.block(insert_start,insert_start,blck_size_seg,blck_size_seg)+=expand3(MatrixXd(time_scaling_factor*opt.w_d*t_vec(poly_order,1,0)*t_vec(poly_order,1,0).transpose()));
                 MatrixXd H_sub(1,blck_size_seg);
                 H_sub << -2*time_scaling_factor*opt.w_d*(waypoints.poses[n+1].pose.position.x)*t_vec(poly_order,1,0).transpose(),
@@ -197,12 +210,7 @@ void PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& waypoints
                 H.block(0,insert_start,1,blck_size_seg) = H_sub;             
                 }
     }
-    cout << "Q: "<<endl;
-    cout << Q << endl; 
-    cout<< "H: "<<endl;
-    cout<< H << endl;
-
-   /*
+       /*
         2. Equality constraints  
     */
     //  -----------------------------------------------------------------------
@@ -251,18 +259,14 @@ void PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& waypoints
         row_append(Aeq,Aeq_sub); row_append(beq,beq_sub);
     }
 
-    cout << "Aeq: "<<endl;
-    cout << Aeq << endl; 
-    cout<< "beq: "<<endl;
-    cout<< beq << endl;
-        
+       
 
     /*
         3. Inequality constraints (only if there is a corridor constraint) 
     */
     //  -----------------------------------------------------------------------    
 
-    int N_safe_pnts = opt.N_safe_pnts;
+    int N_safe_pnts = opt.N_safe_pnts + 2;
     int n_ineq_consts = 3*2*(N_safe_pnts)*n_seg;
 
     MatrixXd A_sub(n_ineq_consts,n_var_total),b_sub(n_ineq_consts,1);
@@ -304,9 +308,9 @@ void PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& waypoints
         yf = waypoints.poses[n+1].pose.position.y;
         zf = waypoints.poses[n+1].pose.position.z;
         
-        dx = (xf-x0)/((N_safe_pnts+1));
-        dy = (yf-y0)/((N_safe_pnts+1));
-        dz = (zf-z0)/((N_safe_pnts+1));
+        dx = (xf-x0)/((N_safe_pnts-1));
+        dy = (yf-y0)/((N_safe_pnts-1));
+        dz = (zf-z0)/((N_safe_pnts-1));
 
         Point p1,p2;
         p1.x = x0; p1.y = y0; p1.z = z0;
@@ -337,13 +341,13 @@ void PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& waypoints
 
 
         // per safe sample points along 
-        for (int n_sub = 1; n_sub<=N_safe_pnts;n_sub++){
+        for (int n_sub = 0 ; n_sub<N_safe_pnts;n_sub++){
 
             double x_sub,y_sub,z_sub;
             x_sub = x0 + dx*n_sub;
             y_sub = y0 + dy*n_sub;
             z_sub = z0 + dz*n_sub;
-            double t_control = 1.0/(N_safe_pnts+1) * n_sub;
+            double t_control = 1.0/(N_safe_pnts-1) * n_sub;
             
             // get A,b block for this control point 
             Constraint const_ineq = get_corridor_constraint_mat(p1,p2,t_vec(poly_order,t_control,0),opt);             
@@ -361,11 +365,6 @@ void PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& waypoints
     row_append(Aineq,A_sub);
     row_append(bineq,b_sub);
 
-    cout << "A: "<<endl;
-    cout << Aineq << endl; 
-    cout<< "b: "<<endl;
-    cout<< bineq << endl;
- 
     QP_form qp; qp.Q = Q; qp.H = H; qp.A = Aineq; qp.b = bineq; qp.Aeq = Aeq; qp.beq = beq; 
     *qp_form = qp;
 }
@@ -620,11 +619,11 @@ void PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& waypoints
                     float l = (pnt1 - pnt2).norm();
                     Affine3d Twb = get_affine_corridor_pose(p1,p2);
                     
-                    cout<<"rotation"<<endl;
-                    cout<<Twb.rotation()<<std::endl;
+                    //cout<<"rotation"<<endl;
+                    //cout<<Twb.rotation()<<std::endl;
 
-                    cout<<"translation"<<endl;
-                    cout<<Twb.translation()<<std::endl;
+                    //cout<<"translation"<<endl;
+                    //cout<<Twb.translation()<<std::endl;
                     // in their local body axis 
                     lower_limit(0) = -l/2 - safe_r;
                     lower_limit(1) = -safe_r;
@@ -881,9 +880,9 @@ VectorXd PathPlanner::solveqp(QP_form qp_prob,bool& is_ok){
     int_t nWSR = 2000;
    
 	QProblem qp_obj(N_var,N_const,HST_SEMIDEF);
-    std::cout<<"hessian type: "<<qp_obj.getHessianType()<<endl;
+    //std::cout<<"hessian type: "<<qp_obj.getHessianType()<<endl;
     Options options;
-	options.printLevel = PL_MEDIUM;
+	options.printLevel = PL_LOW;
 	qp_obj.setOptions(options);
 	qp_obj.init(H_qp,g,A,NULL,NULL,lbA,ubA,nWSR);
     if(qp_obj.isInfeasible()){
@@ -903,8 +902,8 @@ VectorXd PathPlanner::solveqp(QP_form qp_prob,bool& is_ok){
     for(int n = 0; n<N_var;n++)
         sol(n) = xOpt[n];
 
-    cout << "solution" <<endl;
-    cout << sol <<endl;
+    //cout << "solution" <<endl;
+    //cout << sol <<endl;
     return sol;        
 }
 
