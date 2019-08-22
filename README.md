@@ -30,7 +30,7 @@ QSlider was added. As of now, *traj_gen* can accommodate height input from user.
 
 ### 1.1 Dependencies 
 
-#### (0) ROS and qt related packages
+#### (0) ROS(kinetic and melodic support)
 
 #### (1) qpOASES 
 - The package bases qpOASES as quadratic programming solver.  Please refer  https://projects.coin-or.org/qpOASES and install the library. (make sure `sudo make install` after build of qpOASES)
@@ -43,7 +43,41 @@ find_package(Boost REQUIRED COMPONENTS system)
 set(qpOASES_SRC /home/jbs/lib/qpOASES-3.2.1)
 
 file(GLOB_RECURSE qpOASES_LIBS ${qpOASES_SRC}/src/*.cpp)
+
 ```
+
+#### Qt4
+
+```
+sudo apt-get install qt4*
+```
+
+
+
+### 1.2 Install
+
+```
+# melodic 
+cd ~/catkin_ws
+catkin build traj_gen
+
+# kinetic 
+mv CMakeLists_kinetic.txt CMakeLists.txt
+catkin build traj_gen
+```
+
+
+
+### 1.3 Issues
+
+#### boost_join error
+
+```
+sudo cp ./support/has_binary_operator.hpp /usr/include/boost/type_traits/detail/
+```
+
+
+
 
 
 ## 2 ROS Node API

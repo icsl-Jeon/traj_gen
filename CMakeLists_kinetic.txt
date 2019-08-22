@@ -14,24 +14,24 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   nav_msgs
   roscpp
-  # qt_build
+  qt_build
   geometry_msgs
 )
-find_package(Qt4 REQUIRED COMPONENTS QtCore QtGui)
-include(${QT_USE_FILE})
-include_directories(include  ${catkin_INCLUDE_DIRS})
+
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED COMPONENTS system)
 
 set(qpOASES_SRC /home/jbs/lib/qpOASES-3.2.1)
+
 file(GLOB_RECURSE qpOASES_LIBS ${qpOASES_SRC}/src/*.cpp)
+
 ##############################################################################
 # Qt Environment
 ##############################################################################
 set(CMAKE_AUTOUIC ON) 
 # this comes from qt_build's qt-ros.cmake which is automatically 
 # included via the dependency call in manifest.xml
-# rosbuild_prepare_qt4(QtCore QtGui) # Add the appropriate components to the component list here
+rosbuild_prepare_qt4(QtCore QtGui) # Add the appropriate components to the component list here
 set(QT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/qt_ui)
 set(QT_FORMS ${QT_DIR}/mainwindow.ui) # by adding this, the catkin build make ui_mainWindow.h
 file(GLOB QT_MOC   ${QT_DIR}/*.h)
@@ -92,8 +92,7 @@ add_library(${PROJECT_NAME}
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME}_client qt_ui/main.cpp src/PolyTrajGen.cpp ${qpOASES_LIBS}
-${qpOASES_INC} ${QT_FORMS_CPP} ${QT_SOURCES} ${QT_MOC_HPP} ${qpOASES_LIBS})
+add_executable(${PROJECT_NAME}_client qt_ui/main.cpp src/PolyTrajGen.cpp ${qpOASES_LIBS} ${QT_FORMS_CPP} ${QT_SOURCES} ${QT_MOC_HPP} ${qpOASES_LIBS})
 
  target_link_libraries(${PROJECT_NAME}_client
  ${catkin_LIBRARIES} ${QT_LIBRARIES})
