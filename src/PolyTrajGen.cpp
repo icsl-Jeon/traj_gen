@@ -78,7 +78,7 @@ void PathPlanner::path_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoi
     // coupled 
     if(opt.is_single_corridor){
         // cout << knots <<endl;
-
+        cout << "[TRAJ_GEN] xyz coupled corridor generation..." <<endl;
         QP_form qp;
         qp_gen(knots,waypoints,v0,a0,opt,&qp);
         PolySplineXYZ spline_xyz_sol = get_solution_couple(solveqp(qp,is_ok),poly_order,n_seg);
@@ -88,6 +88,7 @@ void PathPlanner::path_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoi
          
     }else{ // decoupled 
         QP_form_xyz qp_xyz;
+        cout << "[TRAJ_GEN] xyz decoupled corridor generation..." <<endl;
         qp_gen(knots,waypoints,v0,a0,opt,&qp_xyz);
         bool is_ok_x,is_ok_y,is_ok_z;            
         spline_x = get_solution (solveqp(qp_xyz.x,is_ok_x),poly_order,n_seg);
@@ -137,7 +138,16 @@ void PathPlanner::path_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoi
     horizon_eval_spline(10);
 
 }
-
+/**
+ * @brief This is qp generator for coupled case (single corridor)
+ * 
+ * @param knots 
+ * @param waypoints 
+ * @param v0 
+ * @param a0 
+ * @param opt 
+ * @param qp_form 
+ */
 void PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt,QP_form* qp_form){
 
     int n_seg = waypoints.poses.size() - 1;
@@ -265,7 +275,6 @@ void PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& waypoints
         3. Inequality constraints (only if there is a corridor constraint) 
     */
     //  -----------------------------------------------------------------------    
-
     int N_safe_pnts = opt.N_safe_pnts + 2;
     int n_ineq_consts = 3*2*(N_safe_pnts)*n_seg;
 
@@ -369,7 +378,16 @@ void PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& waypoints
     *qp_form = qp;
 }
 
-
+/**
+ * @brief decoupled qp generation 
+ * 
+ * @param knots 
+ * @param waypoints 
+ * @param v0 
+ * @param a0 
+ * @param opt 
+ * @param qp_form_xyz 
+ */
 void PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt,QP_form_xyz* qp_form_xyz){
 
 
@@ -505,16 +523,14 @@ void PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& waypoints
     int N_safe_pnts = opt.N_safe_pnts;
     int n_ineq_consts = 2*(N_safe_pnts)*n_seg;
 
-
     /*
         3. Inequality constraints (only if there is a corridor constraint) 
     */
     //  -----------------------------------------------------------------------    
 
-    if (opt.is_multi_corridor or opt.is_single_corridor){    
-
+    if(opt.is_multi_corridor){
         // in case of multi corridor, the multiple cubes are used to represent the corridor region 
-        if(opt.is_multi_corridor){
+            cout << "[TRAJ_GEN]: multi corridor generator... " <<endl;
             // multi-corridor is called. if previous solve routine was single corridor, flush it 
             if(safe_corridor_marker_single_array.markers.size())
                 safe_corridor_marker_single_array.markers.clear(); 
@@ -533,27 +549,7 @@ void PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& waypoints
             safe_corridor_marker.color.b = 1.0;
             safe_corridor_marker.points.clear();
             safe_corridor_marker.points.resize((N_safe_pnts)*n_seg);
-        }
-        // in the single corridor, affine transform is needed 
-        else if (opt.is_single_corridor){
-            if(safe_corridor_marker.points.size())
-                safe_corridor_marker.points.clear();
-
-            safe_corridor_marker_single_base.header.frame_id = "world";
-            safe_corridor_marker_single_base.ns = "sf_corridor";
-            safe_corridor_marker_single_base.type = visualization_msgs::Marker::CUBE;
-            safe_corridor_marker_single_base.action = 0;
-            safe_corridor_marker_single_base.color.a = 0.5;
-            safe_corridor_marker_single_base.color.r = 170.0/255.0;
-            safe_corridor_marker_single_base.color.g = 1.0;
-            safe_corridor_marker_single_base.color.b = 1.0;
-            
-            // flushing 
-
-            if(safe_corridor_marker_single_array.markers.size())
-                safe_corridor_marker_single_array.markers.clear();
-        }           
-        
+       
 
         MatrixXd A_sub(n_ineq_consts,n_var_total),bx_sub(n_ineq_consts,1),by_sub(n_ineq_consts,1),bz_sub(n_ineq_consts,1);
         A_sub.setZero(); bx_sub.setZero(); by_sub.setZero(); bz_sub.setZero();
@@ -592,10 +588,9 @@ void PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& waypoints
                 Vector3d upper_limit,lower_limit;
 
                 // axis parallel multiple cube
-                if (opt.is_multi_corridor){
-                    lower_limit(0) = -(x_sub - safe_r);
-                    lower_limit(1) = -(y_sub - safe_r);
-                    lower_limit(2) = -(z_sub - safe_r);
+                    lower_limit(0) = (x_sub - safe_r);
+                    lower_limit(1) = (y_sub - safe_r);
+                    lower_limit(2) = (z_sub - safe_r);
                      
                     upper_limit(0) = (x_sub + safe_r);
                     upper_limit(1) = (y_sub + safe_r);
@@ -610,52 +605,7 @@ void PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& waypoints
                     idx++;
 
                 // non parallel single rectangle
-                }else if(opt.is_single_corridor){
-                    //  
-                    Point p1,p2;
-                    p1.x = x0; p1.y = y0; p1.z = z0;
-                    p2.x = xf; p2.y = yf; p2.z = zf;
-                    Vector3f pnt1(p1.x,p1.y,p1.z),pnt2(p2.x,p2.y,p2.z);  
-                    float l = (pnt1 - pnt2).norm();
-                    Affine3d Twb = get_affine_corridor_pose(p1,p2);
-                    
-                    //cout<<"rotation"<<endl;
-                    //cout<<Twb.rotation()<<std::endl;
-
-                    //cout<<"translation"<<endl;
-                    //cout<<Twb.translation()<<std::endl;
-                    // in their local body axis 
-                    lower_limit(0) = -l/2 - safe_r;
-                    lower_limit(1) = -safe_r;
-                    lower_limit(2) = -safe_r;
-
-                    upper_limit = -lower_limit;
-
-                    // in world frame 
-                    lower_limit = Twb*lower_limit;
-                    upper_limit = Twb*upper_limit;
-
-                    // marker 
-                    
-                    // pose 
-                    safe_corridor_marker_single_base.pose.position.x = Twb.translation()(0);                     
-                    safe_corridor_marker_single_base.pose.position.y = Twb.translation()(1);                     
-                    safe_corridor_marker_single_base.pose.position.z = Twb.translation()(2);                     
-
-                    Quaterniond q(Twb.rotation());
-                    safe_corridor_marker_single_base.pose.orientation.x = q.x();
-                    safe_corridor_marker_single_base.pose.orientation.y = q.y();
-                    safe_corridor_marker_single_base.pose.orientation.z = q.z();
-                    safe_corridor_marker_single_base.pose.orientation.w = q.w();
-                    
-                    // scale 
-                    safe_corridor_marker_single_base.scale.x = 2*(l/2 + safe_r);
-                    safe_corridor_marker_single_base.scale.y = 2*(safe_r);
-                    safe_corridor_marker_single_base.scale.z = 2*(safe_r);
-                    safe_corridor_marker_single_base.id = n;
-                    // append 
-                    safe_corridor_marker_single_array.markers.push_back(safe_corridor_marker_single_base);
-                }
+                
 
                 A_sub.block(ineq_row_insert_idx,ineq_col_insert_idx1,1,blck_size)=-t_vec(poly_order,t_control,0).transpose();        
                             
@@ -682,12 +632,8 @@ void PathPlanner::qp_gen(const TimeSeries& knots,const nav_msgs::Path& waypoints
         row_append(Aineq_y,A_sub); row_append(bineq_y,by_sub);
         row_append(Aineq_z,A_sub); row_append(bineq_z,bz_sub); 
 
+    }        
     
-    }else{
-        safe_corridor_marker.points.clear();
-        safe_corridor_marker_single_array.markers.clear();
-    }
-
     /*
         4. Wrapping  
     */
@@ -1304,3 +1250,4 @@ int find_spline_interval(const vector<double>& ts,double t_eval) {
 
     // if idx == -1, then could not find
 }
+

@@ -136,7 +136,7 @@ class PathPlanner{
         // update spline and current path 
         void path_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt );
         void qp_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt,QP_form_xyz* decouple_qp);
-        void qp_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt,QP_form* couple_qt);
+        void qp_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoints,const geometry_msgs::Twist& v0,const geometry_msgs::Twist& a0,TrajGenOpts opt,QP_form* couple_qp);
         nav_msgs::Path get_path() {return current_path;}
         // evaluate at a time horizon 
         void horizon_eval_spline(int N_eval_interval);
