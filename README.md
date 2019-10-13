@@ -13,7 +13,12 @@
 
 ## 0. Release notes
 
+#### 2019/10/13 
+
+Bug fixed. 
+
 #### 2019/8/12
+
 Finally, the single corridor method was develped. set ```is_single_corridor = true ``` in gui.
 
 #### 2019/5/16
@@ -164,7 +169,7 @@ Number of constraints will be decreased but x,y,z cannot be solved independently
 
 
 ## 5 Issues 
- * please avoid using polynomial order 6 for the case where you minimize the jerk squared integral (objective derivate = 3)
-	
+ * Please avoid using polynomial order 6 for the case where you minimize the jerk squared integral (objective derivate = 3)
+ * Recommend to check soft waypoint constraint  option in case of single corridor mode. 
 
 
