@@ -13,6 +13,7 @@ install:
     - mkdir build && cd build 
     - cmake .. -DCMAKE_CXX_FLAGS=-fPIC
     - sudo make install
+    - cd ../../ 
 
 script: 
     - cmake ./cpp
