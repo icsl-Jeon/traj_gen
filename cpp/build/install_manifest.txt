@@ -1,0 +1,7 @@
+/usr/local/lib/libtraj_gen.so.2.0.0
+/usr/local/lib/libtraj_gen.so.1
+/usr/local/lib/libtraj_gen.so
+/usr/local/include/traj_gen/TrajGen.hpp
+/usr/local/share/pkgconfig/trajgen.pc
+/usr/local/share/TrajGen/cmake/TrajGenConfig.cmake
+/usr/local/share/TrajGen/cmake/TrajGenConfig-noconfig.cmake

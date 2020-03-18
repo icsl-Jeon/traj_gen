@@ -1,0 +1,1 @@
+/usr/bin/c++  -g  -rdynamic CMakeFiles/test_pin.dir/test.cpp.o  -o test_pin -Wl,-rpath,/usr/local/lib /usr/local/lib/libqpOASES.a /usr/local/lib/libtraj_gen.so.2.0.0 -lqpOASES 
