@@ -1,175 +1,36 @@
-# traj_gen : path generation tools with a variety of options
+## traj_gen :  a continuous trajectory generation with simple API
 
 <p align = "center">
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/intro2.png" width = 800 > 
+<img src= "https://github.com/icsl-Jeon/traj_gen2/blob/master/img/tutorial.gif">
 </p>
 
-**(left)** coupled optimization for single corridor type **(right)** decoupled optimization for multi corridor or non-corridors  
+*traj_gen* is a continuous trajectory generation package where <u>high order derivatives</u> 
+along the trajectory are minimized while satisfying waypoints (equality) and axis-parallel box constraint (inequality). The objective and constraints are formulated in *quadratic programming* (QP) to cater the real-time performance. 
 
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/run_video.gif" witdh = 600>
+- To parameterize a trajectory, we use two types of curve: 1) **piecewise-polynomials** [1,2] and 2) **a sequence of points** [3]. 
+The difference is optimization variables.   
 
+  a. **piecewise-polynomials (polyTrajGen class)** : It defines the primitive of the curve as polynomical spline. The optimization target is either *polynomial coefficients* [1] or *free end-derivatives* of spline segments [2] (can be set in constructor). In general, the latter has fewer optimization variables as it reduces the number of variable as much as the number of equality constraints.    
+  b. **a sequence of points (optimTrajGen class)** : It does not limit the primitive of the curve. The optimization target is a finite set of points. The final curve is defined as a linear interpolant of the set of points. The point density (# of points per time) should be set in the constructor. Instead of unlimited representation capability of a curve, the size of optimization is driectly affected by the point density.          
+  
+- In this package, we use **pin** to accommodate the two constraints: equality (*fix pin*) and inequality (*loose pin*). Pin can be imposed regardless of the order of derivatives. *Fix-pin* refers a waypoint constraint, 
+and *loose-pin* denotes a axis-parallel box constraint. The pin is a triplets (time (t), order of derivatives (d), value (x)) where x is 
+a vector in case of fix-pin while two vectors [xl xu] for the loose-pin.  
 
-- **(running traj_gen)** step by step tutorial  
+ - We implemented traj_gen in Matlab and C++(upcoming ~ the end of Mar). In case of 2D trajectory generation in Matlab, we provide interactive pin selection (see poly_example/main2D).
+Also, we plan to provide ROS support such as the [previous version](https://github.com/icsl-Jeon/traj_gen)
 
-## 0. Release notes
 
-#### 2019/10/13 
+### Matlab API quick start (check multiple examples in poly_example and optimal_example)
+<p align = "center">
+<img src= "https://github.com/icsl-Jeon/traj_gen2/blob/master/img/quick_start.png">
+</p>
 
-Bug fixed. 
 
-#### 2019/8/12
+  ### Reference 
 
-Finally, the single corridor method was develped. set ```is_single_corridor = true ``` in gui.
+[1] Mellinger, Daniel, and Vijay Kumar. "Minimum snap trajectory generation and control for quadrotors." *2011 IEEE International Conference on Robotics and Automation*. IEEE, 2011.
 
-#### 2019/5/16
+[2] Richter, Charles, Adam Bry, and Nicholas Roy. "Polynomial trajectory planning for aggressive quadrotor flight in dense indoor environments." *Robotics Research*. Springer, Cham, 2016. 649-666.
 
-QSlider was added. As of now, *traj_gen* can accommodate height input from user. Adjust slider for height and then select waypoint. In this way, height value will be encoded together(see below).    
-<p >
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/gui_update.png" witdh = 600>
-<em> two types of corridor </em>
-
-
-
-
-## 1 Installation 
-
-### 1.1 Dependencies 
-
-#### (0) ROS(kinetic and melodic support)
-
-#### (1) qpOASES 
-- The package bases qpOASES as quadratic programming solver.  Please refer  https://projects.coin-or.org/qpOASES and install the library. (make sure `sudo make install` after build of qpOASES)
-- Let the qpOASES package direcotry ${qpOASES_SRC}. Please insert your qpOASES directory in CMakeList.txt 
-
-```
-## System dependencies are found with CMake's conventions
-find_package(Boost REQUIRED COMPONENTS system)
-// here insert your qpOASES directory 
-set(qpOASES_SRC /home/jbs/lib/qpOASES-3.2.1)
-
-file(GLOB_RECURSE qpOASES_LIBS ${qpOASES_SRC}/src/*.cpp)
-
-```
-
-#### Qt4
-
-```
-sudo apt-get install qt4*
-```
-
-
-
-### 1.2 Install
-
-```
-# melodic 
-cd ~/catkin_ws
-catkin build traj_gen
-
-# kinetic 
-mv CMakeLists_kinetic.txt CMakeLists.txt
-catkin build traj_gen
-```
-
-
-
-### 1.3 Issues
-
-#### boost_join error
-
-```
-sudo cp ./support/has_binary_operator.hpp /usr/include/boost/type_traits/detail/
-```
-
-
-
-
-
-## 2 ROS Node API
-
-### 2.1 Published Topics 
-
- * control_pose [geometry_msgs/PoseStamped] : published topic for desired control point of current time step  
- * safe_corridor [visualization_msgs/Marker] : the safe corridor marker
- * trajectory [nav_msgs/Path] : generated trajectory 
- * trajectory_knots [visualization_msgs/Marker] : the points on the path evaluated each waypoint time 
- * waypoints_marker [visualization_msgs/MarkerArray] : the recieved waypoints from user
-
-### 2.2 Subscribed Topics 
- * /waypoint [geometry_msgs/PoseStamped] : waypoint input from Rvis by user
-
-
-
-### 2.3 Parameters in Launch 
- * world_frame_id : the world frame id. (default : /world)
- * waypoint_topic : the topic name by user input 
-
-
-
-## 3 USAGE 
-
-### 3.1 Qt gui
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/traj_gen.png"> 
-
-This library provides interface where you can specifiy a sequence of waypoints from Rviz 
-
-(1) ROS connect : please push the button at the beginning while roscore is running 
-
-(2) select waypoints : waypoints insertion from rviz is allowed while this button is clicked 
-
-(3) trajectory generation : quadratic programming with assigned parameters
-
-(4) publish : the time allocation of the trajectory is equal division from 0 to "simulation tf" of gui. A desired control point will be published in *geometry_msg/PoseStamped* message type. The evaluation time for control point will be paused by re-clicking (still publishing). If you want to evaluate the trajectory of interest again from the start, Then release the button and re-create the same trajectory with *Traj generation* button. 
-
-(5) manage waypoints : please provide the absolute of directory for txt file 
-
-(6) textbox. important message will appear 
-
-### waypoints selection from user
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/traj_gen-2.png"> 
-
-*You can also save and load the waypoints in txt file format. In that way, you may assign the heights for each waypoint*
-
-## 4 Alogrithm 
-
-This package is based on minimum jerk or snap with motion primitives of polynomials 
-
-**refer**
-Mellinger, Daniel, and Vijay Kumar. "Minimum snap trajectory generation and control for quadrotors." 2011 IEEE International Conference on Robotics and Automation. IEEE, 2011.
-
-* * *
-### 4.1 Waypoints 
-
-
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/hard_vs_soft.png"> 
-
-#### (1) Soft waypoints
-
-not necessarily pass through the specified waypoints. But it can minimize jerk more.
-
-#### (2) Hard waypoints
-
-the waypoints will be passed exactly as hard constraints 
-
-* * *
-
-### 4.2 Corridor
-
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/explain_corridor.jpg"> 
-
-#### (1) multiple sub boxes between waypoints which is axis-parallel 
-
-Number of constraints will be increased but x,y,z can be solved independently.
-	
-In general, imposing too many sub constraints will be infeasible for polynomial curves 
-
-#### (2) single box between waypoints 
-
-Number of constraints will be decreased but x,y,z cannot be solved independently. This will take more time than (1)
-
-
-## 5 Issues 
- * Please avoid using polynomial order 6 for the case where you minimize the jerk squared integral (objective derivate = 3)
- * Recommend to check soft waypoint constraint  option in case of single corridor mode. 
-
-
+[3] Ratliff, Nathan, et al. "CHOMP: Gradient optimization techniques for efficient motion planning." *2009 IEEE International Conference on Robotics and Automation*. IEEE, 2009.
