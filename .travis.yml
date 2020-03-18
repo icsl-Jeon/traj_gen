@@ -5,3 +5,7 @@ compiler:
 
 os:
 - linux
+
+script: 
+        - cmake ./cpp
+        
