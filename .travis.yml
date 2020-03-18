@@ -7,13 +7,13 @@ os:
 - linux
 
 
-before_install:
-	- git clone https://github.com/coin-or/qpOASES.git
-	- cd qpOASES 
-	- mkdir build && cd build 
-	- cmake .. -DCMAKE_CXX_FLAGS=-fPIC
-	- sudo make install
+install:
+    - git clone https://github.com/coin-or/qpOASES.git
+    - cd qpOASES 
+    - mkdir build && cd build 
+    - cmake .. -DCMAKE_CXX_FLAGS=-fPIC
+    - sudo make install
 
 script: 
-        - cmake ./cpp
+    - cmake ./cpp
         
