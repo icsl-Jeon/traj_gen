@@ -26,8 +26,32 @@ Also, we plan to provide ROS support such as the [previous version](https://gith
 ## Getting started 
 
 ### 1. Installation 
-To install *traj_gen*, the following dependencies are required : 1) Eigen 3.X, 2) [qpOASES](https://github.com/coin-or/qpOASES). As most of linux users have Eigen 3, w
-
+- **Setting dependencies** 
+  #### (1) Eigen 3  
+  #### (2) qpOASES (note -fPIC flag when cmake)
+  ```
+  $ git clone https://github.com/coin-or/qpOASES.git
+  $ cd path/to/qpOASES
+  $ mkdir build && cd build
+  $ cmake .. -DCMAKE_CXX_FLAGS=-fPIC
+  $ sudo make install
+  ```  
+- **Build traj_gen (C++)**
+  ```
+  $ git clone https://github.com/icsl-Jeon/traj_gen.git
+  $ cd ./traj_gen/cpp
+  $ mkdir build && cd build
+  $ cmake ..
+  & make && sudo make install
+  ```
+- **Testing the package**
+  ```
+  $ cd ./traj_gen/cpp/test
+  $ mkdir build && cd build
+  $ cmake ..
+  $ make 
+  $ ./test_pin 
+  ```
 ### 2. C++ API quick start 
 ```cpp
 #include <traj_gen2/TrajGen.hpp>
