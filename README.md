@@ -1,4 +1,4 @@
-<img src= "https://github.com/icsl-Jeon/traj_gen/blob/master/img/logo.png" width="300" >
+<img src= "https://github.com/icsl-Jeon/traj_gen/blob/master/img/logo2.png" width="300" >
 
 ## traj_gen :  a continuous trajectory generation with simple API
 ###   Version 2.0.1  (Mar 18, 2020)
