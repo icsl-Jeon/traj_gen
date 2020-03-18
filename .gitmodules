@@ -1,3 +1,0 @@
-[submodule "matlab"]
-	path = matlab
-	url = https://github.com/icsl-Jeon/traj_gen-matlab
