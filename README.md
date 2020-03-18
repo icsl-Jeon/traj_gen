@@ -1,13 +1,13 @@
 <img src= "https://github.com/icsl-Jeon/traj_gen/blob/master/img/logo.png" width="300" >
 
 ## traj_gen :  a continuous trajectory generation with simple API
-
+###   Version 2.0.1  (Mar 18, 2020)
 <p align = "center">
 <img src= "https://github.com/icsl-Jeon/traj_gen/blob/master/img/tutorial.gif">
 </p>
 
 *traj_gen* is a continuous trajectory generation package where <u>high order derivatives</u> 
-along the trajectory are minimized while satisfying waypoints (equality) and axis-parallel box constraint (inequality). The objective and constraints are formulated in *quadratic programming* (QP) to cater the real-time performance. 
+along the trajectory are minimized while satisfying waypoints (equality) and axis-parallel box constraint (inequality). The objective and constraints are formulated in *quadratic programming* (QP) to cater the real-time performance. The whole code is written in C++ and Matlab (go to [submodule](https://github.com/icsl-Jeon/traj_gen-matlab) for its API). ROS wrapper is still developing to provide similar interface with [version 1](https://github.com/icsl-Jeon/traj_gen/tree/deprecated-version1).   
 
 - To parameterize a trajectory, we use two types of curve: 1) **piecewise-polynomials** [1,2] and 2) **a sequence of points** [3]. 
 The difference is optimization variables.   
