@@ -57,7 +57,7 @@ namespace trajgen{
         qpOASES::real_t *ubAqp = ubAmat.data();
 
         qpOASES::Options options;
-        options.printLevel = qpOASES::PL_HIGH;
+        options.printLevel = qpOASES::PL_LOW;
         qp_obj.setOptions(options);
         qpOASES::int_t nWSR = 2000;
         qp_obj.init(Hqp, gqp, Aqp, NULL, NULL, lbAqp, ubAqp, nWSR);
