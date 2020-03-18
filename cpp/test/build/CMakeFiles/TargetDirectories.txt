@@ -1,3 +1,0 @@
-/home/jbs/catkin_ws/src/traj_gen2/cpp/test/build/CMakeFiles/rebuild_cache.dir
-/home/jbs/catkin_ws/src/traj_gen2/cpp/test/build/CMakeFiles/test_pin.dir
-/home/jbs/catkin_ws/src/traj_gen2/cpp/test/build/CMakeFiles/edit_cache.dir
