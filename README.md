@@ -7,7 +7,6 @@
 
 [![View traj_gen-matlab on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://kr.mathworks.com/matlabcentral/fileexchange/74573-traj_gen-matlab)
 
-<img src= "https://github.com/icsl-Jeon/traj_gen/blob/master/img/tutorial.gif">
 
 
 <p align = "center">
