@@ -1,6 +1,8 @@
 <img src= "https://github.com/icsl-Jeon/traj_gen/blob/master/img/logo2.png" width="300" >
+
 ## traj_gen :  a continuous trajectory generation with simple API (C++/Matlab)
-###   Version 2.0.1  (Mar 18, 2020) <img src = "https://travis-ci.com/icsl-Jeon/traj_gen.svg?branch=master">
+###   Version 2.0.1  (Mar 18, 2020) 
+<img src = "https://travis-ci.com/icsl-Jeon/traj_gen.svg?branch=master">
 
 <p align = "center">
 <img src= "https://github.com/icsl-Jeon/traj_gen/blob/master/img/tutorial.gif">
