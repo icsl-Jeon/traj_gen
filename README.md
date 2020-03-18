@@ -23,7 +23,12 @@ a vector in case of fix-pin while two vectors [xl xu] for the loose-pin.
 Also, we plan to provide ROS support such as the [previous version](https://github.com/icsl-Jeon/traj_gen)
 
 
-### C++ API quick start 
+## Getting started 
+
+### 1. Installation 
+To install *traj_gen*, the following dependencies are required : 1) Eigen 3.X, 2) [qpOASES](https://github.com/coin-or/qpOASES). As most of linux users have Eigen 3, w
+
+### 2. C++ API quick start 
 ```cpp
 #include <traj_gen2/TrajGen.hpp>
 #include <iostream>
