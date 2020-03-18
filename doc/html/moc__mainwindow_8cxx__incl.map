@@ -1,8 +1,0 @@
-<map id="build/qt_ui/moc_mainwindow.cxx" name="build/qt_ui/moc_mainwindow.cxx">
-<area shape="rect" id="node2" href="$mainwindow_8h.html" title="../../qt_ui/mainwindow.h" alt="" coords="1841,80,2003,107"/>
-<area shape="rect" id="node4" href="$qnode_8h.html" title="qnode.h" alt="" coords="1944,155,2012,181"/>
-<area shape="rect" id="node8" href="$_poly_traj_gen_8h.html" title="traj_gen/PolyTrajGen.h" alt="" coords="1157,229,1311,256"/>
-<area shape="rect" id="node18" href="$_poly_spline_x_y_z_8h.html" title="traj_gen/PolySplineXYZ.h" alt="" coords="1343,311,1514,338"/>
-<area shape="rect" id="node25" href="$_poly_spline_8h.html" title="traj_gen/PolySpline.h" alt="" coords="1356,393,1501,420"/>
-<area shape="rect" id="node26" href="$_poly_coeff_8h.html" title="traj_gen/PolyCoeff.h" alt="" coords="1274,468,1415,495"/>
-</map>

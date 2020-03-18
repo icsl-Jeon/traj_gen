@@ -1,7 +1,0 @@
-<map id="QNode::wpnts_init" name="QNode::wpnts_init">
-<area shape="rect" id="node2" href="$class_q_node.html#ac21ae24311df97ac0e15c97179763b0e" title="QNode::nodeName" alt="" coords="184,31,319,57"/>
-<area shape="rect" id="node3" href="$class_main_window.html#a4abba2c52f756524c0f388d0d3e6d6ec" title="MainWindow::ReadSettings" alt="" coords="367,5,551,32"/>
-<area shape="rect" id="node5" href="$class_main_window.html#a56a5e4d5e0a022e8c1ecf350d2916ade" title="MainWindow::WriteSettings" alt="" coords="367,56,551,83"/>
-<area shape="rect" id="node4" href="$class_main_window.html#a6f0a90213d93b861d43c09dd01c52962" title="MainWindow::MainWindow" alt="" coords="599,5,779,32"/>
-<area shape="rect" id="node6" href="$class_main_window.html#a4e20a4a065fbb0e4d3532a45a0a91425" title="MainWindow::closeEvent" alt="" coords="603,56,774,83"/>
-</map>

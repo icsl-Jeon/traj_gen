@@ -1,7 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$classtraj__gen_1_1msg_1_1___poly_coeff_1_1_poly_coeff.html" title="traj_gen.msg._PolyCoeff.\lPolyCoeff" alt="" coords="130,5,301,47"/>
-<area shape="rect" id="node3" href="$classtraj__gen_1_1msg_1_1___poly_spline_1_1_poly_spline.html" title="traj_gen.msg._PolySpline.\lPolySpline" alt="" coords="128,71,303,112"/>
-<area shape="rect" id="node4" href="$classtraj__gen_1_1msg_1_1___poly_spline_x_y_z_1_1_poly_spline_x_y_z.html" title="traj_gen.msg._PolySpline\lXYZ.PolySplineXYZ" alt="" coords="130,136,301,177"/>
-<area shape="rect" id="node5" href="$classtraj__gen_1_1srv_1_1___spline_gen_1_1_spline_gen_request.html" title="traj_gen.srv._SplineGen.\lSplineGenRequest" alt="" coords="133,201,298,243"/>
-<area shape="rect" id="node6" href="$classtraj__gen_1_1srv_1_1___spline_gen_1_1_spline_gen_response.html" title="traj_gen.srv._SplineGen.\lSplineGenResponse" alt="" coords="133,267,298,308"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="build/devel/include/traj_gen/SplineGen.h" name="build/devel/include/traj_gen/SplineGen.h">
-<area shape="rect" id="node3" href="$_spline_gen_request_8h.html" title="traj_gen/SplineGenRequest.h" alt="" coords="467,319,659,345"/>
-<area shape="rect" id="node13" href="$_spline_gen_response_8h.html" title="traj_gen/SplineGenResponse.h" alt="" coords="696,95,899,121"/>
-<area shape="rect" id="node14" href="$_poly_spline_x_y_z_8h.html" title="traj_gen/PolySplineXYZ.h" alt="" coords="925,169,1096,196"/>
-<area shape="rect" id="node15" href="$_poly_spline_8h.html" title="traj_gen/PolySpline.h" alt="" coords="938,244,1083,271"/>
-<area shape="rect" id="node16" href="$_poly_coeff_8h.html" title="traj_gen/PolyCoeff.h" alt="" coords="885,319,1027,345"/>
-</map>

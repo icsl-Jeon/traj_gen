@@ -1,5 +1,0 @@
-<map id="QNode::ros_comms_init" name="QNode::ros_comms_init">
-<area shape="rect" id="node2" href="$class_q_node.html#a32d00dbcf15c277e08caabf95af04f6e" title="QNode::on_init" alt="" coords="216,5,325,32"/>
-<area shape="rect" id="node3" href="$class_main_window.html#a56a5e4d5e0a022e8c1ecf350d2916ade" title="MainWindow::WriteSettings" alt="" coords="373,5,557,32"/>
-<area shape="rect" id="node4" href="$class_main_window.html#a4e20a4a065fbb0e4d3532a45a0a91425" title="MainWindow::closeEvent" alt="" coords="605,5,776,32"/>
-</map>
