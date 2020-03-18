@@ -12,7 +12,6 @@ include_directories(${CMAKE_BINARY_DIR}/../../include)
 
 
 find_package(TrajGen REQUIRED)
-add_executable(test_pin test.cpp)
-target_link_libraries( test_pin ${EIGEN3_LIBS}   traj_gen )
+c
 
 
