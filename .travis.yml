@@ -8,6 +8,7 @@ os:
 
 
 install:
+    - sudo apt install libeigen3-dev
     - git clone https://github.com/coin-or/qpOASES.git
     - cd qpOASES 
     - mkdir build && cd build 
