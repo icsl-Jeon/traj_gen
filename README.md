@@ -30,6 +30,10 @@ Also, we plan to provide ROS support such as the [previous version](https://gith
 ### 1. Installation 
 - **Setting dependencies** 
   #### (1) Eigen 3  
+  ```
+  $ sudo apt-get update
+  $ sudo apt-get install libeigen-dev
+  ```
   #### (2) qpOASES (note -fPIC flag when cmake)
   ```
   $ git clone https://github.com/coin-or/qpOASES.git
