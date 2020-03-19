@@ -1,12 +1,12 @@
 # traj_gen : path generation tools with a variety of options
 
 <p align = "center">
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/intro2.png" width = 800 > 
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/deprecated-version1/img/intro2.png" width = 800 > 
 </p>
 
 **(left)** coupled optimization for single corridor type **(right)** decoupled optimization for multi corridor or non-corridors  
 
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/run_video.gif" witdh = 600>
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/deprecated-version1/img/run_video.gif" witdh = 600>
 
 
 - **(running traj_gen)** step by step tutorial  
@@ -25,7 +25,7 @@ Finally, the single corridor method was develped. set ```is_single_corridor = tr
 
 QSlider was added. As of now, *traj_gen* can accommodate height input from user. Adjust slider for height and then select waypoint. In this way, height value will be encoded together(see below).    
 <p >
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/gui_update.png" witdh = 600>
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/deprecated-version1/img/gui_update.png" witdh = 600>
 <em> two types of corridor </em>
 
 
@@ -109,7 +109,7 @@ sudo cp ./support/has_binary_operator.hpp /usr/include/boost/type_traits/detail/
 ## 3 USAGE 
 
 ### 3.1 Qt gui
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/traj_gen.png"> 
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/deprecated-version1/img/traj_gen.png"> 
 
 This library provides interface where you can specifiy a sequence of waypoints from Rviz 
 
@@ -126,7 +126,7 @@ This library provides interface where you can specifiy a sequence of waypoints f
 (6) textbox. important message will appear 
 
 ### waypoints selection from user
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/traj_gen-2.png"> 
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/deprecated-version1/img/traj_gen-2.png"> 
 
 *You can also save and load the waypoints in txt file format. In that way, you may assign the heights for each waypoint*
 
@@ -141,7 +141,7 @@ Mellinger, Daniel, and Vijay Kumar. "Minimum snap trajectory generation and cont
 ### 4.1 Waypoints 
 
 
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/hard_vs_soft.png"> 
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/deprecated-version1/img/hard_vs_soft.png"> 
 
 #### (1) Soft waypoints
 
@@ -155,7 +155,7 @@ the waypoints will be passed exactly as hard constraints
 
 ### 4.2 Corridor
 
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/master/img/explain_corridor.jpg"> 
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/deprecated-version1/img/explain_corridor.jpg"> 
 
 #### (1) multiple sub boxes between waypoints which is axis-parallel 
 
