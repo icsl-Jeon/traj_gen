@@ -30,7 +30,21 @@ using namespace std;
  */
 void sparseBlockCopy(SparseMatrix<float,RowMajor> *targetMat, SparseMatrix<float,RowMajor> inMat, long startRow, long startCol) ;
 void sparseBlockCopy(SparseMatrix<float,RowMajor> *targetMat, Matrix<float,-1,-1,RowMajor> inMat, long startRow, long startCol) ;
+/**
+ * extract the diff element (setA - setB). Sorting is assumed !!
+ * @tparam T
+ * @param setA
+ * @param setB
+ * @return
+ */
+template <typename  T> vector<T> setDiff(const set<T> & setA, const set<T> & setB){
+    vector<T> output_it;
+    auto it =std::set_difference(setA.begin(),setA.end(),
+            setB.begin(),setB.end(),output_it.begin());
 
+    output_it.resize(it-output_it.begin());
+    return output_it;
+}
 namespace trajgen {
     typedef unsigned int uint;
     template<size_t Size> using Vector = Eigen::Matrix<float, Size, 1>;
