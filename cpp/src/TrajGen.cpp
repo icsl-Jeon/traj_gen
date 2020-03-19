@@ -12,6 +12,17 @@ void sparseBlockCopy(SparseMatrix<float,RowMajor> *targetMat, SparseMatrix<float
         }
 }
 
+void sparseBlockCopy(SparseMatrix<float,RowMajor> *targetMat, SparseMatrix<float,ColMajor> inMat, long startRow, long startCol) {
+    for (int k = 0; k < inMat.cols(); ++k)
+        for (SparseMatrix<float,ColMajor>::InnerIterator it(inMat, k); it; ++it) { // we use sparsity
+            long insertR = it.row() + startRow;
+            long insertC = it.col() + startCol;
+            targetMat->coeffRef(insertR, insertC) = it.value();
+        }
+}
+
+
+
 void sparseBlockCopy(SparseMatrix<float,RowMajor> *targetMat, Matrix<float,-1,-1,RowMajor> inMat, long startRow, long startCol) {
     for (int k = 0; k < inMat.rows(); ++k)
         for (Matrix<float,-1,-1,RowMajor>::InnerIterator it(inMat, k); it; ++it) { // we use sparsity

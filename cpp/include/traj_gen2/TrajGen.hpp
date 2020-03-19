@@ -213,6 +213,11 @@ namespace trajgen {
             uint getTotalNeq();
             // qp
             QpForm<dim> getQPSet();
+
+            // map poly-ceoff to end-derivatives
+            spMatrixXf coeff2endDerivatives(const spMatrixXf & Aeq);
+            QpForm<dim> mapQP(const QpForm<dim>& QpFormOrig);
+
     public:
             PolyTrajGen(time_knots ts_,PolyParam param_) ;
             void addPin(const Pin<dim>* pin);
@@ -422,7 +427,12 @@ namespace trajgen {
             vec(n) = B(n,d)*pow(t,n-d);
         return vec;
     }
-
+    /**
+     * p = scaleMat * phat
+     * @tparam dim
+     * @param dt segment duration (dTm)
+     * @return
+     */
     template <size_t dim> spMatrixXf PolyTrajGen<dim>::scaleMat(float dt){
         spMatrixXf mat(N+1,N+1);
 
@@ -600,7 +610,7 @@ namespace trajgen {
             ConstraintMatPair<dim> AbConti = contiMat(m,seg_state_set[m].Nc-1);
             uint Neq = seg_state_set[m].getN(), Nf = seg_state_set[m].Nf, Nc = seg_state_set[m].Nc;
             for (uint dd = 0 ; dd < dim ; dd++) { // inserting A,b
-
+                // (Aeq)m = ([Afix ; Aconti])m : Aeq*p = beq
                 sparseBlockCopy(&(qpForm.qpBlock[dd].Aeq),(AbFix.ASet[dd]),Idx2,0) ;
                 sparseBlockCopy(&(qpForm.qpBlock[dd].Aeq),(AbConti.ASet[dd]),Idx2+Nf,0);
                 sparseBlockCopy(&(qpForm.qpBlock[dd].beq),(AbFix.bSet[dd]),Idx2,0) ;
@@ -657,6 +667,27 @@ namespace trajgen {
         return val;
     }
 
+    /**
+     * This function is permutating Aeq*p = beq  -> [Aeq ; Ap]*p = [beq ; bp],
+     * where Ap*p = bp is a mapping from poly-coeff to the free end-derivatives.
+     * For the convenience, we consider the free end-derivative at the initial end point.
+     * @tparam dim
+     * @param Aeq
+     * @return [Aeq ; Ap]
+     */
+    template<size_t dim> spMatrixXf PolyTrajGen<dim>::coeff2endDerivatives(const trajgen::spMatrixXf &Aeq) {
+        uint nVar = (this->M)*(N+1);
+        spMatrixXf Afp(nVar,nVar); // collection of [Af ; Ap]
+        sparseBlockCopy(&Afp,Aeq,0,0);
+        for (uint m = 0 ; m < this->M ; m++){
+
+
+        }
+
+
+
+
+    }
 
 
 } // namespace trajgen
