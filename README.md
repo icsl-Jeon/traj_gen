@@ -1,10 +1,17 @@
 <img src= "https://github.com/icsl-Jeon/traj_gen/blob/master/img/logo2.png" width="300" >
 
 ## traj_gen :  a continuous trajectory generation with simple API (C++/Matlab)
-###   Version 2.0.1  (Mar 18, 2020)
+###   Version 2.0.1  (Mar 18, 2020) 
+<img src = "https://travis-ci.com/icsl-Jeon/traj_gen.svg?branch=master"> <img src = "https://img.shields.io/github/license/Naereen/StrapDown.js.svg">
+<img src=https://img.shields.io/github/v/release/icsl-Jeon/traj_gen?include_prereleases >
+
+[![View traj_gen-matlab on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://kr.mathworks.com/matlabcentral/fileexchange/74573-traj_gen-matlab)
+
+
+
 <p align = "center">
 <img src= "https://github.com/icsl-Jeon/traj_gen/blob/master/img/tutorial.gif">
-</p>
+</p> 
 
 *traj_gen* is a continuous trajectory generation package where <u>high order derivatives</u> 
 along the trajectory are minimized while satisfying waypoints (equality) and axis-parallel box constraint (inequality). The objective and constraints are formulated in *quadratic programming* (QP) to cater the real-time performance. The whole code is written in C++ and Matlab (go to [submodule](https://github.com/icsl-Jeon/traj_gen-matlab) for its API). The C++ API was tested in Ubuntu 14.04/16.04/18.04. ROS wrapper is still developing to provide similar interface with [version 1](https://github.com/icsl-Jeon/traj_gen/tree/deprecated-version1).   
@@ -28,6 +35,10 @@ Also, we plan to provide ROS support such as the [previous version](https://gith
 ### 1. Installation 
 - **Setting dependencies** 
   #### (1) Eigen 3  
+  ```
+  $ sudo apt-get update
+  $ sudo apt-get install libeigen-dev
+  ```
   #### (2) qpOASES (note -fPIC flag when cmake)
   ```
   $ git clone https://github.com/coin-or/qpOASES.git
