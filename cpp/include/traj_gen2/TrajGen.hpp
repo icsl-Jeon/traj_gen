@@ -38,7 +38,7 @@ void sparseBlockCopy(SparseMatrix<float,RowMajor> *targetMat, Matrix<float,-1,-1
  * @return
  */
 template <typename  T> vector<T> setDiff(const set<T> & setA, const set<T> & setB){
-    vector<T> output_it;
+    vector<T> output_it(setA.size());
     auto it =std::set_difference(setA.begin(),setA.end(),
             setB.begin(),setB.end(),output_it.begin());
 
@@ -131,8 +131,9 @@ namespace trajgen {
 
     template<size_t dim>
     struct QpForm {
+        uint nVar,neq,nineq;
         QpBlock *qpBlock;
-        QpForm(uint nVar, uint neq, uint nineq) {
+        QpForm(uint nVar, uint neq, uint nineq) : nVar(nVar),neq(neq),nineq(nineq){
             qpBlock = new QpBlock[dim];
             for (uint d = 0; d < dim; d++)
                 qpBlock[d] = QpBlock(nVar, neq, nineq);
@@ -682,27 +683,56 @@ namespace trajgen {
     }
 
     /**
-     * This function is permutating Aeq*p = beq  -> [Aeq ; Ap]*p = [beq ; bp],
+     * This function is permutating Aeq*p = beq  -> [Aeq ; Ap]*p (Afp * p) = [beq ; bp],
      * where Ap*p = bp is a mapping from poly-coeff to the free end-derivatives.
      * For the convenience, we consider the free end-derivative at the initial end point.
      * @tparam dim
-     * @param Aeq
+     * @param Aeq only for one dimension (every dims are same)
      * @return [Aeq ; Ap]
      */
     template<size_t dim> spMatrixXf PolyTrajGen<dim>::coeff2endDerivatives(const trajgen::spMatrixXf &Aeq) {
         uint nVar = (this->M)*(N+1);
         spMatrixXf Afp(nVar,nVar); // collection of [Af ; Ap]
-        sparseBlockCopy(&Afp,Aeq,0,0);
+        sparseBlockCopy(&Afp,Aeq,0,0); uint nF = Aeq.rows();
+        vector<FixPin<dim>> virtualPinSet; // to generate Ap set (map to free end-derivatives)
+        float virtualPinTime = 0;
         for (uint m = 0 ; m < this->M ; m++){
-
-
+            // calculate the available dof
+            VectorXi totalOrderSet(N+1); totalOrderSet.setLinSpaced(N+1,0,N);
+            set<int> totalOrderStdSet(totalOrderSet.data(),totalOrderSet.data()+(N+1));
+            vector<int> availbleOrder = setDiff(totalOrderStdSet,this->fixPinOrderSet[m]);
+            uint usedDOF = seg_state_set[m].getN();
+            availbleOrder.resize(N+1 - usedDOF);
+            for (auto freeOrder : availbleOrder )
+                virtualPinSet.push_back(FixPin<dim>(virtualPinTime,freeOrder,Vector<dim>()));
         }
-
-
-
-
+        ConstraintMatPair<dim> Abp = fixPinMatSet(virtualPinSet.data(),virtualPinSet.size());
+        sparseBlockCopy(&Afp,Abp.ASet[0],nF,0);
+        return Afp;
     }
-
-
+    /**
+     * This function converts original QP problem into the QP of free end-derivatives
+     * @tparam dim
+     * @param QpFormOrig
+     * @return
+     */
+    template <size_t dim> QpForm<dim> PolyTrajGen<dim>::mapQP(const trajgen::QpForm<dim> &QpFormOrig) {
+        uint Nf = QpFormOrig.qpBlock[0].Aeq.rows() , Np = (N+1)*this->M - Nf,Nineq = QpFormOrig.nineq;
+        spMatrixXf Afp = coeff2endDerivatives(QpFormOrig.qpBlock[0].Aeq);
+        MatrixXf AfpInv = MatrixXf(Afp).inverse();
+        MatrixXf Qtmp = AfpInv.transpose() * QpFormOrig.qpBlock[0].Q.template selfadjointView<>() * AfpInv;
+        MatrixXf Qff = Qtmp.block(0,0,Nf,Nf),
+        Qfp = Qtmp.block(0,Nf,Nf,Np),
+        Qpf = Qtmp.block(Nf,0,Np,Nf),
+        Qpp = Qtmp.block(Nf,Nf,Np,Np);
+        QpForm<dim> QpNew(Np,0,Nineq);
+        for (uint dd = 0 ; dd < dim ; dd++){
+            QpNew.qpBlock[dd].Q = Qpp.sparseView();
+            QpNew.qpBlock[dd].H = QpFormOrig.qpBlock[dd].beq.transpose()*(Qfp+Qpf.transpose());
+            QpNew.qpBlock[dd].A = QpFormOrig.qpBlock[dd].A*AfpInv.block(0,Nf,Nf+Np,Np);
+            QpNew.qpBlock[dd].b = QpFormOrig.qpBlock[dd].b - QpFormOrig.qpBlock[dd].A.block(0,0,Nineq)*QpFormOrig.qpBlock[dd].beq;
+        }
+        return QpNew;
+    }
 } // namespace trajgen
 # endif
