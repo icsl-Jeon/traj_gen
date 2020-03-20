@@ -20,5 +20,6 @@ install:
 script: 
     - cmake ./cpp
     - make && sudo make install     
+    - mkdir ./cpp/test/build
     - cd ./cpp/test/build && cmake .. && make 
     - ../test_pin
