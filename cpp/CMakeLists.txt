@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8.4)
 project(traj_gen CXX )
 add_compile_options(-std=c++11)
 
+
 include(GNUInstallDirs) # holds CMAKE_INSTALL_*DIR information
 # This should exist to define library "traj_gen". The information will be used with set_target_properties
 add_library(traj_gen SHARED src/TrajGen.cpp)
