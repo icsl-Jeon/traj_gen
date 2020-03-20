@@ -10,8 +10,6 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 
 include_directories(${CMAKE_BINARY_DIR}/../../include)
 
-
 find_package(TrajGen REQUIRED)
-c
-
-
+add_executable(test_pin test.cpp)
+target_link_libraries( test_pin ${EIGEN3_LIBS}  traj_gen )
