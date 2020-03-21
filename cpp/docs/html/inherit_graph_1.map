@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$structtrajgen_1_1_pin.html" title="trajgen::Pin\&lt; T, dim \&gt;" alt="" coords="5,46,155,73"/>
+<area shape="rect" id="node2" href="$structtrajgen_1_1_fix_pin.html" title="trajgen::FixPin\&lt; T,\l dim \&gt;" alt="" coords="203,5,333,47"/>
+<area shape="rect" id="node3" href="$structtrajgen_1_1_loose_pin.html" title="trajgen::LoosePin\&lt;\l T, dim \&gt;" alt="" coords="203,71,333,112"/>
+</map>

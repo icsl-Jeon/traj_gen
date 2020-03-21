@@ -1,0 +1,6 @@
+<map id="trajgen::PolyTrajGen::addPin" name="trajgen::PolyTrajGen::addPin">
+<area shape="rect" id="node2" href="$structtrajgen_1_1_pin.html#afc54099455a5ca0a19a73832ba02da93" title="trajgen::Pin::getType" alt="" coords="417,5,560,32"/>
+<area shape="rect" id="node3" href="$classtrajgen_1_1_traj_gen.html#a44790e9b4f891d1f566d7ca08053642f" title="trajgen::TrajGen::addPin" alt="" coords="195,56,357,83"/>
+<area shape="rect" id="node5" href="$_traj_gen_8hpp.html#a5528a064e9afbd697b1459e61996a9e0" title="sparseBlockCopy" alt="" coords="213,107,339,133"/>
+<area shape="rect" id="node4" href="$classtrajgen_1_1_traj_gen.html#ab8f452c627390ab86be765763de983fb" title="trajgen::TrajGen::findSeg\lInterval" alt="" coords="405,57,572,98"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classtrajgen_1_1_traj_gen.html" title="trajgen::TrajGen\&lt; T,\l dim \&gt;" alt="" coords="5,39,144,80"/>
+<area shape="rect" id="node2" href="$classtrajgen_1_1_optim_traj_gen.html" title="trajgen::OptimTrajGen\l\&lt; T, dim \&gt;" alt="" coords="192,5,343,47"/>
+<area shape="rect" id="node3" href="$classtrajgen_1_1_poly_traj_gen.html" title="trajgen::PolyTrajGen\l\&lt; T, dim \&gt;" alt="" coords="197,71,338,112"/>
+</map>

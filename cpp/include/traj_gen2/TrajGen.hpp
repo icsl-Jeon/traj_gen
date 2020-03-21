@@ -3,6 +3,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////
 // TODO : Preventing T imposed pins (t,d same, X different)
+// TODO : check this works well with angular elements
 //////////////////////////////////////////////////////////////////////////////////
 
 #include <vector>
@@ -20,59 +21,9 @@
 
 using namespace Eigen;
 using namespace std;
-
 /**
- * Insert inMat to targetMat.block(startRow,startCol,rowSize,colSize).
- * @param targetMat
- * @param inMat
- * @param startRow
- * @param startCol
- * @param rowSize
- * @param colSize
+ * Trajectory generation modules
  */
-template <typename T>
-void sparseBlockCopy(SparseMatrix<T,RowMajor> *targetMat, SparseMatrix<T,RowMajor> inMat, long startRow, long startCol) {
-    for (int k = 0; k < inMat.rows(); ++k)
-        for (typename SparseMatrix<T,RowMajor>::InnerIterator it(inMat, k); it; ++it) { // we use sparsity
-            long insertR = it.row() + startRow;
-            long insertC = it.col() + startCol;
-            targetMat->coeffRef(insertR, insertC) = it.value();
-        }
-}
-
-template <typename T>
-void sparseBlockCopy(SparseMatrix<T,RowMajor> *targetMat, SparseMatrix<T,ColMajor> inMat, long startRow, long startCol) {
-    for (int k = 0; k < inMat.cols(); ++k)
-        for (typename SparseMatrix<T,ColMajor>::InnerIterator it(inMat, k); it; ++it) { // we use sparsity
-            long insertR = it.row() + startRow;
-            long insertC = it.col() + startCol;
-            targetMat->coeffRef(insertR, insertC) = it.value();
-        }
-}
-template <typename T>
-void sparseBlockCopy(SparseMatrix<T,RowMajor> *targetMat, Matrix<T,-1,-1,RowMajor> inMat, long startRow, long startCol) {
-    for (int k = 0; k < inMat.rows(); ++k)
-        for (typename Matrix<T,-1,-1,RowMajor>::InnerIterator it(inMat, k); it; ++it) { // we use sparsity
-            long insertR = it.row() + startRow;
-            long insertC = it.col() + startCol;
-            targetMat->coeffRef(insertR, insertC) = it.value();
-        }
-}
-/**
- * extract the diff element (setA - setB). Sorting is assumed !!
- * @tparam T
- * @param setA
- * @param setB
- * @return
- */
-template <typename T> vector<T> setDiff(const set<T> & setA, const set<T> & setB){
-    vector<T> output_it(setA.size());
-    auto it =std::set_difference(setA.begin(),setA.end(),
-            setB.begin(),setB.end(),output_it.begin());
-
-    output_it.resize(it-output_it.begin());
-    return output_it;
-}
 namespace trajgen {
     typedef unsigned int uint;
     template<typename T,size_t Size> using Vector = Eigen::Matrix<T, Size, 1>;
@@ -83,6 +34,97 @@ namespace trajgen {
     template<typename T> using spMatrixRow = SparseMatrix<T,RowMajor>;
     template<typename T> using PolyCoeff =  Eigen::Matrix<T, -1, 1>;
     template<typename T> using MatrixRow = Matrix<T,-1,-1,RowMajor>;
+
+
+    ///////////////
+    // Sub utils //
+    ///////////////
+
+    /**
+     * Insert inMat to targetMat.block(startRow,startCol,rowSize,colSize).
+     * @param targetMat
+     * @param inMat
+     * @param startRow
+     * @param startCol
+     * @param rowSize
+     * @param colSize
+     */
+    template <typename T>
+    void sparseBlockCopy(SparseMatrix<T,RowMajor> *targetMat, SparseMatrix<T,RowMajor> inMat, long startRow, long startCol) {
+        for (int k = 0; k < inMat.rows(); ++k)
+            for (typename SparseMatrix<T,RowMajor>::InnerIterator it(inMat, k); it; ++it) { // we use sparsity
+                long insertR = it.row() + startRow;
+                long insertC = it.col() + startCol;
+                targetMat->coeffRef(insertR, insertC) = it.value();
+            }
+    }
+
+    template <typename T>
+    void sparseBlockCopy(SparseMatrix<T,RowMajor> *targetMat, SparseMatrix<T,ColMajor> inMat, long startRow, long startCol) {
+        for (int k = 0; k < inMat.cols(); ++k)
+            for (typename SparseMatrix<T,ColMajor>::InnerIterator it(inMat, k); it; ++it) { // we use sparsity
+                long insertR = it.row() + startRow;
+                long insertC = it.col() + startCol;
+                targetMat->coeffRef(insertR, insertC) = it.value();
+            }
+    }
+    template <typename T>
+    void sparseBlockCopy(SparseMatrix<T,RowMajor> *targetMat, Matrix<T,-1,-1,RowMajor> inMat, long startRow, long startCol) {
+        for (int k = 0; k < inMat.rows(); ++k)
+            for (typename Matrix<T,-1,-1,RowMajor>::InnerIterator it(inMat, k); it; ++it) { // we use sparsity
+                long insertR = it.row() + startRow;
+                long insertC = it.col() + startCol;
+                targetMat->coeffRef(insertR, insertC) = it.value();
+            }
+    }
+
+    /**
+     * extract the diff element (setA - setB). Sorting is assumed !!
+     * @tparam T
+     * @param setA
+     * @param setB
+     * @return
+     */
+    template <typename T> vector<T> setDiff(const set<T> & setA, const set<T> & setB){
+        vector<T> output_it(setA.size());
+        auto it =std::set_difference(setA.begin(),setA.end(),
+                setB.begin(),setB.end(),output_it.begin());
+
+        output_it.resize(it-output_it.begin());
+        return output_it;
+    }
+    /**
+     * Perform interpolation for the data pair (xData,yData) given a query value x
+     * @tparam T
+     * @param xData
+     * @param yData
+     * @param x
+     * @param extrapolate if true, extrapolation
+     * @return
+     */
+    template <typename T>
+    T interpolate(const VectorX<T>& xData, const VectorX<T>& yData,const T & x,bool extrapolate){
+        int size = xData.size();
+        int i = 0;                                                                  // find left end of interval for interpolation
+        if ( x >= xData(size - 2) )                                                 // special case: beyond right end
+        {
+            i = size - 2;
+        }
+        else
+        {
+            while ( x > xData(i+1) ) i++;
+        }
+        T xL = xData(i), yL = yData(i), xR = xData(i+1), yR = yData(i+1);      // points on either side (unless beyond ends)
+        if ( !extrapolate )                                                         // if beyond ends of array and not extrapolating
+        {
+            if ( x < xL ) yR = yL;
+            if ( x > xR ) yL = yR;
+        }
+
+        T dydx = ( yR - yL ) / ( xR - xL );                                    // gradient
+        return yL + dydx * ( x - xL );                                              // linear interpolation
+    }
+
 
     /////////////////////////////////////////////////
     // PIN for equality or inequality constriants  //
@@ -183,7 +225,7 @@ namespace trajgen {
     protected:
         uint M; // number of segment
         bool isSolved = false; // solve flag
-        time_knots<T> ts; // knots
+        time_knots<T> ts; // knots (do not be confused with time points in case of optimTrajGen)
 
         vector<FixPin<T,dim>> *fixPinSet;  // equality constraints set of M segment. (In case of optimTrajGen, M = 1)
         vector<LoosePin<T,dim>> *loosePinSet; // inequality constraints set of ()
@@ -198,7 +240,7 @@ namespace trajgen {
         virtual ConstraintMatPair<T,dim> loosePinMatSet(const LoosePin<T,dim> *pPin,uint blockSize = 1) = 0;
         virtual QpForm<T,dim> getQPSet() = 0; // create qp problem with current information
         uint getTotalNineq();
-        virtual uint getTotalNeq();
+        virtual uint getTotalNeq(); // different for polyTrajGen and optimTrajGen (in case of optimTrajGen = TrajGen)
 
     public:
         TrajGen(time_knots<T> ts_);
@@ -272,6 +314,42 @@ namespace trajgen {
 
 
     };
+
+    ///////////////////////////////
+    // Optimal trajectory method //
+    ///////////////////////////////
+
+    template<typename T,size_t dim>
+    class OptimTrajGen : public TrajGen<T,dim>{
+        private:
+            // member variables
+            float pntDensity;
+            uint nPnt;
+            T dt;
+            time_knots<T> tPnts; // time points
+            VectorX<T>* trajPnts; // trajectory point. pointer = dim / VectorX<T> is element-wise trajectory
+
+            // subroutine
+            ConstraintMatPair<T,dim> fixPinMatSet(const FixPin<T,dim> * pPin,uint blockSize = 1);
+            ConstraintMatPair<T,dim> loosePinMatSet(const LoosePin<T,dim> * pPin,uint blockSize = 1);
+            uint matchIdx(T eval_t,d_order d = 0); // get the corresponding time point index of a evaluation time
+            spMatrixRow<T> getDiff(d_order d);
+            QpForm<T,dim> getQPSet();
+
+        public:
+            OptimTrajGen(time_knots<T> ts_, float pntDensity);
+            void addPin(const Pin<T,dim>* pin);
+            bool solve(bool isPrint);
+            Vector<T,dim> eval(T t_eval, d_order d);
+    };
+
+
+
+
+
+
+
+
 
 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -881,5 +959,205 @@ namespace trajgen {
         }
         return QpNew;
     }
+
+
+    ///////////////////////////////
+    // Optimal trajectory method //
+    ///////////////////////////////
+
+    /**
+     * This function finds the nearest time index in optimtraj, given a query time
+     * @tparam T
+     * @tparam dim
+     * @param eval_t query time
+     * @param d in case of evaluation of dth order derivative, we naturally lose the last d element.
+     * @return
+     */
+    template <typename T, size_t dim> uint OptimTrajGen<T,dim>::matchIdx(T eval_t,d_order d) {
+        time_knots <T> tPntDist = this->tPnts;
+        for (T & d : tPntDist)
+            d = abs(d-eval_t);
+        return min(min_element(tPntDist.begin(),tPntDist.end()) - tPntDist.begin(),this->tPnts.size()-d);
+    }
+
+
+    template <typename T,size_t dim> OptimTrajGen<T,dim>::OptimTrajGen(
+            time_knots<T> ts_,float pntDensity):TrajGen<T, dim>(ts_),pntDensity(pntDensity){
+        assert(this->ts.size() == 2 && "To instantiate optimTrajGen, provide only [t0,tf]");
+
+        nPnt = floor((this->ts[1] - this->ts[0])*pntDensity); // total number of points
+        dt = (this->ts[1] - this->ts[0])/(nPnt-1); // time interval btw points
+        VectorX<T> tPntVec(nPnt); tPntVec.setLinSpaced(nPnt,this->ts[0],this->ts[1]);
+        tPnts = time_knots<T>(tPntVec.data(),tPntVec.data() + nPnt);
+
+        trajPnts = new VectorX<T>[dim];
+        // initialize the trajectory
+        for (uint dd =0 ; dd < dim; dd++)
+            trajPnts[dd] = VectorX<T>(nPnt);
+    }
+
+    template <typename T,size_t dim> void OptimTrajGen<T,dim>::addPin(const Pin<T, dim> *pin) {
+        TrajGen<T,dim>::addPin();
+        // do I need else ?
+    }
+    /**
+     * For given set of loosePin, we calculate (A,b) pair s.t A x <= b for the entire dimension
+     * @tparam T
+     * @tparam dim
+     * @param pPin
+     * @param blockSize
+     * @return
+     */
+    template<typename T,size_t dim> ConstraintMatPair<T,dim> OptimTrajGen<T,dim>::loosePinMatSet(
+            const LoosePin<T,dim> * pPin,uint blockSize ){
+        uint Nc = 2*blockSize; // total number of constraint
+        ConstraintMatPair<T,dim> abInEq(Nc,nPnt);
+        for (uint blk = 0; blk < blockSize ; blk ++ ){
+            d_order d = pPin->d;
+            T t = pPin->t;
+            uint n = matchIdx(t,d); // which point should be imposed for (blk) th point
+            for (uint dd = 0 ; dd < dim; dd++){
+                spMatrixRow<T> pickMat(2,nPnt - d);
+                pickMat.coeffRef(0,n) = 1; // upper
+                pickMat.coeffRef(1,n) = -1; // lower
+                spMatrixRow<T> aineq(2,nPnt); aineq = pickMat*getDiff(d);
+
+                sparseBlockCopy<T>(&(abInEq.ASet[dd]),aineq,2*blk,0);
+                sparseBlockCopy<T>(&(abInEq.ASet[dd]),-aineq,2*blk+1,0);
+                abInEq.bSet[dd](2*blk) = (pPin+blk)->xu(dd);
+                abInEq.bSet[dd](2*blk+1) = -(pPin+blk)->xl(dd);
+            }
+        }
+        return abInEq;
+    };
+    /**
+     * For given set of loosePin, we calculate (A,b) pair s.t Aeq x = beq for the entire dimension
+     * @tparam T
+     * @tparam dim
+     * @param pPin
+     * @param blockSize
+     * @return
+     */
+    template <typename T, size_t dim> ConstraintMatPair<T,dim> OptimTrajGen<T,dim>::fixPinMatSet(
+            const trajgen::FixPin<T, dim> *pPin, uint blockSize) {
+        uint nVar = nPnt;
+        uint Nc = blockSize; // only one
+        ConstraintMatPair<T,dim> abEq (Nc,nVar);
+
+        for (uint blk = 0; blk < blockSize ; blk ++){
+            d_order d = pPin->d;
+            T t = pPin->t;
+            uint n = matchIdx(t,d); // which point should be imposed for (blk) th point
+            for (uint dd = 0 ; dd < dim; dd++){
+                spMatrixRow<T> pickMat(1,nPnt - d);
+                pickMat.coeffRef(0,n) = 1; // upper
+                spMatrixRow<T> aeq(1,nPnt); aeq = pickMat*getDiff(d);
+
+                sparseBlockCopy<T>(&(abEq.ASet[dd]),aeq,blk,0);
+                abEq.bSet[dd](blk) = (pPin+blk)->x(dd);
+            }
+        }
+        return abEq;
+    }
+
+    /**
+     * return the matrix Dd s.t x^(d) = Dd x. The number of points will be (nVar-d)
+     * @tparam T
+     * @tparam dim
+     * @param d
+     * @return
+     */
+    template<typename T,size_t dim> spMatrixRow<T> OptimTrajGen<T,dim>::getDiff(trajgen::d_order d) {
+        spMatrixRow<T> D0 = spMatrixRow<T>(nPnt,nPnt).Identity();
+        if (d == 0)
+            return D0;
+        for (uint j = 1 ; j <= d; j++) {
+            spMatrixRow<T> D(nPnt - (j), nPnt - (j - 1));
+            // filling this matrix
+            for (uint i = 0; i < nPnt - j; i++) {
+                D(i,i) = -1; D(i,i+1) = 1;
+            }
+            D /= dt; D0 = D*D0;
+        }
+        return D0;
+    }
+    /**
+     * construct qp problem
+     * @tparam dim
+     * @return
+     */
+    template <typename T, size_t dim> QpForm<T,dim> OptimTrajGen<T,dim>::getQPSet() {
+        uint nVar = nPnt;
+        uint nineq = this->getTotalNineq(); // total line of inequality
+        uint neq = this->getTotalNeq();
+        QpForm<T,dim> qpForm(nVar,neq,nineq); // initialize all the container
+
+        // 1. Objective function
+        spMatrixRow <T> Q(nVar,nVar);
+        for (uint d = 1; d <= this->weight_mask.size() ; d++){
+            spMatrixRow<T> Qd = getDiff(d).transpose()*getDiff(d);
+            Q += this->weight_mask[d - 1] * Qd;
+        }
+        // same for every dimension
+        for (uint dd = 0 ; dd < dim ; dd++)
+            qpForm.qpBlock[dd].Q = Q;
+        // 2. Inequality & equality
+        for (uint dd = 0; dd < dim ; dd++){
+            ConstraintMatPair<T,dim> Ab = loosePinMatSet(this->loosePinSet[0].data(),
+                    this->getTotalNineq()/2); // divide by 2 as the argument is number of block
+
+            ConstraintMatPair<T,dim> Abeq = loosePinMatSet(this->loosePinSet[0].data(),
+                                                         this->getTotalNineq()/2); // divide by 2 as the argument is number of block
+
+        }
+        return qpForm;
+    }
+
+    /**
+     * solve the quadratic programming
+     * @tparam T
+     * @tparam dim
+     * @param isPrint
+     * @return
+     */
+    template <typename T, size_t dim> bool OptimTrajGen<T,dim>::solve(bool isPrint) {
+        QpForm<T, dim> qpForm = getQPSet();
+        qpForm.write();
+
+        vector<VectorX<T>> solSet = qpForm.getQpSolSet(this->isSolved);
+        if (not this->isSolved) {
+            cout << "Trajectory generation failed. Aborting" << endl;
+            return false;
+        }
+        for (uint dd = 0; dd < dim ; dd++)
+            trajPnts[dd] = solSet[dd];
+        return true;
+    }
+
+    /**
+     * Evalute the value of the dth dertivative trajectory at time t. If sill no solution, returing empty vector.
+     * @tparam dim
+     * @param t_eval evaluation time
+     * @param d order of derivative
+     * @return
+     */
+     template <typename T, size_t dim > Vector<T,dim> OptimTrajGen<T,dim>::eval(T t_eval, d_order d) {
+         if (not this->isSolved){
+            cout << "Evaluation request failed. Still no valid solution." << endl;
+            return Vector<T,dim>();
+         }
+        // warning  extra-polation turn on
+        if (t_eval < this->ts[0] or t_eval > this->ts[this->M] )
+            cout << "Trajectory evaluation time out of bound. Extrapolating.. " << endl;
+
+        Vector<T,dim> val;
+        VectorX<T> time_knots_vec(tPnts.begin(),tPnts.end());
+        for (uint dd = 0; dd < dim ; d++) {
+            val(dd) = interpolate<T>(time_knots_vec, trajPnts[dd], t_eval)
+        }
+
+     }
+
+
 } // namespace trajgen
 # endif

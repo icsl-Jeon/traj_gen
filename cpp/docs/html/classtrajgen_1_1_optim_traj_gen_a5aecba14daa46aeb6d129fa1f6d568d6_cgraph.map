@@ -1,0 +1,5 @@
+<map id="trajgen::OptimTrajGen::addPin" name="trajgen::OptimTrajGen::addPin">
+<area shape="rect" id="node2" href="$classtrajgen_1_1_traj_gen.html#a43e57331dbaf68fbfb7d8be872d43c6b" title="trajgen::TrajGen::addPin" alt="" coords="204,42,367,69"/>
+<area shape="rect" id="node3" href="$classtrajgen_1_1_traj_gen.html#a8cf0304563188d3bb6df6e0654e3c10f" title="trajgen::TrajGen::findSeg\lInterval" alt="" coords="415,5,581,47"/>
+<area shape="rect" id="node4" href="$structtrajgen_1_1_pin.html#a2b1e1d635104181ab3e7d4b951160089" title="trajgen::Pin::getType" alt="" coords="427,71,569,98"/>
+</map>

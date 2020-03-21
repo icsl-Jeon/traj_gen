@@ -1,0 +1,6 @@
+<map id="trajgen::TrajGen::addPin" name="trajgen::TrajGen::addPin">
+<area shape="rect" id="node2" href="$classtrajgen_1_1_traj_gen.html#a4c53b40525a59bf4590814d7be65cc31" title="trajgen::TrajGen::addPinSet" alt="" coords="216,5,399,32"/>
+<area shape="rect" id="node4" href="$classtrajgen_1_1_poly_traj_gen.html#a1e510b0bf33e33ba3f095f8635d0278d" title="trajgen::PolyTrajGen\l::addPin" alt="" coords="237,57,378,98"/>
+<area shape="rect" id="node5" href="$classtrajgen_1_1_optim_traj_gen.html#a5aecba14daa46aeb6d129fa1f6d568d6" title="trajgen::OptimTrajGen\l::addPin" alt="" coords="232,122,383,163"/>
+<area shape="rect" id="node3" href="$test_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="main" alt="" coords="447,35,497,61"/>
+</map>

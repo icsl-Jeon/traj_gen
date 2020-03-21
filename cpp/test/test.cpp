@@ -42,6 +42,11 @@ int main(){
     if (isSolved)
         cout << xdot_eval << endl;
 
+    // optimTrajGen
+    time_knots <Type> tsPair{0,7}; Type pntDensity = 4;
+    OptimTrajGen<Type,dim> oTraj(tsPair,pntDensity);
+
+
     auto end= std::chrono::steady_clock::now();
     std::cout << "Terminated with " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count()*1e-3 << "[ms]" << std::endl;
     return 0;

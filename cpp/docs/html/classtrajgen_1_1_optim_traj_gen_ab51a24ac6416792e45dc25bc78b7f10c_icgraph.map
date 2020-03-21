@@ -1,0 +1,5 @@
+<map id="trajgen::OptimTrajGen::getDiff" name="trajgen::OptimTrajGen::getDiff">
+<area shape="rect" id="node2" href="$classtrajgen_1_1_optim_traj_gen.html#a1ed2dc704053a00d832e922b5a467e1f" title="trajgen::OptimTrajGen\l::loosePinMatSet" alt="" coords="204,5,355,47"/>
+<area shape="rect" id="node3" href="$classtrajgen_1_1_optim_traj_gen.html#acda9d1705c05775a666938c0df3de456" title="trajgen::OptimTrajGen\l::getQPSet" alt="" coords="403,35,553,76"/>
+<area shape="rect" id="node4" href="$classtrajgen_1_1_optim_traj_gen.html#ad4d541fa903f17167c8b217eede30211" title="trajgen::OptimTrajGen\l::fixPinMatSet" alt="" coords="204,123,355,164"/>
+</map>
