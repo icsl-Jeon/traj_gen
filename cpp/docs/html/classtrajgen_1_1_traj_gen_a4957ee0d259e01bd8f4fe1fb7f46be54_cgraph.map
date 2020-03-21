@@ -1,0 +1,5 @@
+<map id="trajgen::TrajGen::addPinSet" name="trajgen::TrajGen::addPinSet">
+<area shape="rect" id="node2" href="$classtrajgen_1_1_traj_gen.html#a43e57331dbaf68fbfb7d8be872d43c6b" title="trajgen::TrajGen::addPin" alt="" coords="236,42,399,69"/>
+<area shape="rect" id="node3" href="$classtrajgen_1_1_traj_gen.html#a8cf0304563188d3bb6df6e0654e3c10f" title="Find a segment index (0,1,...,M&#45;1) which contains t (ts[m]&lt;= t &lt; ts[m+1] || t&lt; ts[1] || ts[M&#45;1]&lt;= t) ..." alt="" coords="447,5,613,47"/>
+<area shape="rect" id="node4" href="$structtrajgen_1_1_pin.html#a2b1e1d635104181ab3e7d4b951160089" title="trajgen::Pin::getType" alt="" coords="459,71,601,98"/>
+</map>

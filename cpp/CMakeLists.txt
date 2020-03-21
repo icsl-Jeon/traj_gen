@@ -39,4 +39,3 @@ install(FILES ${CMAKE_BINARY_DIR}/trajgen.pc DESTINATION ${CMAKE_INSTALL_DATAROO
 install(EXPORT TrajGenConfig DESTINATION share/TrajGen/cmake)
 export(TARGETS ${PROJECT_NAME} FILE TrajGenConfig.cmake)
 
-add_subdirectory(test)

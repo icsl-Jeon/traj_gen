@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="traj_gen" targetName="traj_gen" />
+      <config projectName="traj_gen" targetName="test_pin" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="021351ae-5890-4bcb-86fb-643402950bde" name="Default Changelist" comment="Until OptimTrajGen finished">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="icsl-Jeon &lt;junbs95@gmail.com&gt;" />
+      </list>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="$PROJECT_DIR$/.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectId" id="1ZQvJDtkfhS4jllpNEYEmETFCSl" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RunManager">
+    <configuration name="traj_gen" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="traj_gen" TARGET_NAME="traj_gen" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="021351ae-5890-4bcb-86fb-643402950bde" name="Default Changelist" comment="" />
+      <created>1584784058659</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1584784058659</updated>
+      <workItem from="1584784059899" duration="15764000" />
+    </task>
+    <task id="LOCAL-00001" summary="Until OptimTrajGen finished">
+      <created>1584801114960</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1584801114960</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Until OptimTrajGen finished" />
+    <option name="LAST_COMMIT_MESSAGE" value="Until OptimTrajGen finished" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1299" y="299" key="#xdebugger.evaluate" timestamp="1584794094882">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="1299" y="299" key="#xdebugger.evaluate/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1584794094882" />
+    <state x="2476" y="96" width="865" height="912" key="CommitChangelistDialog2" timestamp="1584801114724">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2476" y="96" width="865" height="912" key="CommitChangelistDialog2/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1584801114724" />
+    <state width="1807" height="423" key="GridCell.Tab.0.bottom" timestamp="1584800757855">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1807" height="423" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1584800757855" />
+    <state width="1807" height="423" key="GridCell.Tab.0.center" timestamp="1584800757855">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1807" height="423" key="GridCell.Tab.0.center/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1584800757855" />
+    <state width="1807" height="423" key="GridCell.Tab.0.left" timestamp="1584800757855">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1807" height="423" key="GridCell.Tab.0.left/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1584800757855" />
+    <state width="1807" height="423" key="GridCell.Tab.0.right" timestamp="1584800757855">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1807" height="423" key="GridCell.Tab.0.right/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1584800757855" />
+    <state width="1807" height="311" key="GridCell.Tab.1.bottom" timestamp="1584795503345">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1807" height="311" key="GridCell.Tab.1.bottom/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1584795503345" />
+    <state width="1807" height="311" key="GridCell.Tab.1.center" timestamp="1584795503345">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1807" height="311" key="GridCell.Tab.1.center/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1584795503345" />
+    <state width="1807" height="311" key="GridCell.Tab.1.left" timestamp="1584795503345">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1807" height="311" key="GridCell.Tab.1.left/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1584795503345" />
+    <state width="1807" height="311" key="GridCell.Tab.1.right" timestamp="1584795503345">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1807" height="311" key="GridCell.Tab.1.right/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1584795503345" />
+    <state x="2402" y="187" key="SettingsEditor" timestamp="1584798610414">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2402" y="187" key="SettingsEditor/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1584798610414" />
+    <state x="2508" y="276" width="800" height="552" key="Vcs.Push.Dialog.v2" timestamp="1584801118908">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2508" y="276" width="800" height="552" key="Vcs.Push.Dialog.v2/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1584801118908" />
+    <state x="579" y="289" width="882" height="976" key="dock-window-1" timestamp="1584789721055">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="579" y="289" width="882" height="976" key="dock-window-1/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1584789721055" />
+    <state x="578" y="80" width="839" height="681" maximized="true" key="dock-window-2" timestamp="1584795444894">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="578" y="80" width="839" height="681" maximized="true" key="dock-window-2/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1584795444894" />
+    <state x="2657" y="425" width="714" height="301" key="org.intellij.images.editor.actions.BackgroundImageDialog" timestamp="1584798606252">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2657" y="425" width="714" height="301" key="org.intellij.images.editor.actions.BackgroundImageDialog/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1584798606252" />
+  </component>
+</project>

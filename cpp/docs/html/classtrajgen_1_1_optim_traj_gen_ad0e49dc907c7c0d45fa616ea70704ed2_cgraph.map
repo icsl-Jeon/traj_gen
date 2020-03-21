@@ -1,0 +1,11 @@
+<map id="trajgen::OptimTrajGen::solve" name="trajgen::OptimTrajGen::solve">
+<area shape="rect" id="node2" href="$classtrajgen_1_1_traj_gen.html#aa5f5f51d70aee3fb2feb996b4df2866a" title="trajgen::TrajGen::getTotalNeq" alt="" coords="451,5,645,32"/>
+<area shape="rect" id="node3" href="$classtrajgen_1_1_traj_gen.html#a2f56ce127db5670e4002d839ca6b0a25" title="trajgen::TrajGen::getTotal\lNineq" alt="" coords="463,57,633,98"/>
+<area shape="rect" id="node4" href="$classtrajgen_1_1_optim_traj_gen.html#acda9d1705c05775a666938c0df3de456" title="trajgen::OptimTrajGen\l::getQPSet" alt="" coords="228,115,379,157"/>
+<area shape="rect" id="node9" href="$structtrajgen_1_1_qp_form.html#a99c5e56c9932846dc4caf8d9df5f67e6" title="trajgen::QpForm::write" alt="" coords="227,181,379,208"/>
+<area shape="rect" id="node10" href="$structtrajgen_1_1_qp_form.html#ab763567ca121d75c69a77a3e4c65cd79" title="trajgen::QpForm::getQpSolSet" alt="" coords="204,232,403,259"/>
+<area shape="rect" id="node5" href="$classtrajgen_1_1_optim_traj_gen.html#ab51a24ac6416792e45dc25bc78b7f10c" title="trajgen::OptimTrajGen\l::getDiff" alt="" coords="693,187,844,229"/>
+<area shape="rect" id="node6" href="$classtrajgen_1_1_optim_traj_gen.html#a1ed2dc704053a00d832e922b5a467e1f" title="trajgen::OptimTrajGen\l::loosePinMatSet" alt="" coords="473,187,623,229"/>
+<area shape="rect" id="node8" href="$classtrajgen_1_1_optim_traj_gen.html#ad4d541fa903f17167c8b217eede30211" title="trajgen::OptimTrajGen\l::fixPinMatSet" alt="" coords="473,122,623,163"/>
+<area shape="rect" id="node7" href="$classtrajgen_1_1_optim_traj_gen.html#aa272bc19e0508a8c9648a8400e6c332f" title="trajgen::OptimTrajGen\l::matchIdx" alt="" coords="693,122,844,163"/>
+</map>
