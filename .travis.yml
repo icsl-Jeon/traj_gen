@@ -14,12 +14,12 @@ install:
     - cd qpOASES 
     - mkdir build && cd build 
     - cmake .. -DCMAKE_CXX_FLAGS=-fPIC
-    - sudo make install
+    - sudo make install -j8
     - cd ../../ 
     
 script: 
     - cmake ./cpp
-    - make && sudo make install     
+    - make -j8 && sudo make install -j8     
     - mkdir ./cpp/test/build
-    - cd ./cpp/test/build && cmake .. && make 
+    - cd ./cpp/test/build && cmake .. && make -j8
     - ./test_pin

@@ -1037,11 +1037,13 @@ namespace trajgen {
         QpForm<T,dim> QpNew(Np,0,Nineq);
         for (uint dd = 0 ; dd < dim ; dd++){
             QpNew.qpBlock[dd].Q = Qpp.sparseView();
-            QpNew.qpBlock[dd].H = (QpFormOrig.qpBlock[dd].beq.transpose()*(Qfp+Qpf.transpose())).sparseView();
-            QpNew.qpBlock[dd].A = (QpFormOrig.qpBlock[dd].A*AfpInv.block(0,Nf,Nf+Np,Np)).sparseView();
+            MatrixRow <T> Htmp = (QpFormOrig.qpBlock[dd].beq.transpose()*(Qfp+Qpf.transpose()));
+            QpNew.qpBlock[dd].H = Htmp.sparseView();
+            MatrixRow <T> Atmp = (QpFormOrig.qpBlock[dd].A*AfpInv.block(0,Nf,Nf+Np,Np));
+            QpNew.qpBlock[dd].A = Atmp.sparseView();
             MatrixRow<T> Af =  (QpFormOrig.qpBlock[dd].A*AfpInv).block(0,0,Nineq,Nf);
-            QpNew.qpBlock[dd].b = QpFormOrig.qpBlock[dd].b -
-                    Af.sparseView() *QpFormOrig.qpBlock[dd].beq;
+            spMatrixRow<T> AfSparse = Af.sparseView();
+            QpNew.qpBlock[dd].b = QpFormOrig.qpBlock[dd].b - spMatrixRow<T>(AfSparse*QpFormOrig.qpBlock[dd].beq);
         }
         return QpNew;
     }
