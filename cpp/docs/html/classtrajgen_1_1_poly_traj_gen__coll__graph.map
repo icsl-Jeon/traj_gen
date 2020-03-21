@@ -1,5 +1,5 @@
 <map id="trajgen::PolyTrajGen&lt; T, dim &gt;" name="trajgen::PolyTrajGen&lt; T, dim &gt;">
-<area shape="rect" id="node2" href="$classtrajgen_1_1_traj_gen.html" title="trajgen::TrajGen\&lt; T,\l dim \&gt;" alt="" coords="5,5,144,47"/>
-<area shape="rect" id="node3" href="$structtrajgen_1_1_poly_state.html" title="trajgen::PolyState" alt="" coords="169,13,295,39"/>
-<area shape="rect" id="node4" href="$structtrajgen_1_1_poly_param.html" title="trajgen::PolyParam" alt="" coords="320,13,453,39"/>
+<area shape="rect" id="node2" href="$classtrajgen_1_1_traj_gen.html" title="TrajGen is abstract class as a base for polyTrajGen and optimTrajGen. " alt="" coords="5,5,144,47"/>
+<area shape="rect" id="node3" href="$structtrajgen_1_1_poly_state.html" title="State of the polynomial segment (number of imposed continuity, added fixed pin). " alt="" coords="169,13,295,39"/>
+<area shape="rect" id="node4" href="$structtrajgen_1_1_poly_param.html" title="PolyParameters to define the behavior of polynomial. " alt="" coords="320,13,453,39"/>
 </map>

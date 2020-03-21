@@ -7,7 +7,6 @@ include(GNUInstallDirs) # holds CMAKE_INSTALL_*DIR information
 # This should exist to define library "traj_gen". The information will be used with set_target_properties
 add_library(traj_gen SHARED src/TrajGen.cpp)
 
-add_subdirectory(test)
 
 # We need to add dependencies
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
@@ -39,3 +38,5 @@ install(FILES ${CMAKE_BINARY_DIR}/trajgen.pc DESTINATION ${CMAKE_INSTALL_DATAROO
 
 install(EXPORT TrajGenConfig DESTINATION share/TrajGen/cmake)
 export(TARGETS ${PROJECT_NAME} FILE TrajGenConfig.cmake)
+
+add_subdirectory(test)

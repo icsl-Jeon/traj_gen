@@ -1,3 +1,3 @@
 <map id="trajgen::OptimTrajGen&lt; T, dim &gt;" name="trajgen::OptimTrajGen&lt; T, dim &gt;">
-<area shape="rect" id="node2" href="$classtrajgen_1_1_traj_gen.html" title="trajgen::TrajGen\&lt; T,\l dim \&gt;" alt="" coords="11,5,150,47"/>
+<area shape="rect" id="node2" href="$classtrajgen_1_1_traj_gen.html" title="TrajGen is abstract class as a base for polyTrajGen and optimTrajGen. " alt="" coords="11,5,150,47"/>
 </map>

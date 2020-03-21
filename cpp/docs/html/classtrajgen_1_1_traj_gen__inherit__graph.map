@@ -1,4 +1,4 @@
 <map id="trajgen::TrajGen&lt; T, dim &gt;" name="trajgen::TrajGen&lt; T, dim &gt;">
-<area shape="rect" id="node2" href="$classtrajgen_1_1_optim_traj_gen.html" title="trajgen::OptimTrajGen\l\&lt; T, dim \&gt;" alt="" coords="5,95,156,136"/>
-<area shape="rect" id="node3" href="$classtrajgen_1_1_poly_traj_gen.html" title="trajgen::PolyTrajGen\l\&lt; T, dim \&gt;" alt="" coords="181,95,322,136"/>
+<area shape="rect" id="node2" href="$classtrajgen_1_1_optim_traj_gen.html" title="The trajectory is represented as the linear interpolation of discrete points. " alt="" coords="5,95,156,136"/>
+<area shape="rect" id="node3" href="$classtrajgen_1_1_poly_traj_gen.html" title="Piecewise polynomial trajectory. In this method, we define the primitive of trajectory as polynomial..." alt="" coords="181,95,322,136"/>
 </map>

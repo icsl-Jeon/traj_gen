@@ -1,4 +1,5 @@
 <map id="trajgen::QpForm::write" name="trajgen::QpForm::write">
-<area shape="rect" id="node2" href="$classtrajgen_1_1_poly_traj_gen.html#aced9b41475fc47ee585a0fe1cb38390b" title="trajgen::PolyTrajGen\l::solve" alt="" coords="205,5,347,47"/>
-<area shape="rect" id="node3" href="$test_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="main" alt="" coords="395,13,445,39"/>
+<area shape="rect" id="node2" href="$classtrajgen_1_1_poly_traj_gen.html#aced9b41475fc47ee585a0fe1cb38390b" title="trajgen::PolyTrajGen\l::solve" alt="" coords="210,5,351,47"/>
+<area shape="rect" id="node4" href="$classtrajgen_1_1_optim_traj_gen.html#ad0e49dc907c7c0d45fa616ea70704ed2" title="trajgen::OptimTrajGen\l::solve" alt="" coords="205,71,356,112"/>
+<area shape="rect" id="node3" href="$test_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="main" alt="" coords="404,13,455,39"/>
 </map>

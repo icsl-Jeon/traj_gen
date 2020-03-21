@@ -21,10 +21,18 @@
 
 using namespace Eigen;
 using namespace std;
+
 /**
  * Trajectory generation modules
  */
 namespace trajgen {
+
+
+
+    /////////////
+    // Typedef //
+    /////////////
+
     typedef unsigned int uint;
     template<typename T,size_t Size> using Vector = Eigen::Matrix<T, Size, 1>;
     template<typename T> using VectorX = Eigen::Matrix<T, -1, 1>;
@@ -35,19 +43,17 @@ namespace trajgen {
     template<typename T> using PolyCoeff =  Eigen::Matrix<T, -1, 1>;
     template<typename T> using MatrixRow = Matrix<T,-1,-1,RowMajor>;
 
-
     ///////////////
     // Sub utils //
     ///////////////
 
     /**
-     * Insert inMat to targetMat.block(startRow,startCol,rowSize,colSize).
-     * @param targetMat
-     * @param inMat
+     * @brief Insert inMat to targetMat.block(startRow,startCol,rowSize,colSize).
+     * @details As the block insertion for sparse matrix is not implemented in Eigen3, I wrote.
+     * @param targetMat Insertion target (big)
+     * @param inMat Inserted matrix (small)
      * @param startRow
      * @param startCol
-     * @param rowSize
-     * @param colSize
      */
     template <typename T>
     void sparseBlockCopy(SparseMatrix<T,RowMajor> *targetMat, SparseMatrix<T,RowMajor> inMat, long startRow, long startCol) {
@@ -58,7 +64,13 @@ namespace trajgen {
                 targetMat->coeffRef(insertR, insertC) = it.value();
             }
     }
-
+    /**
+     * @brief Insert inMat to targetMat.block(startRow,startCol,rowSize,colSize). As the block insertion for sparse matrix is not implemented in Eigen3, I wrote.
+     * @param targetMat Insertion target (big)
+     * @param inMat Inserted matrix (small)
+     * @param startRow
+     * @param startCol
+     */
     template <typename T>
     void sparseBlockCopy(SparseMatrix<T,RowMajor> *targetMat, SparseMatrix<T,ColMajor> inMat, long startRow, long startCol) {
         for (int k = 0; k < inMat.cols(); ++k)
@@ -68,6 +80,13 @@ namespace trajgen {
                 targetMat->coeffRef(insertR, insertC) = it.value();
             }
     }
+    /**
+     * @brief Insert inMat to targetMat.block(startRow,startCol,rowSize,colSize). As the block insertion for sparse matrix is not implemented in Eigen3, I wrote.
+     * @param targetMat Insertion target (big)
+     * @param inMat Inserted matrix (small)
+     * @param startRow
+     * @param startCol
+     */
     template <typename T>
     void sparseBlockCopy(SparseMatrix<T,RowMajor> *targetMat, Matrix<T,-1,-1,RowMajor> inMat, long startRow, long startCol) {
         for (int k = 0; k < inMat.rows(); ++k)
@@ -79,7 +98,7 @@ namespace trajgen {
     }
 
     /**
-     * extract the diff element (setA - setB). Sorting is assumed !!
+     * @brief extract the diff element (setA - setB).
      * @tparam T
      * @param setA
      * @param setB
@@ -94,7 +113,7 @@ namespace trajgen {
         return output_it;
     }
     /**
-     * Perform interpolation for the data pair (xData,yData) given a query value x
+     * @brief Perform interpolation for the data pair (xData,yData) given a query value x
      * @tparam T
      * @param xData
      * @param yData
@@ -130,24 +149,28 @@ namespace trajgen {
     // PIN for equality or inequality constriants  //
     /////////////////////////////////////////////////
 
-    // *NOTE*
-    // We use vector container for unknown size data stack
-    // while array type is used for a container whose size can be determined at constructor
 
     enum PIN_TYPE {
         FIX_PIN = 0, // equality constraint
         LOOSE_PIN = 1 // inequality constraint
     };
-
+    /**
+     * @brief Pin object represent the constraints to be imposed on trajectory.
+     * @tparam T datatype (e.g. float or double). The choice of the datatype critical for the accuaracy
+     * @tparam dim dimension of operational space (e.g 2D or 3D)
+     */
     template<typename T,size_t dim>
     struct Pin{
         T t; // imposed time
         uint d; // imposed order of derivative          
         Pin(T t_, d_order d_) : t(t_), d(d_) {};
-
         virtual PIN_TYPE getType() const = 0;
     };
-
+    /**
+     * @brief Equality constraint
+     * @tparam T
+     * @tparam dim
+     */
     template<typename T,size_t dim>
     struct FixPin : public Pin<T,dim> {
         Vector<T,dim> x; // waypoint 
@@ -155,6 +178,11 @@ namespace trajgen {
         PIN_TYPE getType() const { return PIN_TYPE::FIX_PIN; }
     };
 
+    /**
+     * @brief Inequality constraint
+     * @tparam T
+     * @tparam dim
+     */
     template<typename T,size_t dim>
     struct LoosePin : public Pin<T,dim> {
         Vector<T,dim> xl; // lower bound
@@ -166,7 +194,11 @@ namespace trajgen {
     /////////////////////////////////////
     // Quadratic programming structure //
     /////////////////////////////////////
-
+    /**
+     * @brief Constraint matrix pair (Ax = b or Ax <= b). A is assumed to be sparse while b to be as dense matrix.
+     * @tparam T
+     * @tparam dim
+     */
     template<typename T,size_t dim>
     struct ConstraintMatPair {
         vector<spMatrixRow<T>> ASet;
@@ -175,7 +207,11 @@ namespace trajgen {
         ConstraintMatPair() {
             ASet.resize(dim), bSet.resize(dim);
         }
-
+        /**
+         * @brief Intialize the size of matrix AB
+         * @param Nc number of constraints (row)
+         * @param nVar number of variable of the optimization (column)
+         */
         void initialize(uint Nc, uint nVar) {
             for (spMatrixRow<T> &sp : ASet)
                 sp = spMatrixRow<T>(Nc, nVar);
@@ -188,7 +224,10 @@ namespace trajgen {
         }
     };
 
-    // p'Q p + H p : interact with qpOASES
+    /**
+     * @brief The basic qp block (p'Qp + Hp). Note that 1/2 is not multiplied!
+     * @tparam T
+     */
     template<typename T>
     struct QpBlock {
         spMatrixRow<T> Q;
@@ -202,6 +241,11 @@ namespace trajgen {
         VectorX<T> getQpSol(bool & isSolved);
     };
 
+    /**
+     * @brief Dimensional collection of qp Blocks.
+     * @tparam T
+     * @tparam dim
+     */
     template<typename T,size_t dim>
     struct QpForm {
         uint nVar,neq,nineq;
@@ -218,14 +262,18 @@ namespace trajgen {
     /////////////////////////////
     // TrajGen as a base class //
     /////////////////////////////
-
+    /**
+     * @brief TrajGen is abstract class as a base for polyTrajGen and optimTrajGen
+     * @tparam T datatype (e.g. float or double). The choice of the datatype critical for the accuaracy
+     * @tparam dim dimension of operational space (e.g. 2D or 3D)
+     */
     template<typename T,size_t dim>
     class TrajGen {
 
     protected:
         uint M; // number of segment
         bool isSolved = false; // solve flag
-        time_knots<T> ts; // knots (do not be confused with time points in case of optimTrajGen)
+        time_knots<T> ts; // time knots (do not be confused with time points in case of optimTrajGen)
 
         vector<FixPin<T,dim>> *fixPinSet;  // equality constraints set of M segment. (In case of optimTrajGen, M = 1)
         vector<LoosePin<T,dim>> *loosePinSet; // inequality constraints set of ()
@@ -244,6 +292,7 @@ namespace trajgen {
 
     public:
         TrajGen(time_knots<T> ts_);
+        TrajGen() {};
         void addPinSet(const vector<Pin<T,dim> *> &pinPtrSet);
         void setDerivativeObj(VectorX<T> weights);
         virtual void addPin(const Pin<T,dim> *pin);
@@ -254,13 +303,18 @@ namespace trajgen {
     ///////////////////////////////////////////
     // PolyTrajGen for piecewise polynomials //
     ///////////////////////////////////////////
-
+    /**
+     * @brief Solving method for polynomial
+     * @details POLY_COEFF = optimization w.r.t poly coefficient. Fast but unstable for large problem. END_DERIVATIVE = vice versa
+     */
     enum ALGORITHM{
         POLY_COEFF = 0,
         END_DERIVATIVE = 1
     };
 
-    // PolyParameters to define the behavior of polynomial
+    /**
+     * @brief PolyParameters to define the behavior of polynomial
+     */
     struct PolyParam{
         p_order poly_order = 4;
         d_order max_conti_order = 2;
@@ -269,13 +323,20 @@ namespace trajgen {
         PolyParam(p_order N,d_order max_conti,ALGORITHM algo): poly_order(N),max_conti_order(max_conti),algo(algo) {};
     };
 
-    // State of the polynomial segment.
+    /**
+     * @brief State of the polynomial segment (number of imposed continuity, added fixed pin).
+     */
     struct PolyState{
         uint Nc = 0; // order of continuity
         uint Nf = 0; // number of fixed pins
         uint getN() {return Nc+Nf;};
     };
-
+    /**
+     * @brief Piecewise polynomial trajectory. In this method, we define the primitive of trajectory as polynomial.
+     * @details Optimization is performed w.r.t the coefficient of polynomials or free end-derivative of each polynomial segment
+     * @tparam T
+     * @tparam dim
+     */
     template<typename T,size_t dim>
     class PolyTrajGen : public TrajGen<T,dim>{
 
@@ -298,10 +359,9 @@ namespace trajgen {
             ConstraintMatPair<T,dim> contiMat(uint m, d_order dmax);
             ConstraintMatPair<T,dim> fixPinMatSet(const FixPin<T,dim> * pPin,uint blockSize = 1);
             ConstraintMatPair<T,dim> loosePinMatSet(const LoosePin<T,dim> * pPin,uint blockSize = 1);
-            uint getTotalNeq();
+            uint getTotalNeq(); // overloaded
             // qp
             QpForm<T,dim> getQPSet();
-
             // map poly-ceoff to end-derivatives
             MatrixRow<T> coeff2endDerivatives(const spMatrixRow<T> & Aeq);
             QpForm<T,dim> mapQP(const QpForm<T,dim>& QpFormOrig);
@@ -311,14 +371,17 @@ namespace trajgen {
             void addPin(const Pin<T,dim>* pin);
             Vector<T,dim> eval(T t_eval, d_order d);
             bool solve(bool verbose);
-
-
     };
 
     ///////////////////////////////
     // Optimal trajectory method //
     ///////////////////////////////
-
+    /**
+     * @brief The trajectory is represented as the linear interpolation of discrete points
+     * @details In this method, the optimization variables are coordinate of each point
+     * @tparam T
+     * @tparam dim
+     */
     template<typename T,size_t dim>
     class OptimTrajGen : public TrajGen<T,dim>{
         private:
@@ -364,9 +427,8 @@ namespace trajgen {
     // Quadratic programming structure //
     /////////////////////////////////////
 
-
     /**
-     * write current problem
+     * write current problem and save it as txt file
      */
     template<typename T,size_t dim> void QpForm<T,dim>::write() {
         ofstream file ("QP");
@@ -395,7 +457,6 @@ namespace trajgen {
     }
 
 
-
     template<typename T>
     QpBlock<T>::QpBlock(uint nVar, uint neq, uint nineq) {
         Q = spMatrixRow<T>(nVar, nVar);
@@ -405,6 +466,12 @@ namespace trajgen {
         Aeq = spMatrixRow<T>(neq, nVar);
         beq = spMatrixRow<T>(neq, 1);
     }
+    /**
+     * @brief solve the current quadratic programming with qpOASES.
+     * @tparam T
+     * @param isSolved ref returned with result
+     * @return
+     */
     template<typename T>
     VectorX<T> QpBlock<T>::getQpSol(bool & isSolved) {
         uint nVar = Q.rows();
@@ -432,10 +499,10 @@ namespace trajgen {
 
         qpOASES::Options options;
         options.printLevel = qpOASES::PL_LOW;
-        options.terminationTolerance = 1e-9;
-        options.enableRamping=qpOASES::BT_FALSE;
+        options.terminationTolerance = 1e-10;
+//        options.enableRamping=qpOASES::BT_FALSE;
         qp_obj.setOptions(options);
-        qpOASES::int_t nWSR = 2000;
+        qpOASES::int_t nWSR = 4000;
         qp_obj.init(Hqp, gqp, Aqp, NULL, NULL, lbAqp, ubAqp, nWSR);
         if(qp_obj.isInfeasible()){
             cout<<"[QP solver] warning: problem is infeasible. "<<endl;
@@ -455,28 +522,6 @@ namespace trajgen {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /////////////////////////////
     // TrajGen as a base class //
     /////////////////////////////
@@ -490,7 +535,7 @@ namespace trajgen {
     }
 
     /**
-     * Find a segment index (0,1,...,M-1) which contains t (ts[m]<= t < ts[m+1]  || t< ts[1] || ts[M-1]<= t)
+     * @brief Find a segment index (0,1,...,M-1) which contains t (ts[m]<= t < ts[m+1]  || t< ts[1] || ts[M-1]<= t)
      * @tparam dim
      * @param t query time
      * @param m segment index
@@ -529,17 +574,27 @@ namespace trajgen {
         else
             loosePinSet[m].push_back(*(static_cast<const LoosePin<T,dim>*>(pin)));
     }
-
+    /**
+     * This method process the set of pins in one-shot way
+     * @tparam T
+     * @tparam dim
+     * @param pinPtrSet
+     */
     template<typename T,size_t dim> void TrajGen<T,dim>::addPinSet(const vector<Pin<T,dim>*>& pinPtrSet){
         for (auto it = pinPtrSet.begin() ; it < pinPtrSet.end() ; it++)
             addPin(*it);
     }
-
+    /**
+     * Set the weights of each component of derivative penalty
+     * @tparam T
+     * @tparam dim
+     * @param weights
+     */
     template<typename T,size_t dim> void TrajGen<T,dim>::setDerivativeObj(VectorX<T> weights){
         weight_mask = weights;
     }
     /**
-     *     get total number of inequality condition. Per a loosePin, two inequalities
+     *     get total number of inequality condition.
      */
     template<typename T,size_t dim> uint TrajGen<T,dim>::getTotalNineq() {
         uint nineq = 0;
@@ -547,6 +602,12 @@ namespace trajgen {
             nineq+= 2*loosePinSet[m].size();
         return nineq;
     }
+    /**
+     * get total number of equality condition.
+     * @tparam T
+     * @tparam dim
+     * @return
+     */
     template<typename T,size_t dim> uint TrajGen<T,dim>::getTotalNeq() {
         uint neq = 0;
         for (uint m = 0 ; m < M ; m++)
@@ -568,11 +629,9 @@ namespace trajgen {
         for (int dd = 0;dd <dim ; dd++)
             poly_coeff_set[dd] = new PolyCoeff<T>[this->M];
 
-
         // set the default Nc (except the last segment )
         for (uint m = 0 ; m < (this->M - 1); m++)
             seg_state_set[m].Nc = param_.max_conti_order+1;
-
     }
 
 
@@ -636,7 +695,7 @@ namespace trajgen {
         return vec;
     }
     /**
-     * p = scaleMat * phat
+     * p = scaleMat(dt) * phat
      * @tparam dim
      * @param dt segment duration (dTm)
      * @return
@@ -650,6 +709,12 @@ namespace trajgen {
         mat.setFromTriplets(tripletList.begin(),tripletList.end());
         return mat;
     }
+    /**
+     * diag([scaleMat(dTm)]_{m=[0,1,..,M-1]}). P = scaleMatBig * Phat
+     * @tparam T
+     * @tparam dim
+     * @return
+     */
     template <typename T,size_t dim> spMatrixRow<T> PolyTrajGen<T,dim>::scaleMatBig() {
         spMatrixRow<T> mat(this->M*(N+1),this->M*(N+1));
         vector<Triplet<T>> tripletList;
@@ -659,7 +724,12 @@ namespace trajgen {
         mat.setFromTriplets(tripletList.begin(),tripletList.end());
         return mat;
     }
-
+    /**
+     * Inverse of scaleMatBig.
+     * @tparam T
+     * @tparam dim
+     * @return
+     */
     template <typename T,size_t dim> spMatrixRow<T> PolyTrajGen<T,dim>::scaleMatBigInv() {
         spMatrixRow<T> mat(this->M*(N+1),this->M*(N+1));
         vector<Triplet<T>> tripletList;
@@ -669,6 +739,7 @@ namespace trajgen {
         mat.setFromTriplets(tripletList.begin(),tripletList.end());
         return mat;
     }
+
     /**
      * {x^(d)(t)}^2  = (tVec(t,d)'*Dp)'*(tVec(t,d)'*Dp)
      * @tparam dim
@@ -687,10 +758,10 @@ namespace trajgen {
         return Q;
     }
     /**
-     *
+     * Convert the stacked pin information to the constraints Aeq*p = beq. We can consider multiple pin at once
      * @tparam dim
      * @param pPin pointer to the first element of the array pin
-     * @param blockSize how many elements to be considered
+     * @param blockSize how many pins to be considered
      * @return
      */
     template <typename T,size_t dim> ConstraintMatPair<T,dim> PolyTrajGen<T,dim>::fixPinMatSet(const FixPin<T,dim> *pPin,uint blockSize){
@@ -712,7 +783,14 @@ namespace trajgen {
         return abEq;
     }
 
-
+    /**
+     * Convert the stacked pin information to the constraints A*p < b. We can consider multiple pin at once
+     * @tparam T
+     * @tparam dim
+     * @param pPin
+     * @param blockSize how many pins to be considered? total constraints = 2*pin
+     * @return
+     */
     template <typename T,size_t dim> ConstraintMatPair<T,dim> PolyTrajGen<T,dim>::loosePinMatSet(const LoosePin<T,dim> *pPin,uint blockSize){
         uint nVar = this->M * (N+1);
         uint Nc = 2*blockSize;
@@ -739,7 +817,7 @@ namespace trajgen {
      * Equality constraint to connect m segment to m+1 segment (m = 0... M-1)
      * @tparam dim
      * @param m
-     * @param dmax : we impose  dmax continuity (0,1,...,dmax)
+     * @param dmax : we impose  dmax continuity (0,1,...,dmax). This is given from outside of this method.
      * @return
      */
     template <typename T,size_t dim> ConstraintMatPair<T,dim> PolyTrajGen<T,dim>::contiMat(uint m, trajgen::d_order dmax) {
@@ -765,6 +843,7 @@ namespace trajgen {
 
         return abEq;
     }
+
     /**
      * Get the total number of equality constraint (sum (Nc+Nf) for m = 0,,,M-1)
      * @tparam dim
@@ -829,12 +908,19 @@ namespace trajgen {
         }
         return qpForm;
     }
+
     /**
      * Solving routine using qpOASES
      * @tparam dim
      * @return
      */
     template <typename T,size_t dim > bool PolyTrajGen<T,dim>::solve(bool isPrint){
+
+        if (TrajGen<T,dim>::getTotalNeq() == 0 and this->getTotalNineq() == 0) {
+            cout << "No constraints exist. Aborting. " << endl;
+            return false;
+        }
+
         // Prepare QP
         QpForm<T,dim> qpForm = getQPSet();
         QpForm<T,dim> qpFormOrig = qpForm;
@@ -975,15 +1061,27 @@ namespace trajgen {
      */
     template <typename T, size_t dim> uint OptimTrajGen<T,dim>::matchIdx(T eval_t,d_order d) {
         time_knots <T> tPntDist = this->tPnts;
-        for (T & d : tPntDist)
-            d = abs(d-eval_t);
-        return min(min_element(tPntDist.begin(),tPntDist.end()) - tPntDist.begin(),this->tPnts.size()-d);
+        for (T & dist : tPntDist)
+            dist = abs(dist-eval_t);
+        int min_pos = min_element(tPntDist.begin(),tPntDist.end()) - tPntDist.begin();
+        return min(min_pos,int(this->tPnts.size()-d));
     }
 
 
     template <typename T,size_t dim> OptimTrajGen<T,dim>::OptimTrajGen(
-            time_knots<T> ts_,float pntDensity):TrajGen<T, dim>(ts_),pntDensity(pntDensity){
-        assert(this->ts.size() == 2 && "To instantiate optimTrajGen, provide only [t0,tf]");
+            time_knots<T> ts_,float pntDensity): TrajGen<T, dim>(ts_),pntDensity(pntDensity){
+        if (ts_.size() != 2) {
+            cout << "[OptimTrajGen]: time was provided more than two. "
+                    "We will use only the first and last value by reintializing the base class. "
+                 << endl;
+            ts_[1] = ts_[ts_.size()-1]; ts_.resize(2);
+            this->ts = ts_;
+            this-> M = 1;
+            this->fixPinSet = new vector<FixPin<T,dim>>[this->M];
+            this->loosePinSet = new vector<LoosePin<T,dim>>[this->M];
+            this->fixPinOrderSet = new set<d_order>[this->M];
+            printf ("Initialized %d segments. \n",ts_.size()-1);
+        }
 
         nPnt = floor((this->ts[1] - this->ts[0])*pntDensity); // total number of points
         dt = (this->ts[1] - this->ts[0])/(nPnt-1); // time interval btw points
@@ -997,7 +1095,7 @@ namespace trajgen {
     }
 
     template <typename T,size_t dim> void OptimTrajGen<T,dim>::addPin(const Pin<T, dim> *pin) {
-        TrajGen<T,dim>::addPin();
+        TrajGen<T,dim>::addPin(pin);
         // do I need else ?
     }
     /**
@@ -1013,17 +1111,15 @@ namespace trajgen {
         uint Nc = 2*blockSize; // total number of constraint
         ConstraintMatPair<T,dim> abInEq(Nc,nPnt);
         for (uint blk = 0; blk < blockSize ; blk ++ ){
-            d_order d = pPin->d;
-            T t = pPin->t;
+            d_order d = (pPin+blk)->d;
+            T t = (pPin+blk)->t;
             uint n = matchIdx(t,d); // which point should be imposed for (blk) th point
             for (uint dd = 0 ; dd < dim; dd++){
                 spMatrixRow<T> pickMat(2,nPnt - d);
                 pickMat.coeffRef(0,n) = 1; // upper
                 pickMat.coeffRef(1,n) = -1; // lower
                 spMatrixRow<T> aineq(2,nPnt); aineq = pickMat*getDiff(d);
-
-                sparseBlockCopy<T>(&(abInEq.ASet[dd]),aineq,2*blk,0);
-                sparseBlockCopy<T>(&(abInEq.ASet[dd]),-aineq,2*blk+1,0);
+                sparseBlockCopy<T>(&(abInEq.ASet[dd]),MatrixRow<T>(aineq),2*blk,0);
                 abInEq.bSet[dd](2*blk) = (pPin+blk)->xu(dd);
                 abInEq.bSet[dd](2*blk+1) = -(pPin+blk)->xl(dd);
             }
@@ -1045,14 +1141,13 @@ namespace trajgen {
         ConstraintMatPair<T,dim> abEq (Nc,nVar);
 
         for (uint blk = 0; blk < blockSize ; blk ++){
-            d_order d = pPin->d;
-            T t = pPin->t;
+            d_order d = (pPin+blk)->d;
+            T t = (pPin+blk)->t;
             uint n = matchIdx(t,d); // which point should be imposed for (blk) th point
             for (uint dd = 0 ; dd < dim; dd++){
                 spMatrixRow<T> pickMat(1,nPnt - d);
                 pickMat.coeffRef(0,n) = 1; // upper
                 spMatrixRow<T> aeq(1,nPnt); aeq = pickMat*getDiff(d);
-
                 sparseBlockCopy<T>(&(abEq.ASet[dd]),aeq,blk,0);
                 abEq.bSet[dd](blk) = (pPin+blk)->x(dd);
             }
@@ -1068,14 +1163,14 @@ namespace trajgen {
      * @return
      */
     template<typename T,size_t dim> spMatrixRow<T> OptimTrajGen<T,dim>::getDiff(trajgen::d_order d) {
-        spMatrixRow<T> D0 = spMatrixRow<T>(nPnt,nPnt).Identity();
+        spMatrixRow<T> D0 = spMatrixRow<T>(nPnt,nPnt); D0.setIdentity();
         if (d == 0)
             return D0;
         for (uint j = 1 ; j <= d; j++) {
             spMatrixRow<T> D(nPnt - (j), nPnt - (j - 1));
             // filling this matrix
             for (uint i = 0; i < nPnt - j; i++) {
-                D(i,i) = -1; D(i,i+1) = 1;
+                D.coeffRef(i,i) = -1; D.coeffRef(i,i+1) = 1;
             }
             D /= dt; D0 = D*D0;
         }
@@ -1103,13 +1198,19 @@ namespace trajgen {
             qpForm.qpBlock[dd].Q = Q;
         // 2. Inequality & equality
         for (uint dd = 0; dd < dim ; dd++){
-            ConstraintMatPair<T,dim> Ab = loosePinMatSet(this->loosePinSet[0].data(),
+            ConstraintMatPair<T,dim> Ab = loosePinMatSet(this->loosePinSet[0].data(), // in case of optimTrajGen, seg = 1
                     this->getTotalNineq()/2); // divide by 2 as the argument is number of block
+            qpForm.qpBlock[dd].A = Ab.ASet[dd];
+            qpForm.qpBlock[dd].b = Ab.bSet[dd].sparseView();
 
-            ConstraintMatPair<T,dim> Abeq = loosePinMatSet(this->loosePinSet[0].data(),
-                                                         this->getTotalNineq()/2); // divide by 2 as the argument is number of block
+            ConstraintMatPair<T,dim> Abeq = fixPinMatSet(this->fixPinSet[0].data(),
+                                                         this->getTotalNeq()); // divide by 2 as the argument is number of block
+
+            qpForm.qpBlock[dd].Aeq = Abeq.ASet[dd];
+            qpForm.qpBlock[dd].beq = Abeq.bSet[dd].sparseView();
 
         }
+
         return qpForm;
     }
 
@@ -1121,6 +1222,10 @@ namespace trajgen {
      * @return
      */
     template <typename T, size_t dim> bool OptimTrajGen<T,dim>::solve(bool isPrint) {
+        if (this->getTotalNeq() == 0 and this->getTotalNineq() == 0) {
+            cout << "No constraints exist. Aborting. " << endl;
+            return false;
+        }
         QpForm<T, dim> qpForm = getQPSet();
         qpForm.write();
 
@@ -1151,13 +1256,12 @@ namespace trajgen {
             cout << "Trajectory evaluation time out of bound. Extrapolating.. " << endl;
 
         Vector<T,dim> val;
-        VectorX<T> time_knots_vec(tPnts.begin(),tPnts.end());
-        for (uint dd = 0; dd < dim ; d++) {
-            val(dd) = interpolate<T>(time_knots_vec, trajPnts[dd], t_eval)
+        VectorX<T> time_knots_vec = Map<Matrix<T,-1,1>>(tPnts.data(),tPnts.size(),1);
+        for (uint dd = 0; dd < dim ; dd++) {
+            val(dd) = interpolate<T>(time_knots_vec.segment(0,nPnt-d), getDiff(d)*trajPnts[dd], t_eval,true);
         }
-
+        return val;
      }
-
 
 } // namespace trajgen
 # endif

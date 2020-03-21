@@ -1,8 +1,8 @@
 <map id="trajgen::TrajGen::findSegInterval" name="trajgen::TrajGen::findSegInterval">
 <area shape="rect" id="node2" href="$classtrajgen_1_1_traj_gen.html#ad53bb2d0130ebde8470fef448dfc4fa4" title="trajgen::TrajGen::findSeg\lInterval" alt="" coords="220,5,387,47"/>
 <area shape="rect" id="node3" href="$classtrajgen_1_1_traj_gen.html#a43e57331dbaf68fbfb7d8be872d43c6b" title="trajgen::TrajGen::addPin" alt="" coords="222,71,385,98"/>
-<area shape="rect" id="node4" href="$classtrajgen_1_1_traj_gen.html#a4c53b40525a59bf4590814d7be65cc31" title="trajgen::TrajGen::addPinSet" alt="" coords="435,13,617,39"/>
+<area shape="rect" id="node4" href="$classtrajgen_1_1_traj_gen.html#a4957ee0d259e01bd8f4fe1fb7f46be54" title="trajgen::TrajGen::addPinSet" alt="" coords="435,13,617,39"/>
 <area shape="rect" id="node6" href="$classtrajgen_1_1_poly_traj_gen.html#a1e510b0bf33e33ba3f095f8635d0278d" title="trajgen::PolyTrajGen\l::addPin" alt="" coords="455,64,597,105"/>
 <area shape="rect" id="node7" href="$classtrajgen_1_1_optim_traj_gen.html#a5aecba14daa46aeb6d129fa1f6d568d6" title="trajgen::OptimTrajGen\l::addPin" alt="" coords="451,129,601,171"/>
-<area shape="rect" id="node5" href="$test_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="main" alt="" coords="665,42,716,69"/>
+<area shape="rect" id="node5" href="$test_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="main" alt="" coords="665,13,716,39"/>
 </map>
