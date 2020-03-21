@@ -1041,7 +1041,7 @@ namespace trajgen {
             QpNew.qpBlock[dd].A = (QpFormOrig.qpBlock[dd].A*AfpInv.block(0,Nf,Nf+Np,Np)).sparseView();
             MatrixRow<T> Af =  (QpFormOrig.qpBlock[dd].A*AfpInv).block(0,0,Nineq,Nf);
             QpNew.qpBlock[dd].b = QpFormOrig.qpBlock[dd].b -
-                    Af *QpFormOrig.qpBlock[dd].beq;
+                    Af.sparseView() *QpFormOrig.qpBlock[dd].beq;
         }
         return QpNew;
     }
