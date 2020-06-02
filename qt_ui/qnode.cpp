@@ -42,7 +42,8 @@ void QNode::ros_comms_init(){
     
     ros::NodeHandle nh("~");
     nh.param("world_frame_id",header.frame_id,std::string("/world"));
-    
+    nh.param("spline_output_file_name",planner.log_output_file_name,std::string(" "));
+
     nh.param("waypoint_topic",target_wnpt_topic,std::string("/waypoint"));
     target_goal.header = header;    
     wpnt_sub = nh.subscribe(target_wnpt_topic,1,&QNode::waypoint_cb,this);

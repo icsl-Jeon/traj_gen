@@ -1,0 +1,16 @@
+-I/usr/include/qt4
+-I/usr/include/qt4/QtGui
+-I/usr/include/qt4/QtCore
+-I/home/jbs/test_ws/src/traj_gen/include
+-I/opt/ros/melodic/include
+-I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp
+-I/usr/include
+-DROS_BUILD_SHARED_LIBS=1
+-DROS_PACKAGE_NAME="traj_gen"
+-DROSCONSOLE_BACKEND_LOG4CXX
+-D$<$<NOT:$<CONFIG:Debug>>:QT_NO_DEBUG>
+-DQT_GUI_LIB
+-DQT_CORE_LIB
+-o
+/home/jbs/test_ws/src/traj_gen/cmake-build-debug/qt_ui/moc_qnode.cxx
+/home/jbs/test_ws/src/traj_gen/qt_ui/qnode.h

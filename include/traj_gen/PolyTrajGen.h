@@ -17,7 +17,7 @@
 #include <iostream>
 #include <chrono>
 #include <memory>
-
+#include <fstream>
 #include "traj_gen/PolySplineXYZ.h" // msg tyype 
 
 #include "qpOASES.hpp"
@@ -64,6 +64,7 @@ int find_spline_interval(const vector<double>& knots,double eval_t);
 // append mat_sub to mat in the row 
 void row_append(MatrixXd & mat,MatrixXd mat_sub);
 
+geometry_msgs::Point point_eval_spline(PolySplineXYZ spline_xyz,double t_eval);
 
 
 /**
@@ -121,16 +122,18 @@ class PathPlanner{
         bool is_this_verbose = true; 
         nav_msgs::Path current_path; // latest path from optimization for entire horizon 
         traj_gen::PolySplineXYZ spline_xyz; // the coefficient of this polynomials 
-        
-        visualization_msgs::Marker safe_corridor_marker; 
+        visualization_msgs::Marker safe_corridor_marker;
         visualization_msgs::Marker safe_corridor_marker_single_base;
         visualization_msgs::MarkerArray safe_corridor_marker_single_array; // in case of single corridor, marker array will be activated  
         visualization_msgs::Marker knots_marker; // knots marker (the actual point at th knot time)
         // sub routine 
         Affine3d get_affine_corridor_pose(Point p1,Point p2); // one affine corridor            
 
-    public: 
-        // constructor
+    public:
+
+        string log_output_file_name;
+
+    // constructor
         PathPlanner();
         bool is_spline_valid() {return spline_xyz.is_valid;};        
         // update spline and current path 
@@ -149,7 +152,6 @@ class PathPlanner{
         Point point_eval_spline(double t_eval);
         Twist vel_eval_spline(double t_eval);
         Twist accel_eval_spline(double t_eval);
-
         // ros data retrieving from path update 
 
         // sub routine 
@@ -171,7 +173,9 @@ class PathPlanner{
          * @return Constraint A = 6 x (blck_size_seg) / b = 6 x 1
          */
         Constraint get_corridor_constraint_mat(Point pnt1 ,Point pnt2,VectorXd t_vec,TrajGenOpts option); // refer the research note (find A,b for safe corridor)
-       
+
+        void write_spline(string file_name);
+
     };
 
 

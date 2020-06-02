@@ -136,7 +136,7 @@ void PathPlanner::path_gen(const TimeSeries& knots ,const nav_msgs::Path& waypoi
 
     // update current path 
     horizon_eval_spline(10);
-
+    write_spline(log_output_file_name);
 }
 /**
  * @brief This is qp generator for coupled case (single corridor)
@@ -707,7 +707,7 @@ geometry_msgs::Point PathPlanner::point_eval_spline(double t_eval) {
     int poly_order=spline_xyz.poly_order;
 	// DEBUG
 //			std::cout<<"knot time of this: "<<std::endl;
-	for(auto it = spline_xyz.knot_time.begin();it<spline_xyz.knot_time.end();it++)
+//	for(auto it = spline_xyz.knot_time.begin();it<spline_xyz.knot_time.end();it++)
 //		std::cout<<*it<<", ";spline_xyz
 //	std::cout<<std::endl;
 //    std::cout<<"point_eval: "<<t_eval.toSec()<<"knot time final: "<<spline.knot_time.back()<<std::endl;
@@ -725,6 +725,36 @@ geometry_msgs::Point PathPlanner::point_eval_spline(double t_eval) {
 	
     return eval_point;
 }
+
+geometry_msgs::Point point_eval_spline(PolySplineXYZ  spline_xyz,double t_eval){
+
+
+    geometry_msgs::Point eval_point;
+
+    int poly_order=spline_xyz.poly_order;
+    // DEBUG
+//			std::cout<<"knot time of this: "<<std::endl;
+//    for(auto it = spline_xyz.knot_time.begin();it<spline_xyz.knot_time.end();it++)
+//		std::cout<<*it<<", ";spline_xyz
+//	std::cout<<std::endl;
+//    std::cout<<"point_eval: "<<t_eval.toSec()<<"knot time final: "<<spline.knot_time.back()<<std::endl;
+    t_eval =min(spline_xyz.knot_time.back(),t_eval);
+    t_eval =max(spline_xyz.knot_time.front(),t_eval);
+
+    Eigen::Index spline_idx=find_spline_interval(spline_xyz.knot_time,t_eval);
+//	std::cout<<"Index: "<<spline_idx<<std::endl;
+    // double t_eval_norm = (t_eval-spline_xyz.knot_time[spline_idx])/(spline_xyz.knot_time[spline_idx+1]-spline_xyz.knot_time[spline_idx]);
+    double t_eval_norm = (t_eval-spline_xyz.knot_time[spline_idx]);
+
+    eval_point.x=t_vec(poly_order,t_eval_norm,0).transpose()*Map<VectorXd>(spline_xyz.spline_x.poly_coeff[spline_idx].coeff.data(),poly_order+1);
+    eval_point.y=t_vec(poly_order,t_eval_norm,0).transpose()*Map<VectorXd>(spline_xyz.spline_y.poly_coeff[spline_idx].coeff.data(),poly_order+1);
+    eval_point.z=t_vec(poly_order,t_eval_norm,0).transpose()*Map<VectorXd>(spline_xyz.spline_z.poly_coeff[spline_idx].coeff.data(),poly_order+1);
+
+    return eval_point;
+
+
+}
+
 
 geometry_msgs::Twist PathPlanner::vel_eval_spline(double t_eval){
 
@@ -1104,8 +1134,41 @@ Constraint PathPlanner::get_corridor_constraint_mat(Point pnt1 ,Point pnt2,Vecto
     return constraint;    
 }
 
+/**
+ * @brief write current PolysplineXYZ
+ * @param file_name
+ */
+void PathPlanner::write_spline(string file_name) {
 
+    // write meta data
 
+    int n_seg = spline_xyz.n_seg;
+    int poly_order = spline_xyz.poly_order;
+
+    ofstream fStream;
+    fStream.open(file_name);
+    fStream << n_seg <<" " << poly_order << endl;
+    for (auto knot : spline_xyz.knot_time)
+        fStream << knot <<" ";
+    fStream<<endl;
+
+    // polynomial coefficient
+
+    for(int k=0;k<n_seg;k++) {
+        for (int n = 0; n <= poly_order; n++) {
+            fStream << spline_xyz.spline_x.poly_coeff[k].coeff[n] << " ";
+        }
+        fStream << endl;
+        for (int n = 0; n <= poly_order; n++) {
+            fStream << spline_xyz.spline_y.poly_coeff[k].coeff[n]<<" ";
+        }
+        fStream << endl;
+        for (int n = 0; n <= poly_order; n++) {
+            fStream << spline_xyz.spline_z.poly_coeff[k].coeff[n]<<" ";
+        }
+        fStream << endl;
+    }
+}
 
 MatrixXd expand3(MatrixXd small_mat){
     const int r_small = small_mat.rows() ,c_small =small_mat.cols();
@@ -1250,4 +1313,6 @@ int find_spline_interval(const vector<double>& ts,double t_eval) {
 
     // if idx == -1, then could not find
 }
+
+
 
