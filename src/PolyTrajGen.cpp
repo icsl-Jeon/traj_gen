@@ -751,8 +751,48 @@ geometry_msgs::Point point_eval_spline(PolySplineXYZ  spline_xyz,double t_eval){
     eval_point.z=t_vec(poly_order,t_eval_norm,0).transpose()*Map<VectorXd>(spline_xyz.spline_z.poly_coeff[spline_idx].coeff.data(),poly_order+1);
 
     return eval_point;
+}
 
 
+nav_msgs::Path horizon_eval_spline(PolySplineXYZ spline_xyz,int N_eval_interval){
+
+
+    geometry_msgs::PoseStamped poseStamped;
+    nav_msgs::Path path;
+
+    ROS_INFO("evaluating spline....");
+
+    int n_seg=spline_xyz.n_seg;
+    int poly_order = spline_xyz.poly_order;
+
+    printf("n_seg : %d, poly_order: %d, \n",spline_xyz.n_seg,spline_xyz.poly_order);
+
+    // std::cout<<spline.knot_time.size()<<std::endl;
+    // per each segment
+    for(int n=0;n<n_seg;n++){
+        // evaluation start and end
+
+        double t1=spline_xyz.knot_time[n];
+        double t2=spline_xyz.knot_time[n+1];
+
+        // time horizon between start and end
+        VectorXd eval_time_horizon(N_eval_interval);
+        eval_time_horizon.setLinSpaced(N_eval_interval,t1,t2);
+
+        // evaluation path on that horizon
+        for(int t_idx=0;t_idx<N_eval_interval;t_idx++){
+            // double t_eval=(eval_time_horizon.coeff(t_idx)-t1)/(t2-t1);
+            double t_eval=(eval_time_horizon.coeff(t_idx)-t1);
+
+            poseStamped.pose.position.x=t_vec(poly_order,t_eval,0).transpose()*Map<VectorXd>(spline_xyz.spline_x.poly_coeff[n].coeff.data(),poly_order+1);
+            poseStamped.pose.position.y=t_vec(poly_order,t_eval,0).transpose()*Map<VectorXd>(spline_xyz.spline_y.poly_coeff[n].coeff.data(),poly_order+1);
+            poseStamped.pose.position.z=t_vec(poly_order,t_eval,0).transpose()*Map<VectorXd>(spline_xyz.spline_z.poly_coeff[n].coeff.data(),poly_order+1);
+            path.poses.push_back(poseStamped);
+        }
+    }
+
+
+    return path;
 }
 
 
