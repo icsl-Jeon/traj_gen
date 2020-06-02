@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC -O3 -DNDEBUG  -shared -Wl,-soname,libtraj_gen.so -o /home/jbs/test_ws/devel/lib/libtraj_gen.so CMakeFiles/traj_gen.dir/src/PolyTrajGen.cpp.o 

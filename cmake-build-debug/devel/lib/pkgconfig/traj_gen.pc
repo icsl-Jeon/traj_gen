@@ -1,8 +1,0 @@
-prefix=/home/jbs/test_ws/src/traj_gen/cmake-build-debug/devel
-
-Name: traj_gen
-Description: Description of traj_gen
-Version: 0.0.0
-Cflags: -I/home/jbs/test_ws/src/traj_gen/cmake-build-debug/devel/include -I/home/jbs/test_ws/src/traj_gen/include
-Libs: -L${prefix}/lib -ltraj_gen
-Requires: message_generation nav_msgs roscpp
