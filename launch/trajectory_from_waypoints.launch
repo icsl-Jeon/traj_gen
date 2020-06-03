@@ -4,7 +4,6 @@
 	<node pkg="traj_gen" type="traj_gen_client" name="traj_gen_ui" output="screen">
 		<param name="world_frame_id" value="/world" />
 		<param name="waypoint_topic" value="/waypoint" />
-		<param name = "spline_output_file_name" value="$(find traj_gen)/log/output.txt"/>
 	</node>
 	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find traj_gen)/rviz/rviz.rviz"/>
 
