@@ -760,12 +760,12 @@ nav_msgs::Path horizon_eval_spline(PolySplineXYZ spline_xyz,int N_eval_interval)
     geometry_msgs::PoseStamped poseStamped;
     nav_msgs::Path path;
 
-    ROS_INFO("evaluating spline....");
+    // ROS_INFO("evaluating spline....");
 
     int n_seg=spline_xyz.n_seg;
     int poly_order = spline_xyz.poly_order;
 
-    printf("n_seg : %d, poly_order: %d, \n",spline_xyz.n_seg,spline_xyz.poly_order);
+    // printf("n_seg : %d, poly_order: %d, \n",spline_xyz.n_seg,spline_xyz.poly_order);
 
     // std::cout<<spline.knot_time.size()<<std::endl;
     // per each segment
