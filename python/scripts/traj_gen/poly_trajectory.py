@@ -70,8 +70,16 @@ class PolyTrajGen(TrajGen):
 
 
     def nthCeoff(self, n, d):
-        # Returns the nth order ceoffs (n=0...N) of time vector of d-th
-        # derivative.
+        """ Returns the nth order ceoffs (n=0...N) of time vector of d-th
+        derivative.
+
+        Args:
+            n(int): target order
+            d(int): order derivative
+
+        Returns:
+        val_: n-th ceoffs
+        """
         if d == 0:
             val_ = 1
         else:
@@ -80,11 +88,24 @@ class PolyTrajGen(TrajGen):
         return val_
 
     def IntDerSquard(self, d):
-        if d > self.N:
-            print("Order of derivative > poly order \n")
+        """
+        {x^(d)(t)}^2  = (tVec(t,d)'*Dp)'*(tVec(t,d)'*Dp)
+
+        Args:
+            d(int): order derivative
+
+        Returns:
+            mat_: matrix of the cost function
+        """
         mat_ = np.zeros((self.N+1, self.N+1))
-        for i in range(self.N+1):
-            for j in range(self.N+1):
+        if d > self.N:
+            print("Order of derivative > poly order, return zeros-matrix \n")
+        # for i in range(self.N+1):
+        #     for j in range(self.N+1):
+        #         if i+j-2*d+1 > 0:
+        #             mat_[i,j] = self.nthCeoff(i, d) * self.nthCeoff(j, d) / (i+j-2*d+1)
+        for i in range(d, self.N+1):
+            for j in range(d, self.N+1):
                 if i+j-2*d+1 > 0:
                     mat_[i,j] = self.nthCeoff(i, d) * self.nthCeoff(j, d) / (i+j-2*d+1)
         return mat_
@@ -306,10 +327,10 @@ class PolyTrajGen(TrajGen):
                 except:
                     dP_ = None
                     flag_ = False
-                
+
                 # ## ipopt version
                 # x_sym = ca.SX.sym('x', QSet[0].shape[0])
-                # opts_setting = {'ipopt.max_iter':100, 'ipopt.print_level':0, 'print_time':0, 'ipopt.acceptable_tol':1e-8, 'ipopt.acceptable_obj_change_tol':1e-6} 
+                # opts_setting = {'ipopt.max_iter':100, 'ipopt.print_level':0, 'print_time':0, 'ipopt.acceptable_tol':1e-8, 'ipopt.acceptable_obj_change_tol':1e-6}
                 # print(HSet[dd].shape)
                 # obj = 0.5* ca.mtimes([x_sym.T, QSet[dd], x_sym]) + ca.mtimes([HSet[dd].reshape(1, -1), x_sym])
                 # Ax_sym = ca.mtimes([ASet[dd], x_sym])
