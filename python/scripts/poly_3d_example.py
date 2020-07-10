@@ -11,7 +11,7 @@ if __name__ == '__main__':
     order = 8
     optimTarget = 'end-derivative' #'end-derivative' 'poly-coeff'
     maxConti = 4
-    objWeights = np.array([0, 1, 1])
+    objWeights = np.array([1, 1, 1])
     pTraj = pt.PolyTrajGen(knots, order, optimTarget, dim, maxConti)
 
     # 2. Pin
