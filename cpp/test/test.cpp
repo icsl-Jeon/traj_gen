@@ -10,12 +10,12 @@ int main(){
     // 1. Prameter setting
     // common
     const int dim = 3;
-    time_knots<Type> ts{0,2,4,7};
-    Vector<Type,3> objWeights(0,1,1);
+    trajgen::time_knots<Type> ts{0,2,4,7};
+    trajgen::Vector<Type,3> objWeights(0,1,1);
 
     // polyTrajGen
     uint poly_order = 8, max_conti = 4;
-    PolyParam pp(poly_order,max_conti,ALGORITHM::END_DERIVATIVE); // or ALGORITHM::POLY_COEFF
+    trajgen::PolyParam pp(poly_order,max_conti,ALGORITHM::END_DERIVATIVE); // or ALGORITHM::POLY_COEFF
     // optimTrajGen
     Type pntDensity = 5;
 
@@ -35,9 +35,9 @@ int main(){
     std::vector<Pin<Type,dim>*> pinSet{&x1,&x2,&x3,&x4,&xdot0,&xddot0,&passCube}; // to prevent downcasting slicing, vector of pointers
 
     // Let's test the two trajGen class
-    TrajGen<Type,dim>** pTrajGenSet = new TrajGen<Type,dim>*[2];
+    TrajGen<Type,dim>** pTrajGenSet = new TrajGen<Type,dim>*[1]; //2
     pTrajGenSet[0] = new PolyTrajGen<Type,dim>(ts,pp);
-    pTrajGenSet[1] = new OptimTrajGen<Type,dim>(ts,pntDensity);
+    // pTrajGenSet[1] = new OptimTrajGen<Type,dim>(ts,pntDensity);
     bool verbose = false;
     bool isSolved = false;
     string TrajGenClass[2] = {"PolyTraj","OptimTraj"};
