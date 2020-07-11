@@ -20,10 +20,13 @@ class PolyTrajAgg():
         self.segment_times = None # time segmentation
         self.kHighesDerivateToOptimize = int(self.N/2) -1
         self.base_coefficients = self.computeBaseCoefficients()
-        print(self.base_coefficients)
+        # print(self.base_coefficients[2])
         self.cost_matrices = None #
 
     def computeBaseCoefficients(self, N_=22):
+        """
+        This is to pre-calcuate the coefficients of the derivaty
+        """
         base_coeff_ = np.zeros((N_, N_))
         base_coeff_[0] = np.ones(base_coeff_[0].shape)
         deg_ = N_ - 1
@@ -60,7 +63,7 @@ class PolyTrajAgg():
         return cost_jacobian_
 
     def updateSegmentTimes(self, times_):
-        n_segment_times = times_.shape[0]
+        # n_segment_times = times_.shape[0]
         for i in range(self.num_segments):
             cost_matrix_ = self.computeQuadraticCostJacobian(self.derivate_degree, times_[i])
             if self.cost_matrices is None:
