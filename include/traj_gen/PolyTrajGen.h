@@ -65,6 +65,8 @@ int find_spline_interval(const vector<double>& knots,double eval_t);
 void row_append(MatrixXd & mat,MatrixXd mat_sub);
 
 geometry_msgs::Point point_eval_spline(PolySplineXYZ spline_xyz,double t_eval);
+geometry_msgs::Point vel_eval_spline(PolySplineXYZ spline_xyz,double t_eval);
+
 nav_msgs::Path horizon_eval_spline(PolySplineXYZ spline_xyz,int N_eval_interval);
 
 /**

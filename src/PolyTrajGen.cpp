@@ -753,6 +753,33 @@ geometry_msgs::Point point_eval_spline(PolySplineXYZ  spline_xyz,double t_eval){
     return eval_point;
 }
 
+geometry_msgs::Point vel_eval_spline(PolySplineXYZ  spline_xyz,double t_eval){
+
+
+    geometry_msgs::Point eval_point;
+
+    int poly_order=spline_xyz.poly_order;
+    // DEBUG
+//			std::cout<<"knot time of this: "<<std::endl;
+//    for(auto it = spline_xyz.knot_time.begin();it<spline_xyz.knot_time.end();it++)
+//		std::cout<<*it<<", ";spline_xyz
+//	std::cout<<std::endl;
+//    std::cout<<"point_eval: "<<t_eval.toSec()<<"knot time final: "<<spline.knot_time.back()<<std::endl;
+    t_eval =min(spline_xyz.knot_time.back(),t_eval);
+    t_eval =max(spline_xyz.knot_time.front(),t_eval);
+
+    Eigen::Index spline_idx=find_spline_interval(spline_xyz.knot_time,t_eval);
+//	std::cout<<"Index: "<<spline_idx<<std::endl;
+    // double t_eval_norm = (t_eval-spline_xyz.knot_time[spline_idx])/(spline_xyz.knot_time[spline_idx+1]-spline_xyz.knot_time[spline_idx]);
+    double t_eval_norm = (t_eval-spline_xyz.knot_time[spline_idx]);
+
+    eval_point.x=t_vec(poly_order,t_eval_norm,1).transpose()*Map<VectorXd>(spline_xyz.spline_x.poly_coeff[spline_idx].coeff.data(),poly_order+1);
+    eval_point.y=t_vec(poly_order,t_eval_norm,1).transpose()*Map<VectorXd>(spline_xyz.spline_y.poly_coeff[spline_idx].coeff.data(),poly_order+1);
+    eval_point.z=t_vec(poly_order,t_eval_norm,1).transpose()*Map<VectorXd>(spline_xyz.spline_z.poly_coeff[spline_idx].coeff.data(),poly_order+1);
+
+    return eval_point;
+}
+
 
 nav_msgs::Path horizon_eval_spline(PolySplineXYZ spline_xyz,int N_eval_interval){
 
