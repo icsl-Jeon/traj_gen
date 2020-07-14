@@ -10,10 +10,10 @@ from scipy.linalg import block_diag, solve
 class PolyTrajGen(TrajGen):
     def __init__(self, knots_, order_, algo_, dim_, maxContiOrder_):
         super().__init__(knots_, dim_)
-        self.N = order_
+        self.N = order_ # polynomial order
         self.algorithm = algo_
-        # segments which is knots - 1
-        self.M = knots_.shape[0] - 1
+        
+        self.M = knots_.shape[0] - 1 # segments which is knots - 1
         self.maxContiOrder = maxContiOrder_
         self.num_variables =  (self.N+1) * self.M
         self.segState = np.zeros((self.M, 2))
@@ -62,7 +62,7 @@ class PolyTrajGen(TrajGen):
                     self.fixPinSet[m] = [pin_]
                     self.fixPinOrder[m] = [pin_['d']]
                 self.segState[m, 0] += 1
-
+        
             else:
                 print('FixPin exceed the dof of this segment. Pin ignored')
         else:
@@ -106,8 +106,8 @@ class PolyTrajGen(TrajGen):
         #             mat_[i,j] = self.nthCeoff(i, d) * self.nthCeoff(j, d) / (i+j-2*d+1)
         for i in range(d, self.N+1):
             for j in range(d, self.N+1):
-                if i+j-2*d+1 > 0:
-                    mat_[i,j] = self.nthCeoff(i, d) * self.nthCeoff(j, d) / (i+j-2*d+1)
+                # if i+j-2*d+1 > 0:
+                mat_[i,j] = self.nthCeoff(i, d) * self.nthCeoff(j, d) / (i+j-2*d+1)
         return mat_
 
     def findSegInteval(self, t_):
@@ -147,7 +147,8 @@ class PolyTrajGen(TrajGen):
             beqSet_[dd] = X_[dd]
         return aeqSet_, beqSet_
 
-    def contiMat(self, m_, dmax_):
+    def contiMat(self, m_, dmax):
+        dmax_ = int(dmax)
         aeq_ = np.zeros((dmax_+1, self.num_variables))
         beq_ = np.zeros((dmax_+1, 1))
         idxStart_ = m_*(self.N+1)
@@ -186,11 +187,13 @@ class PolyTrajGen(TrajGen):
                 for m in range(self.M):
                     dT_ = self.Ts[m+1] - self.Ts[m]
                     Q_m_ = self.IntDerSquard(d)/dT_**(2*d-1)
+                    print('Qm is at {0} segm {1} dim is {2}, dT_ is {3}'.format(m, dd, Q_m_, dT_))
                     if Qd_ is None:
                         Qd_ = Q_m_.copy()
                     else:
                         Qd_ = block_diag(Qd_, Q_m_)
-                # print(Qd_)
+                
+                    # print('qd matrix {}'.format(Q_m_))
                 Q_ = Q_ + self.weight_mask[d-1]*Qd_
             QSet[dd] = Q_
 
@@ -219,6 +222,7 @@ class PolyTrajGen(TrajGen):
                     if contiDof_ != self.maxContiOrder+1:
                         print('Connecting segment ({0},{1}) : lacks {2} dof  for imposed {3} th continuity'.format(m, m+1, self.maxContiOrder-contiDof_, self.maxContiOrder))
                     if contiDof_ >0:
+                        print('m {0} conti {1}'.format(m, contiDof_-1))
                         aeq, beq = self.contiMat(m, contiDof_-1)
                         AeqSet = np.concatenate((AeqSet, aeq.reshape(1, -1, self.num_variables).repeat(3, axis=0)), axis=1)
                         BeqSet = np.concatenate((BeqSet, beq.reshape(1, -1, 1).repeat(3, axis=0)), axis=1)
@@ -227,7 +231,6 @@ class PolyTrajGen(TrajGen):
 
             ## loose pin
             if m in self.loosePinSet.keys():
-                print(m)
                 for pin in self.loosePinSet[m]:
                     aSet, bSet = self.loosePinMatSet(pin)
                     if ASet is None:
@@ -266,15 +269,19 @@ class PolyTrajGen(TrajGen):
         QSet = np.zeros((self.dim, self.num_variables-Nf_, self.num_variables-Nf_))
         HSet = np.zeros((self.dim, self.num_variables-Nf_))
         # check ASet ?
-        ASet = np.zeros((self.dim, 2, self.num_variables-Nf_))
-        BSet = BSet_.copy()
-        for dd in range(self.dim):
-            df_ = BeqSet_[dd]
-            QSet[dd] = 2*Qpp_
-            HSet[dd] = np.dot(df_.T, (Qfp_+Qpf_.T))
-            A_ = np.dot(ASet_[dd], AfpInv_)
-            ASet[dd] = A_[:, Nf_:]
-            BSet[dd] = BSet_[dd] - np.dot(A_[:, :Nf_], df_)
+        if ASet_ is not None:
+            ASet = np.zeros((self.dim, 2, self.num_variables-Nf_))
+            BSet = BSet_.copy()
+            for dd in range(self.dim):
+                df_ = BeqSet_[dd]
+                QSet[dd] = 2*Qpp_
+                HSet[dd] = np.dot(df_.T, (Qfp_+Qpf_.T))
+                A_ = np.dot(ASet_[dd], AfpInv_)
+                ASet[dd] = A_[:, Nf_:]
+                BSet[dd] = BSet_[dd] - np.dot(A_[:, :Nf_], df_)
+        else:
+            ASet = None 
+            BSet = None
         return QSet, HSet, ASet, BSet
 
 
@@ -282,25 +289,32 @@ class PolyTrajGen(TrajGen):
         self.isSolved = True
         # prepare QP
         QSet, ASet, BSet, AeqSet, BeqSet = self.getQPset()
-        if self.algorithm == 'end-derivative':
+
+        if self.algorithm == 'end-derivative' and ASet is not None:
             mapMat = self.coeff2endDerivatives(AeqSet[0])
             QSet, HSet, ASet, BSet = self.mapQP(QSet, ASet, BSet, AeqSet, BeqSet)
-        elif self.algorithm == 'poly-coeff':
+        elif self.algorithm == 'poly-coeff' or ASet is None:
             x_sym = ca.SX.sym('x', QSet[0].shape[0])
             opts_setting = {'ipopt.max_iter':100, 'ipopt.print_level':0, 'print_time':0, 'ipopt.acceptable_tol':1e-8, 'ipopt.acceptable_obj_change_tol':1e-6}
 
         else:
             print('unsupported algorithm')
 
-
         for dd in range(self.dim):
             print('soving {}th dimension ...'.format(dd))
-            if self.algorithm == 'poly-coeff':
+            if self.algorithm == 'poly-coeff' or ASet is None:
                 obj = ca.mtimes([x_sym.T, QSet[dd], x_sym])
-                a_set = np.concatenate((ASet[dd], AeqSet[dd]))
+                if ASet is not None:
+                    a_set = np.concatenate((ASet[dd], AeqSet[dd]))
+                else:
+                    a_set = AeqSet[dd].copy()
                 Ax_sym = ca.mtimes([a_set, x_sym])
-                b_set_u = np.concatenate((BSet[dd], BeqSet[dd])) # Ax <= b_set_u
-                b_set_l = np.concatenate((-np.inf*np.ones(BSet[dd].shape), BeqSet[dd])) # Ax >= b_set_l
+                if BSet is not None:
+                    b_set_u = np.concatenate((BSet[dd], BeqSet[dd])) # Ax <= b_set_u
+                    b_set_l = np.concatenate((-np.inf*np.ones(BSet[dd].shape), BeqSet[dd])) # Ax >= b_set_l
+                else:
+                    b_set_u = BeqSet[dd]
+                    b_set_l = BeqSet[dd]
                 nlp_prob = {'f': obj, 'x': x_sym, 'g':Ax_sym}
                 solver = ca.nlpsol('solver', 'ipopt', nlp_prob, opts_setting)
                 try:
@@ -315,7 +329,7 @@ class PolyTrajGen(TrajGen):
                 qp = {}
                 qp['h'] = ca.DM(QSet[dd]).sparsity()
                 qp['a'] = ca.DM(ASet[dd]).sparsity()
-                # qp['a'] = ASet
+
                 options_ = {'print_time':False, "jit":True, 'verbose':False, 'print_problem':False,}
                 solver_ = ca.conic('solver_', 'qpoases', qp, options_)
                 try:
