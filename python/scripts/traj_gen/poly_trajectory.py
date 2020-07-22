@@ -12,11 +12,15 @@ class PolyTrajGen(TrajGen):
         super().__init__(knots_, dim_)
         self.N = order_ # polynomial order
         self.algorithm = algo_
-        
+
         self.M = knots_.shape[0] - 1 # segments which is knots - 1
         self.maxContiOrder = maxContiOrder_
         self.num_variables =  (self.N+1) * self.M
-        self.segState = np.zeros((self.M, 2))
+        self.segState = np.zeros((self.M, 2)) # 0 dim -> how many fixed pins in this segment, 
+                                              # muss smaller than the polynomial order+1
+                                              # more fixed pins (higher order) will be ignored.
+                                              # 1 dim -> continuity degree. should be defined by
+                                              # user (maxContiOrder_+1) 
         self.polyCoeffSet = np.zeros((self.dim, self.N+1, self.M))
 
     ## math functions
@@ -62,7 +66,7 @@ class PolyTrajGen(TrajGen):
                     self.fixPinSet[m] = [pin_]
                     self.fixPinOrder[m] = [pin_['d']]
                 self.segState[m, 0] += 1
-        
+
             else:
                 print('FixPin exceed the dof of this segment. Pin ignored')
         else:
@@ -107,7 +111,7 @@ class PolyTrajGen(TrajGen):
         for i in range(d, self.N+1):
             for j in range(d, self.N+1):
                 # if i+j-2*d+1 > 0:
-                mat_[i,j] = self.nthCeoff(i, d) * self.nthCeoff(j, d) / (i+j-2*d+1)
+                mat_[i,j] = 2*self.nthCeoff(i, d) * self.nthCeoff(j, d) / (i+j-2*d+1)
         return mat_
 
     def findSegInteval(self, t_):
@@ -141,21 +145,28 @@ class PolyTrajGen(TrajGen):
         dTm_ = self.Ts[m_+1] - self.Ts[m_]
         aeqSet_ = np.zeros((self.dim, self.num_variables))
         beqSet_ = np.zeros((self.dim, 1))
-        # print('start {0}, end {1}'.format(idxStart_, idxEnd_))
         for dd in range(self.dim):
             aeqSet_[dd, idxStart_:idxEnd_] = self.tVec(tau_, d_).flatten()/dTm_**d_
             beqSet_[dd] = X_[dd]
         return aeqSet_, beqSet_
 
     def contiMat(self, m_, dmax):
+        """
+        ensure in dmax derivative degree the curve should be continued. 
+        from 0 to dmax derivative
+        Args:
+            m_: index of the segment <= M-1
+            dmax: max conti-degree 
+        """
         dmax_ = int(dmax)
         aeq_ = np.zeros((dmax_+1, self.num_variables))
-        beq_ = np.zeros((dmax_+1, 1))
+        beq_ = np.zeros((dmax_+1, 1)) # different of the eq should be zero
         idxStart_ = m_*(self.N+1)
-        idxEnd_ = (m_+2)*(self.N+1)
+        idxEnd_ = (m_+2)*(self.N+1) # end of the next segment
         dTm1_ = self.Ts[m_+1] - self.Ts[m_]
         dTm2_ = self.Ts[m_+2] - self.Ts[m_+1]
         for d in range(dmax_+1):
+            # the end of the first segment should be the same as the begin of the next segment at each derivative 
             aeq_[d, idxStart_:idxEnd_] = np.concatenate((self.tVec(1, d)/dTm1_**d, - self.tVec(0, d)/dTm2_**d), axis=0).flatten()
 
         return aeq_, beq_
@@ -187,13 +198,10 @@ class PolyTrajGen(TrajGen):
                 for m in range(self.M):
                     dT_ = self.Ts[m+1] - self.Ts[m]
                     Q_m_ = self.IntDerSquard(d)/dT_**(2*d-1)
-                    print('Qm is at {0} segm {1} dim is {2}, dT_ is {3}'.format(m, dd, Q_m_, dT_))
                     if Qd_ is None:
                         Qd_ = Q_m_.copy()
                     else:
                         Qd_ = block_diag(Qd_, Q_m_)
-                
-                    # print('qd matrix {}'.format(Q_m_))
                 Q_ = Q_ + self.weight_mask[d-1]*Qd_
             QSet[dd] = Q_
 
@@ -202,7 +210,8 @@ class PolyTrajGen(TrajGen):
         ASet = None
         BSet = None
         BeqSet = None
-        for m in range(self.M):
+        
+        for m in range(self.M): # segments
             ## fix pin
             if m in self.fixPinSet.keys():
                 for pin in self.fixPinSet[m]:
@@ -213,7 +222,6 @@ class PolyTrajGen(TrajGen):
                     else:
                         AeqSet = np.concatenate((AeqSet, aeqSet.reshape(self.dim, -1, self.num_variables)), axis=1)
                         BeqSet = np.concatenate((BeqSet, beqSet.reshape(self.dim, 1, -1)), axis=1)
-                    # print(AeqSet[0, :])
 
                 ## continuity
                 if m < self.M-1:
@@ -222,7 +230,6 @@ class PolyTrajGen(TrajGen):
                     if contiDof_ != self.maxContiOrder+1:
                         print('Connecting segment ({0},{1}) : lacks {2} dof  for imposed {3} th continuity'.format(m, m+1, self.maxContiOrder-contiDof_, self.maxContiOrder))
                     if contiDof_ >0:
-                        print('m {0} conti {1}'.format(m, contiDof_-1))
                         aeq, beq = self.contiMat(m, contiDof_-1)
                         AeqSet = np.concatenate((AeqSet, aeq.reshape(1, -1, self.num_variables).repeat(3, axis=0)), axis=1)
                         BeqSet = np.concatenate((BeqSet, beq.reshape(1, -1, 1).repeat(3, axis=0)), axis=1)
@@ -237,8 +244,8 @@ class PolyTrajGen(TrajGen):
                         ASet = aSet
                         BSet = bSet
                     else:
-                        ASet = np.concatenate((ASet, aSet), axis=0)
-                        BSet = np.concatenate((BSet, bSet), axis=0)
+                        ASet = np.concatenate((ASet, aSet), axis=1)
+                        BSet = np.concatenate((BSet, bSet), axis=1)
 
 
         return QSet, ASet, BSet, AeqSet, BeqSet
@@ -270,7 +277,7 @@ class PolyTrajGen(TrajGen):
         HSet = np.zeros((self.dim, self.num_variables-Nf_))
         # check ASet ?
         if ASet_ is not None:
-            ASet = np.zeros((self.dim, 2, self.num_variables-Nf_))
+            ASet = np.zeros((self.dim, ASet_.shape[1], self.num_variables-Nf_))
             BSet = BSet_.copy()
             for dd in range(self.dim):
                 df_ = BeqSet_[dd]
@@ -280,7 +287,7 @@ class PolyTrajGen(TrajGen):
                 ASet[dd] = A_[:, Nf_:]
                 BSet[dd] = BSet_[dd] - np.dot(A_[:, :Nf_], df_)
         else:
-            ASet = None 
+            ASet = None
             BSet = None
         return QSet, HSet, ASet, BSet
 
