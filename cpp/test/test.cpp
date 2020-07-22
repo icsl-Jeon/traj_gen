@@ -37,7 +37,7 @@ int main(){
     // Let's test the two trajGen class
     TrajGen<Type,dim>** pTrajGenSet = new TrajGen<Type,dim>*[1]; //2
     pTrajGenSet[0] = new PolyTrajGen<Type,dim>(ts,pp);
-    // pTrajGenSet[1] = new OptimTrajGen<Type,dim>(ts,pntDensity);
+    pTrajGenSet[1] = new OptimTrajGen<Type,dim>(ts,pntDensity);
     bool verbose = false;
     bool isSolved = false;
     string TrajGenClass[2] = {"PolyTraj","OptimTraj"};

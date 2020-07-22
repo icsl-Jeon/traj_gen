@@ -510,9 +510,9 @@ namespace trajgen {
 
         cout << "Acutual nWSR: " << nWSR << " / Original: " << 2000 << endl;
 
-        qpOASES::real_t xOpt[nVar];
-        /* // problem by VS, C2131 */
-        /* qpOASES::real_t* xOpt = new qpOASES::real_t[nVar]; */
+        // qpOASES::real_t xOpt[nVar];
+        // problem by VS, C2131
+        qpOASES::real_t* xOpt = new qpOASES::real_t[nVar];
         qp_obj.getPrimalSolution(xOpt);
         isSolved = qp_obj.isSolved();
         if (isSolved)
