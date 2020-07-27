@@ -162,7 +162,7 @@ namespace trajgen {
     template<typename T,size_t dim>
     struct Pin{
         T t; // imposed time
-        uint d; // imposed order of derivative          
+        uint d; // imposed order of derivative
         Pin(T t_, d_order d_) : t(t_), d(d_) {};
         virtual PIN_TYPE getType() const = 0;
     };
@@ -173,7 +173,7 @@ namespace trajgen {
      */
     template<typename T,size_t dim>
     struct FixPin : public Pin<T,dim> {
-        Vector<T,dim> x; // waypoint 
+        Vector<T,dim> x; // waypoint
         FixPin(T t_, uint d_, Vector<T,dim> x_) : Pin<T,dim>(t_, d_), x(x_) {};
         PIN_TYPE getType() const { return PIN_TYPE::FIX_PIN; }
     };
@@ -510,7 +510,9 @@ namespace trajgen {
 
         cout << "Acutual nWSR: " << nWSR << " / Original: " << 2000 << endl;
 
-        qpOASES::real_t xOpt[nVar];
+        // qpOASES::real_t xOpt[nVar];
+        // problem by VS, C2131
+        qpOASES::real_t* xOpt = new qpOASES::real_t[nVar];
         qp_obj.getPrimalSolution(xOpt);
         isSolved = qp_obj.isSolved();
         if (isSolved)
