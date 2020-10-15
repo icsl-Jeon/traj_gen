@@ -1214,6 +1214,7 @@ void PathPlanner::write_spline(string file_name) {
 
     ofstream fStream;
     fStream.open(file_name);
+    cout << file_name << endl;
     fStream << n_seg <<" " << poly_order << endl;
     for (auto knot : spline_xyz.knot_time)
         fStream << knot <<" ";
