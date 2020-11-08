@@ -72,7 +72,7 @@ generate_messages(
 
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES traj_gen
+  LIBRARIES traj_gen qpOASES
   CATKIN_DEPENDS message_generation nav_msgs roscpp
     
 )
