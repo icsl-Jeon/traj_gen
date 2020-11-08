@@ -6,6 +6,7 @@ add_compile_options(-std=c++11)
 
 # If Debug mode, CGAL precision goes down
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 set(CMAKE_BUILD_TYPE Release)## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -17,14 +18,21 @@ find_package(catkin REQUIRED COMPONENTS
   # qt_build
   geometry_msgs
 )
+
+find_package(qpOASES REQUIRED)
+
+
+
+
 find_package(Qt4 REQUIRED COMPONENTS QtCore QtGui)
 include(${QT_USE_FILE})
 include_directories(include  ${catkin_INCLUDE_DIRS})
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED COMPONENTS system)
 
-set(qpOASES_SRC /home/jbs/lib/qpOASES-3.2.1)
-file(GLOB_RECURSE qpOASES_LIBS ${qpOASES_SRC}/src/*.cpp)
+#set(qpOASES_SRC /home/jbs/lib/qpOASES-3.2.1)
+#file(GLOB_RECURSE qpOASES_LIBS ${qpOASES_SRC}/src/*.cpp)
+
 ##############################################################################
 # Qt Environment
 ##############################################################################
@@ -77,6 +85,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
   include
+  ${qpOASES_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -92,11 +101,11 @@ add_library(${PROJECT_NAME}
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME}_client qt_ui/main.cpp src/PolyTrajGen.cpp ${qpOASES_LIBS}
-${qpOASES_INC} ${QT_FORMS_CPP} ${QT_SOURCES} ${QT_MOC_HPP} ${qpOASES_LIBS})
+add_executable(${PROJECT_NAME}_client qt_ui/main.cpp src/PolyTrajGen.cpp 
+ ${QT_FORMS_CPP} ${QT_SOURCES} ${QT_MOC_HPP} )
 
  target_link_libraries(${PROJECT_NAME}_client
- ${catkin_LIBRARIES} ${QT_LIBRARIES})
+ ${catkin_LIBRARIES} ${QT_LIBRARIES} ${qpOASES_LIBRARIES})
 
 
 ## Mark executables and/or libraries for installation
