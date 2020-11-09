@@ -13,6 +13,9 @@
 
 ## 0. Release notes
 
+#### 2020/11/9 
+The spline logging is added (`spline_log`).
+
 #### 2019/10/13 
 
 Bug fixed. 
@@ -39,17 +42,6 @@ QSlider was added. As of now, *traj_gen* can accommodate height input from user.
 
 #### (1) qpOASES 
 - The package bases qpOASES as quadratic programming solver.  Please refer  https://projects.coin-or.org/qpOASES and install the library. (make sure `sudo make install` after build of qpOASES)
-- Let the qpOASES package direcotry ${qpOASES_SRC}. Please insert your qpOASES directory in CMakeList.txt 
-
-```
-## System dependencies are found with CMake's conventions
-find_package(Boost REQUIRED COMPONENTS system)
-// here insert your qpOASES directory 
-set(qpOASES_SRC /home/jbs/lib/qpOASES-3.2.1)
-
-file(GLOB_RECURSE qpOASES_LIBS ${qpOASES_SRC}/src/*.cpp)
-
-```
 
 #### Qt4
 
