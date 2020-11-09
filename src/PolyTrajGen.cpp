@@ -1214,27 +1214,33 @@ void PathPlanner::write_spline(string file_name) {
 
     ofstream fStream;
     fStream.open(file_name);
-    cout << file_name << endl;
-    fStream << n_seg <<" " << poly_order << endl;
-    for (auto knot : spline_xyz.knot_time)
-        fStream << knot <<" ";
-    fStream<<endl;
+    if (fStream.is_open()){
+        cout << file_name << endl;
+        fStream << n_seg <<" " << poly_order << endl;
+        for (auto knot : spline_xyz.knot_time)
+            fStream << knot <<" ";
+        fStream<<endl;
 
-    // polynomial coefficient
+        // polynomial coefficient
 
-    for(int k=0;k<n_seg;k++) {
-        for (int n = 0; n <= poly_order; n++) {
-            fStream << spline_xyz.spline_x.poly_coeff[k].coeff[n] << " ";
+        for(int k=0;k<n_seg;k++) {
+            for (int n = 0; n <= poly_order; n++) {
+                fStream << spline_xyz.spline_x.poly_coeff[k].coeff[n] << " ";
+            }
+            fStream << endl;
+            for (int n = 0; n <= poly_order; n++) {
+                fStream << spline_xyz.spline_y.poly_coeff[k].coeff[n]<<" ";
+            }
+            fStream << endl;
+            for (int n = 0; n <= poly_order; n++) {
+                fStream << spline_xyz.spline_z.poly_coeff[k].coeff[n]<<" ";
+            }
+            fStream << endl;
         }
-        fStream << endl;
-        for (int n = 0; n <= poly_order; n++) {
-            fStream << spline_xyz.spline_y.poly_coeff[k].coeff[n]<<" ";
-        }
-        fStream << endl;
-        for (int n = 0; n <= poly_order; n++) {
-            fStream << spline_xyz.spline_z.poly_coeff[k].coeff[n]<<" ";
-        }
-        fStream << endl;
+    }
+    else{
+        ROS_ERROR_STREAM(file_name<<" is not opened. Make sure it is *.txt ");
+
     }
 }
 

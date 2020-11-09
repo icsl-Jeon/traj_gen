@@ -176,12 +176,17 @@ void QNode::run(){
     while(ros::ok()){
         // the marker waypoints from user 
         wpnt_marker_pub.publish(wpnt_markerArray);
-        
-        safe_corridor_pub.publish(planner.get_safe_corridor_marker());
-        safe_corridor_single_pub.publish(planner.get_safe_corridor_single_marker());
-        
+
+
         
         if(is_path){
+            if (planner.get_safe_corridor_marker().points.size())
+            safe_corridor_pub.publish(planner.get_safe_corridor_marker());
+
+            if (planner.get_safe_corridor_single_marker().markers.size())
+            safe_corridor_single_pub.publish(planner.get_safe_corridor_single_marker());
+
+
         // generated path  
             spline_path_pub.publish(spline_path);
             visualization_msgs::Marker knots = planner.get_knots_marker();
