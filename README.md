@@ -1,12 +1,12 @@
 # traj_gen : path generation tools with a variety of options
 
 <p align = "center">
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/deprecated-version1/img/intro2.png" width = 800 > 
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/ros/img/intro2.png" width = 800 > 
 </p>
 
 **(left)** coupled optimization for single corridor type **(right)** decoupled optimization for multi corridor or non-corridors  
 
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/deprecated-version1/img/run_video.gif" witdh = 600>
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/ros/img/run_video.gif" witdh = 600>
 
 
 - **(running traj_gen)** step by step tutorial  
@@ -28,7 +28,7 @@ Finally, the single corridor method was develped. set ```is_single_corridor = tr
 
 QSlider was added. As of now, *traj_gen* can accommodate height input from user. Adjust slider for height and then select waypoint. In this way, height value will be encoded together(see below).    
 <p >
-<img src="https://github.com/icsl-Jeon/traj_gen/blob/deprecated-version1/img/gui_update.png" witdh = 600>
+<img src="https://github.com/icsl-Jeon/traj_gen/blob/ros/img/gui_update.png" witdh = 600>
 <em> two types of corridor </em>
 
 
